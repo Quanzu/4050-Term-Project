@@ -1,0 +1,48 @@
+body{
+    position: relative;
+    background-color: beige;
+}
+
+.header{
+    color: cadetblue;
+    font-size: 20px;
+    height: 30px;
+
+    text-align: center;
+    font-family: gravitas-one;
+}
+
+#options{
+    font-size: 15px;
+    font-family: "times new roman";
+    text-align: center;
+    text-decoration: underline;
+}
+
+.open{
+    background-color: azure;
+    height: 300px;
+    width: 300px;
+    float: left;
+    margin: 20px;
+    margin-top: 100px;
+    font-size: 30px;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.closed{
+    background-color: red;
+    height: 300px;
+    width: 300px;
+    float: left;
+    margin: 20px;
+    margin-top: 100px;
+    font-size: 30px;
+    text-align: center;
+    padding-top: 10px;
+}
+#buttons{
+    padding-top: 200px;
+    float:center;
+}
