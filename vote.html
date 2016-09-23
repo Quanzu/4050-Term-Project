@@ -14,11 +14,11 @@
         
     </div>
     <div id = "options"><a href = "manage.html">Manage Account</a>   
-            <br>
-            <a href = "homepage.html">Logout</a>     
+            <p></p>
+            <a href = "signIn.html">Logout</a>     
         </div> 
     <div id = "directions">
-        You are in view mode.  To vote, click "Select".
+        You are in vote mode.  Please select your vote and press "Vote" when you want to submit your vote.
     </div>
     
     <div class = "ballot">
@@ -27,16 +27,16 @@
         Should there be more bike lanes around the University of Georgia?
         <br>
         <br>
-        <ul>
-            <li>Yes</li>
-            <li>No</li>
-        </ul>
+       <form action="">
+        <input type="radio" name="vote" value="yes"> Yes<br>
+        <input type="radio" name="vote" value="no"> No<br>
+        </form>
         <br>
         <br>
-        <button onclick = "window.location.href= 'vote.html'">Select</button>
+        <button onclick = "window.location.href= 'thankyou.html'">Vote</button>
     </div>
     
-    <div id = "options"><a href = "profile.html">Back</a>               
+    <div id = "options"><a href = "homepage.html">Cancel</a>               
         </div>
     <script src=""></script>
 </body>
