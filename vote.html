@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="evote.css" type = "text/css">
+</head>
+
+<body>
+    <div class = "header">
+        <script src="http://use.edgefonts.net/gravitas-one:n4:all.js"></script>
+        eVote System
+        
+    </div>
+    <div id = "options"><a href = "manage.html">Manage Account</a>   
+            <p></p>
+            <a href = "signIn.html">Logout</a>     
+        </div> 
+    <div id = "directions">
+        You are in vote mode.  Please select your vote and press "Vote" when you want to submit your vote.
+    </div>
+    
+    <div class = "ballot">
+        UGA Bicycle Issue:
+        <br>
+        Should there be more bike lanes around the University of Georgia?
+        <br>
+        <br>
+       <form action="">
+        <input type="radio" name="vote" value="yes"> Yes<br>
+        <input type="radio" name="vote" value="no"> No<br>
+        </form>
+        <br>
+        <br>
+        <button onclick = "window.location.href= 'thankyou.html'">Vote</button>
+    </div>
+    
+    <div id = "options"><a href = "homepage.html">Cancel</a>               
+        </div>
+    <script src=""></script>
+</body>
+</html>
