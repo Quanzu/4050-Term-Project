@@ -29,7 +29,7 @@ span{
     height: 100%;
     float: left;
     position: relative;
-   
+
 }
 .forgot{
     color: red;
@@ -37,7 +37,7 @@ span{
     font-size: 10px;
     text-align: center;
     text-decoration: underline;
-    
+
 }
 .headerHome{
     color: cadetblue;
@@ -69,7 +69,12 @@ span{
     font-size: 20px;
     float:left;
     position: relative;
-    
+}
+
+.center-div{
+    margin:auto;
+    width:100%;
+    padding-top: 50px;
 }
 /*end*/
 
