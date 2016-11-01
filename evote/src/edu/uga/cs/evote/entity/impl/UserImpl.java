@@ -12,6 +12,24 @@ public abstract class UserImpl extends Persistent implements User {
 	private String		email;
 	private String		address;
 	
+	public UserImpl(){
+		this.fname = null;
+		this.lname = null;
+		this.userName = null;
+		this.password = null;
+		this.email = null;
+		this.address = null;
+	}
+	
+	public UserImpl(String fname, String lname, String userName, String password, String email, String address){
+		this.fname = fname;
+		this.lname = lname;
+		this.userName = userName;
+		this.password = password;
+		this.email = email;
+		this.address = address;
+	}
+	
 	@Override
 	public String getFirstName() {
 		return fname;
@@ -71,20 +89,4 @@ public abstract class UserImpl extends Persistent implements User {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-	@Override
-	public long getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(long id) {
-		super.setId(id);
-	}
-
-	@Override
-	public boolean isPersistent() {
-		return getId() >= 0;
-	}
-
 }

@@ -27,7 +27,7 @@ class CandidateManager
     public void store( Candidate candidate ) 
             throws EVException
     {
-        String               insertCandidateSql = "insert into Candidate ( name, voteCount ) values ( ?, ?, ? )";              
+        String               insertCandidateSql = "insert into Candidate ( name, voteCount, isAlternate ) values ( ?, ?, ? )";              
         String               updateCandidateSql = "update Candidate set  name = ?, voteCount = ?, isAlternate = ? where candidateId = ?";              
         PreparedStatement    stmt;
         int                  inscnt;

@@ -8,58 +8,13 @@ import edu.uga.cs.evote.entity.Candidate;
 import edu.uga.cs.evote.entity.Election;
 import edu.uga.cs.evote.persistence.impl.Persistent;
 
-public class ElectionImpl extends Persistent implements Election {
+public class ElectionImpl extends BallotItemImpl implements Election {
 
+	private String office;
+	private boolean isPartisan;
+	
 	public ElectionImpl() {
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public int getVoteCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setVoteCount(int voteCount) throws EVException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void addVote() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Ballot getBallot() throws EVException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setBallot(Ballot ballot) throws EVException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public long getId() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setId(long id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean isPersistent() {
-		// TODO Auto-generated method stub
-		return false;
+		this.office = null;
 	}
 
 	@Override

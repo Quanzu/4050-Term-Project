@@ -9,21 +9,6 @@ public abstract class BallotItemImpl extends Persistent implements BallotItem {
 
 	private int voteCount;
 	private Ballot ballot;
-	
-	@Override
-	public long getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(long id) {
-		super.setId(id);
-	}
-
-	@Override
-	public boolean isPersistent() {
-		return getId() >= 0;
-	}
 
 	@Override
 	public int getVoteCount() {
