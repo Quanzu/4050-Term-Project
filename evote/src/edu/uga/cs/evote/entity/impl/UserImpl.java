@@ -13,6 +13,7 @@ public abstract class UserImpl extends Persistent implements User {
 	private String		address;
 	
 	public UserImpl(){
+		super(-1);
 		this.fname = null;
 		this.lname = null;
 		this.userName = null;
@@ -22,6 +23,7 @@ public abstract class UserImpl extends Persistent implements User {
 	}
 	
 	public UserImpl(String fname, String lname, String userName, String password, String email, String address){
+		super(-1);
 		this.fname = fname;
 		this.lname = lname;
 		this.userName = userName;

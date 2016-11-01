@@ -4,7 +4,6 @@ import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Candidate;
 import edu.uga.cs.evote.entity.Election;
 import edu.uga.cs.evote.entity.PoliticalParty;
-import edu.uga.cs.evote.persistence.impl.Persistent;
 
 public class CandidateImpl extends BallotItemImpl implements Candidate {
 

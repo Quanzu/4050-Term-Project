@@ -12,10 +12,12 @@ public class PoliticalPartyImpl extends Persistent implements PoliticalParty {
 	private String name;
 	
 	public PoliticalPartyImpl() {
+		super(-1);
 		name = null;
 	}
 	
 	public PoliticalPartyImpl(String name) {
+		super(-1);
 		this.name = name;
 	}
 

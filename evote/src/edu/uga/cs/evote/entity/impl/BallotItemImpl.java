@@ -9,6 +9,7 @@ public abstract class BallotItemImpl extends Persistent implements BallotItem {
 
 	private int voteCount;
 	private Ballot ballot;
+	
 
 	@Override
 	public int getVoteCount() {

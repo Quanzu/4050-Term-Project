@@ -15,10 +15,12 @@ public class ElectoralDistrictImpl extends Persistent implements ElectoralDistri
 	private List<Ballot> ballots = new ArrayList<Ballot>();
 	
 	public ElectoralDistrictImpl() {
+		super(-1);
 		name = null;
 	}
 	
 	public ElectoralDistrictImpl(String name) {
+		super(-1);
 		this.name = name;
 	}
 

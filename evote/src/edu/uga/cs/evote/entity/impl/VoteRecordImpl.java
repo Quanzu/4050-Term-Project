@@ -15,12 +15,14 @@ public class VoteRecordImpl extends Persistent implements VoteRecord {
 	private Date date;
 	
 	public VoteRecordImpl() {
+		super(-1);
 		ballot = null;
 		voter = null;
 		date = null;
 	}
 
 	public VoteRecordImpl(Ballot ballot, Voter voter, Date date){
+		super(-1);
 		this.ballot = ballot;
 		this.voter = voter;
 		this.date = date;

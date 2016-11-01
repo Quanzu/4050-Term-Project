@@ -19,6 +19,7 @@ public class BallotImpl extends Persistent implements Ballot {
 	private List<BallotItem> ballotItems = new ArrayList<BallotItem>();
 	
 	public BallotImpl() {
+		super(-1);
 		openDate = null;
 		closeDate = null;
 		electoralDistrict = null;
@@ -26,6 +27,7 @@ public class BallotImpl extends Persistent implements Ballot {
 	}
 	
 	public BallotImpl(Date openDate, Date closeDate, ElectoralDistrict electoralDistrict){
+		super(-1);
 		this.openDate = openDate;
 		this.closeDate = closeDate;
 		this.electoralDistrict = electoralDistrict;
