@@ -44,11 +44,19 @@ class CandidateManager
             if( candidate.getName() != null )
                 stmt.setString( 1, candidate.getName() );
             else 
-                throw new EVException( "CandidateManager.save: can't save a User: name undefined" );
+                throw new EVException( "CandidateManager.save: can't save a Candidate: name undefined" );
 
-            
-            
+            if( candidate.getVoteCount() >= 0 )
+                stmt.setLong( 2, candidate.getVoteCount() );
+            else 
+                throw new EVException( "CandidateManager.save: can't save a Candidate: name undefined" );
 
+            if (candidate.getIsAlternate())
+            	stmt.setInt(3, 1);
+            else
+            	stmt.setInt(3, 0);
+            
+            	
             
             if( candidate.isPersistent() )
                 stmt.setLong( 8, candidate.getId() );
@@ -75,12 +83,12 @@ class CandidateManager
             }
             else {
                 if( inscnt < 1 )
-                    throw new EVException( "VoterManager.save: failed to save an voter" ); 
+                    throw new EVException( "CandidateManager.save: failed to save a Candidate" ); 
             }
         }
         catch( SQLException e ) {
             e.printStackTrace();
-            throw new EVException( "VoterManager.save: failed to save an voter: " + e );
+            throw new EVException( "CandidateManager.save: failed to save a Candidate: " + e );
         }
     }
 
