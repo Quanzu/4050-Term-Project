@@ -9,7 +9,7 @@ import edu.uga.cs.evote.persistence.impl.Persistent;
 public class CandidateImpl extends BallotItemImpl implements Candidate {
 
 	private String name;
-	private boolean isAlternate;
+	private boolean isAlternate = false;
 	private PoliticalParty politicalParty;
 	private Election election;
 		

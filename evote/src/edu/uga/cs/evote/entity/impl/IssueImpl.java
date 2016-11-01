@@ -1,9 +1,7 @@
 package edu.uga.cs.evote.entity.impl;
 
 import edu.uga.cs.evote.EVException;
-import edu.uga.cs.evote.entity.Ballot;
 import edu.uga.cs.evote.entity.Issue;
-import edu.uga.cs.evote.persistence.impl.Persistent;
 
 public class IssueImpl extends BallotItemImpl implements Issue {
 
