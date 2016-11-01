@@ -31,7 +31,7 @@ class ElectionsOfficerManager
         String               updateOfficerSql = "update User  set officer = ?, fname = ?, lname = ?, userName = ?, password = ?, email = ?, address = ? where userId = ?";              
         PreparedStatement    stmt;
         int                  inscnt;
-        long                 userId;
+        long                 officerId;
         
         try {
             
@@ -40,7 +40,6 @@ class ElectionsOfficerManager
             else
                 stmt = (PreparedStatement) conn.prepareStatement( updateOfficerSql );
             
-            stmt.setInt(1, 1); //this user is an officer
 
             if( officer.getFirstName() != null )
                 stmt.setString( 2, officer.getFirstName() );
@@ -89,9 +88,9 @@ class ElectionsOfficerManager
                         // we will use only the first row!
                         while( r.next() ) {
                             // retrieve the last insert auto_increment value
-                            userId = r.getLong( 1 );
-                            if( userId > 0 )
-                                officer.setId( userId ); // set this person's db id (proxy object)
+                            officerId = r.getLong( 1 );
+                            if( officerId > 0 )
+                                officer.setId( officerId ); // set this person's db id (proxy object)
                         }
                     }
                 }

@@ -6,14 +6,13 @@ import edu.uga.cs.evote.entity.Election;
 import edu.uga.cs.evote.entity.PoliticalParty;
 import edu.uga.cs.evote.persistence.impl.Persistent;
 
-public class CandidateImpl extends Persistent implements Candidate {
+public class CandidateImpl extends BallotItemImpl implements Candidate {
 
 	private String name;
+	private boolean isAlternate;
 	private PoliticalParty politicalParty;
 	private Election election;
-	
-	private int voteCount = 0;
-	
+		
 	public CandidateImpl() {
 		name = null;
 		politicalParty = null;
@@ -24,22 +23,6 @@ public class CandidateImpl extends Persistent implements Candidate {
 		this.name = name;
 		this.politicalParty = politicalParty;
 		this.election = election;
-	}
-	
-
-	@Override
-	public long getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(long id) {
-		super.setId(id);
-	}
-
-	@Override
-	public boolean isPersistent() {
-		return getId() >= 0;
 	}
 
 	@Override
@@ -53,20 +36,15 @@ public class CandidateImpl extends Persistent implements Candidate {
 	}
 
 	@Override
-	public int getVoteCount() {
-		return this.voteCount;
+	public boolean getIsAlternate(){
+		return this.isAlternate;
 	}
-
+	
 	@Override
-	public void setVoteCount(int voteCount) throws EVException {
-		this.voteCount = voteCount;
+	public void setIsAlternate(boolean isAlternate){
+		this.isAlternate = isAlternate;
 	}
-
-	@Override
-	public void addVote() {
-		this.voteCount++;
-	}
-
+	
 	@Override
 	public Election getElection() throws EVException {
 		return election;

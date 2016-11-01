@@ -1,5 +1,6 @@
 package edu.uga.cs.evote.entity.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.uga.cs.evote.EVException;
@@ -12,6 +13,7 @@ public class ElectionImpl extends BallotItemImpl implements Election {
 
 	private String office;
 	private boolean isPartisan;
+	List<Candidate> candidates = new ArrayList<Candidate>();
 	
 	public ElectionImpl() {
 		this.office = null;
@@ -19,44 +21,37 @@ public class ElectionImpl extends BallotItemImpl implements Election {
 
 	@Override
 	public String getOffice() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.office;
 	}
 
 	@Override
 	public void setOffice(String office) {
-		// TODO Auto-generated method stub
-
+		this.office = office;
 	}
 
 	@Override
 	public boolean getIsPartisan() {
-		// TODO Auto-generated method stub
-		return false;
+		return isPartisan;
 	}
 
 	@Override
 	public void setIsPartisan(boolean isPartisan) {
-		// TODO Auto-generated method stub
-
+		this.isPartisan = isPartisan;
 	}
 
 	@Override
 	public List<Candidate> getCandidates() throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		return candidates;
 	}
 
 	@Override
 	public void addCandidate(Candidate candidate) throws EVException {
-		// TODO Auto-generated method stub
-
+		candidates.add(candidate);
 	}
 
 	@Override
 	public void deleteCandidate(Candidate candidate) throws EVException {
-		// TODO Auto-generated method stub
-
+		candidates.remove(candidate);
 	}
 
 }

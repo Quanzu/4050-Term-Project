@@ -36,6 +36,18 @@ public interface Candidate extends Persistable
      */
     public Election getElection() throws EVException;
     
+    /**
+     * Return whether or not the candidate is an alternate candidate
+     * @return the boolean of whether or not the candidate is an alternate candidate or not
+     */
+	public boolean getIsAlternate();
+	
+	/**
+	 * Set whether or not this candidate is an alternate candidate
+	 * @param isAlternate the value of whether or not the candidate is an alternate candidate
+	 */
+	public void setIsAlternate(boolean isAlternate);
+	
     /** Set the Election for which this candidate is running.
      * @param election the new election for this candidate
      * @throws EVException in case there is a problem with setting a link to the requested object
