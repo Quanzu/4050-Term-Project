@@ -191,7 +191,7 @@ class CandidateManager
     public void delete( Candidate candidate ) 
             throws EVException
     {
-        String               deleteCandidateSql = "delete from person where id = ?";              
+        String               deleteCandidateSql = "delete from Candidate where candidateId = ?";              
         PreparedStatement    stmt = null;
         int                  inscnt;
         
