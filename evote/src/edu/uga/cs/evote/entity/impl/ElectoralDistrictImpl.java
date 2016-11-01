@@ -1,5 +1,6 @@
 package edu.uga.cs.evote.entity.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.uga.cs.evote.EVException;
@@ -11,6 +12,7 @@ import edu.uga.cs.evote.persistence.impl.Persistent;
 public class ElectoralDistrictImpl extends Persistent implements ElectoralDistrict {
 
 	private String name;
+	private List<Ballot> ballots = new ArrayList<Ballot>();
 	
 	public ElectoralDistrictImpl() {
 		name = null;
@@ -18,21 +20,6 @@ public class ElectoralDistrictImpl extends Persistent implements ElectoralDistri
 	
 	public ElectoralDistrictImpl(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public long getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(long id) {
-		super.setId(id);
-	}
-
-	@Override
-	public boolean isPersistent() {
-		return getId() >= 0;
 	}
 
 	@Override
@@ -53,20 +40,17 @@ public class ElectoralDistrictImpl extends Persistent implements ElectoralDistri
 
 	@Override
 	public List<Ballot> getBallots() throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		return ballots;
 	}
 
 	@Override
 	public void addBallot(Ballot ballot) throws EVException {
-		// TODO Auto-generated method stub
-
+		ballots.add(ballot);
 	}
 
 	@Override
 	public void deleteBallot(Ballot ballot) throws EVException {
-		// TODO Auto-generated method stub
-
+		ballots.remove(ballot);
 	}
 
 }

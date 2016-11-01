@@ -1,5 +1,6 @@
 package edu.uga.cs.evote.entity.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,82 +13,67 @@ import edu.uga.cs.evote.persistence.impl.Persistent;
 
 public class BallotImpl extends Persistent implements Ballot {
 
-	
+	private Date openDate;
+	private Date closeDate;
+	private ElectoralDistrict electoralDistrict;
+	private List<BallotItem> ballotItems = new ArrayList<BallotItem>();
 	
 	public BallotImpl() {
-		// TODO Auto-generated constructor stub
+		openDate = null;
+		closeDate = null;
+		electoralDistrict = null;
+		ballotItems = null;
 	}
-
-	@Override
-	public long getId() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setId(long id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean isPersistent() {
-		// TODO Auto-generated method stub
-		return false;
+	
+	public BallotImpl(Date openDate, Date closeDate, ElectoralDistrict electoralDistrict){
+		this.openDate = openDate;
+		this.closeDate = closeDate;
+		this.electoralDistrict = electoralDistrict;
 	}
 
 	@Override
 	public Date getOpenDate() {
-		// TODO Auto-generated method stub
-		return null;
+		return openDate;
 	}
 
 	@Override
 	public void setOpenDate(Date openDate) {
-		// TODO Auto-generated method stub
-
+		this.openDate = openDate;
 	}
 
 	@Override
 	public Date getCloseDate() {
-		// TODO Auto-generated method stub
-		return null;
+		return closeDate;
 	}
 
 	@Override
 	public void setCloseDate(Date closeDate) {
-		// TODO Auto-generated method stub
-
+		this.closeDate = closeDate;
 	}
 
 	@Override
 	public ElectoralDistrict getElectoralDistrict() throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		return electoralDistrict;
 	}
 
 	@Override
 	public void setElectoralDistrict(ElectoralDistrict electoralDistrict) throws EVException {
-		// TODO Auto-generated method stub
-
+		this.electoralDistrict = electoralDistrict;
 	}
 
 	@Override
 	public List<BallotItem> getBallotItems() throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		return ballotItems;
 	}
 
 	@Override
 	public void addBallotItem(BallotItem ballotItem) throws EVException {
-		// TODO Auto-generated method stub
-
+		ballotItems.add(ballotItem);
 	}
 
 	@Override
 	public void deleteBallotItem(BallotItem ballotItem) throws EVException {
-		// TODO Auto-generated method stub
-
+		ballotItems.remove(ballotItem);
 	}
 
 	@Override

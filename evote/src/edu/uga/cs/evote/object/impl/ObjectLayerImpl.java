@@ -13,10 +13,14 @@ import edu.uga.cs.evote.entity.Issue;
 import edu.uga.cs.evote.entity.PoliticalParty;
 import edu.uga.cs.evote.entity.VoteRecord;
 import edu.uga.cs.evote.entity.Voter;
+import edu.uga.cs.evote.entity.impl.BallotImpl;
 import edu.uga.cs.evote.entity.impl.CandidateImpl;
+import edu.uga.cs.evote.entity.impl.ElectionImpl;
 import edu.uga.cs.evote.entity.impl.ElectionsOfficerImpl;
 import edu.uga.cs.evote.entity.impl.ElectoralDistrictImpl;
+import edu.uga.cs.evote.entity.impl.IssueImpl;
 import edu.uga.cs.evote.entity.impl.PoliticalPartyImpl;
+import edu.uga.cs.evote.entity.impl.VoteRecordImpl;
 import edu.uga.cs.evote.entity.impl.VoterImpl;
 import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.persistence.PersistenceLayer;
@@ -148,34 +152,31 @@ public class ObjectLayerImpl implements ObjectLayer {
 	}
 
 	@Override
-	public Ballot createBallot(Date openDate, Date closeDate, boolean approved, ElectoralDistrict electoralDistrict)
+	public Ballot createBallot(Date openDate, Date closeDate, ElectoralDistrict electoralDistrict)
 			throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		BallotImpl ballot = new BallotImpl(openDate, closeDate, electoralDistrict);
+		return ballot;
 	}
 
 	@Override
 	public Ballot createBallot() {
-		// TODO Auto-generated method stub
-		return null;
+		BallotImpl ballot = new BallotImpl();
+		return ballot;
 	}
 
 	@Override
 	public List<Ballot> findBallot(Ballot modelBallot) throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		return persistence.restoreBallot(modelBallot);
 	}
 
 	@Override
 	public void storeBallot(Ballot ballot) throws EVException {
-		// TODO Auto-generated method stub
-
+		persistence.storeBallot(ballot);
 	}
 
 	@Override
 	public void deleteBallot(Ballot ballot) throws EVException {
-		// TODO Auto-generated method stub
-
+		persistence.deleteBallot(ballot);
 	}
 
 	@Override
@@ -207,92 +208,83 @@ public class ObjectLayerImpl implements ObjectLayer {
 
 	@Override
 	public Issue createIssue(String question) throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		IssueImpl issue = new IssueImpl(question);
+		return issue;
 	}
 
 	@Override
 	public Issue createIssue() {
-		// TODO Auto-generated method stub
-		return null;
+		IssueImpl issue = new IssueImpl();
+		return issue;
 	}
 
 	@Override
 	public List<Issue> findIssue(Issue modelIssue) throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		return persistence.restoreIssue(modelIssue);
 	}
 
 	@Override
 	public void storeIssue(Issue issue) throws EVException {
-		// TODO Auto-generated method stub
-
+		persistence.storeIssue(issue);
 	}
 
 	@Override
 	public void deleteIssue(Issue issue) throws EVException {
-		// TODO Auto-generated method stub
-
+		persistence.deleteIssue(issue);
 	}
 
 	@Override
 	public Election createElection(String office, boolean isPartisan) throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		ElectionImpl election = new ElectionImpl(office, isPartisan);
+		return election;
 	}
 
 	@Override
 	public Election createElection() {
-		// TODO Auto-generated method stub
-		return null;
+		ElectionImpl election = new ElectionImpl();
+		return election;
 	}
 
 	@Override
 	public List<Election> findElection(Election modelElection) throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		return persistence.restoreElection(modelElection);
 	}
 
 	@Override
 	public void storeElection(Election election) throws EVException {
-		// TODO Auto-generated method stub
-
+		persistence.storeElection(election);
 	}
 
 	@Override
 	public void deleteElection(Election election) throws EVException {
-		// TODO Auto-generated method stub
-
+		persistence.deleteElection(election);
 	}
 
 	@Override
 	public VoteRecord createVoteRecord(Ballot ballot, Voter voter, Date date) throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		VoteRecordImpl voteRecord = new VoteRecordImpl(ballot, voter, date);
+		return voteRecord;
 	}
 
 	@Override
 	public VoteRecord createVoteRecord() {
-		// TODO Auto-generated method stub
-		return null;
+		VoteRecordImpl voteRecord = new VoteRecordImpl();
+		return voteRecord;
 	}
 
 	@Override
 	public List<VoteRecord> findVoteRecord(VoteRecord modelVoteRecord) throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		return persistence.restoreVoteRecord(modelVoteRecord);
 	}
 
 	@Override
 	public void storeVoteRecord(VoteRecord voteRecord) throws EVException {
-		// TODO Auto-generated method stub
-
+		persistence.storeVoteRecord(voteRecord);
 	}
 
 	@Override
 	public void deleteVoteRecord(VoteRecord voteRecord) throws EVException {
-		// TODO Auto-generated method stub
-
+		persistence.deleteVoteRecord(voteRecord);
 	}
 
 }

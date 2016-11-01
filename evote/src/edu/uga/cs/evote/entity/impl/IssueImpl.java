@@ -11,7 +11,13 @@ public class IssueImpl extends BallotItemImpl implements Issue {
 	private int yesCount;
 	
 	public IssueImpl() {
-		// TODO Auto-generated constructor stub
+		question = null;
+		yesCount = 0;
+	}
+	
+	public IssueImpl(String question){
+		this.question = question;
+		yesCount = 0;
 	}
 
 	@Override

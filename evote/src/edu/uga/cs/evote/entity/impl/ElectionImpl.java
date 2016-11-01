@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.uga.cs.evote.EVException;
-import edu.uga.cs.evote.entity.Ballot;
 import edu.uga.cs.evote.entity.Candidate;
 import edu.uga.cs.evote.entity.Election;
-import edu.uga.cs.evote.persistence.impl.Persistent;
 
 public class ElectionImpl extends BallotItemImpl implements Election {
 
@@ -16,7 +14,13 @@ public class ElectionImpl extends BallotItemImpl implements Election {
 	List<Candidate> candidates = new ArrayList<Candidate>();
 	
 	public ElectionImpl() {
-		this.office = null;
+		office = null;
+		isPartisan = false;
+	}
+	
+	public ElectionImpl(String office, boolean isPartisan){
+		this.office = office;
+		this.isPartisan = isPartisan;
 	}
 
 	@Override

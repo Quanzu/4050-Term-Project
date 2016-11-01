@@ -226,12 +226,11 @@ public interface ObjectLayer
      * Create a new Ballot object, given the set of initial attribute values.
      * @param openDate the date when the ballot should be open for voting
      * @param closeDate the date when the ballot should be closed for voting
-     * @param approved indication if the ballot has been approved
      * @param electoralDistrict the electoral district of this ballot
      * @return a new Ballot object instance with the given attribute values
      * @throws EVException in case any of the arguments are null or if the electoralDistrict is not persistent
      */
-    public Ballot createBallot( Date openDate, Date closeDate, boolean approved, ElectoralDistrict electoralDistrict ) throws EVException;
+    public Ballot createBallot( Date openDate, Date closeDate, ElectoralDistrict electoralDistrict ) throws EVException;
 
     /**
      * Create a new Ballot object with undefined attribute values.

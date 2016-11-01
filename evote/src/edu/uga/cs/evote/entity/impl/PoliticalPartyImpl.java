@@ -20,21 +20,6 @@ public class PoliticalPartyImpl extends Persistent implements PoliticalParty {
 	}
 
 	@Override
-	public long getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(long id) {
-		super.setId(id);
-	}
-
-	@Override
-	public boolean isPersistent() {
-		return getId() >= 0;
-	}
-
-	@Override
 	public String getName() {
 		return this.name;
 	}

@@ -10,62 +10,50 @@ import edu.uga.cs.evote.persistence.impl.Persistent;
 
 public class VoteRecordImpl extends Persistent implements VoteRecord {
 
+	private Ballot ballot;
+	private Voter voter;
+	private Date date;
+	
 	public VoteRecordImpl() {
-		// TODO Auto-generated constructor stub
+		ballot = null;
+		voter = null;
+		date = null;
 	}
 
-	@Override
-	public long getId() {
-		// TODO Auto-generated method stub
-		return 0;
+	public VoteRecordImpl(Ballot ballot, Voter voter, Date date){
+		this.ballot = ballot;
+		this.voter = voter;
+		this.date = date;
 	}
-
-	@Override
-	public void setId(long id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean isPersistent() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
 	@Override
 	public Date getDate() {
-		// TODO Auto-generated method stub
-		return null;
+		return date;
 	}
 
 	@Override
 	public void setDate(Date date) {
-		// TODO Auto-generated method stub
-
+		this.date = date;
 	}
 
 	@Override
 	public Voter getVoter() throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		return voter;
 	}
 
 	@Override
 	public void setVoter(Voter voter) throws EVException {
-		// TODO Auto-generated method stub
-
+		this.voter = voter;
 	}
 
 	@Override
 	public Ballot getBallot() throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		return ballot;
 	}
 
 	@Override
 	public void setBallot(Ballot ballot) throws EVException {
-		// TODO Auto-generated method stub
-
+		this.ballot = ballot;
 	}
 
 }

@@ -12,29 +12,14 @@ public class VoterImpl extends UserImpl implements Voter {
 	private int age;
 	
 	public VoterImpl() {
-		super.setFirstName(null);
-		super.setLastName(null);
-		super.setUserName(null);
-		super.setPassword(null);
-		super.setEmailAddress(null);
-		super.setAddress(null);
+		super();
 		age = 0;
 	}
 	
 	public VoterImpl(String fname, String lname, String userName, String password, String email,
 			String address, int age){
-		super.setFirstName(fname);
-		super.setLastName(lname);
-		super.setUserName(userName);
-		super.setPassword(password);
-		super.setEmailAddress(email);
-		super.setAddress(address);
+		super(fname, lname, userName, password, email, address);
 		this.age = age;
-	}
-
-	@Override
-	public long getId() {
-		return super.getId();
 	}
 
 	@Override
