@@ -133,13 +133,10 @@ class PoliticalPartyManager
         throw new EVException( "PoliticalPartyManager.restore: Could not restore persistent voter objects" );
     }
     
-    public List<Candidate> restoreCandidateFromPoliticalParty(PoliticalParty partyModel)
-    	throws EVException
-    {
-    	//TODO implement this method
+    public List<Candidate> restoreCandidateIsMemberOfPoliticalParty( PoliticalParty politicalParty ) throws EVException{
+    	//TODO
     	return null;
     }
-    
     
     public void delete( PoliticalParty party ) 
             throws EVException

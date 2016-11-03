@@ -6,22 +6,28 @@ import java.util.List;
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Ballot;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
+import edu.uga.cs.evote.entity.VoteRecord;
 import edu.uga.cs.evote.entity.Voter;
 import edu.uga.cs.evote.persistence.impl.Persistent;
 
 public class ElectoralDistrictImpl extends Persistent implements ElectoralDistrict {
 
 	private String name;
-	private List<Ballot> ballots = new ArrayList<Ballot>();
+	private List<Ballot> ballots;
+	private List<Voter> voters;
 	
 	public ElectoralDistrictImpl() {
 		super(-1);
 		name = null;
+		ballots = null;
+		voters = null;
 	}
 	
 	public ElectoralDistrictImpl(String name) {
 		super(-1);
 		this.name = name;
+		ballots = null;
+		voters = null;
 	}
 
 	@Override
@@ -36,8 +42,15 @@ public class ElectoralDistrictImpl extends Persistent implements ElectoralDistri
 
 	@Override
 	public List<Voter> getVoters() throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		if( isPersistent() ) {
+			Voter voter = new VoterImpl();
+			voter.setElectoralDistrict(this);
+            voters = getPersistencaLayer().restoreVoter( voter );
+        }
+        else
+            throw new EVException( "This electoral district object is not persistent" );
+		
+		return voters;
 	}
 
 	@Override

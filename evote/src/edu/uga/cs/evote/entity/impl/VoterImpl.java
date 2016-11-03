@@ -10,30 +10,33 @@ import edu.uga.cs.evote.entity.Voter;
 public class VoterImpl extends UserImpl implements Voter {
 
 	private int age;
+	private String voterId;
 	private ElectoralDistrict electoralDistrict;
+	private List<VoteRecord> voteRecords;
 	
 	public VoterImpl() {
 		super();
-		age = 0;
-		electoralDistrict = null;
+		this.age = 0;
+		this.electoralDistrict = null;
+		this.voteRecords = null;
 	}
 	
 	public VoterImpl(String fname, String lname, String userName, String password, String email,
 			String address, int age){
 		super(fname, lname, userName, password, email, address);
 		this.age = age;
-		electoralDistrict = null;
+		this.electoralDistrict = null;
+		this.voteRecords = null;
 	}
 
 	@Override
 	public String getVoterId() {
-		// TODO Auto-generated method stub
-		return null;
+		return voterId;
 	}
 
 	@Override
 	public void setVoterId(String voterId) {
-		// TODO Auto-generated method stub
+		this.voterId = voterId;
 	}
 
 	@Override
@@ -58,8 +61,15 @@ public class VoterImpl extends UserImpl implements Voter {
 
 	@Override
 	public List<VoteRecord> getBallotVoteRecords() throws EVException {
-		//TODO
-		return null;
+		if( isPersistent() ) {
+			VoteRecord voteRecord = new VoteRecordImpl();
+			voteRecord.setVoter(this);
+            voteRecords = getPersistencaLayer().restoreVoteRecord( voteRecord );
+        }
+        else
+            throw new EVException( "This voter object is not persistent" );
+		
+		return voteRecords;
 	}
 
 }

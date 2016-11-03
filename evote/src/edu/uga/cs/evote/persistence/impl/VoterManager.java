@@ -10,6 +10,7 @@ import java.util.List;
 import com.mysql.jdbc.PreparedStatement;
 
 import edu.uga.cs.evote.EVException;
+import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.entity.VoteRecord;
 import edu.uga.cs.evote.entity.Voter;
 import edu.uga.cs.evote.object.ObjectLayer;
@@ -211,7 +212,7 @@ class VoterManager
         throw new EVException( "VoterManager.restore: Could not restore persistent voter objects" );
     }
     
-    public List<VoteRecord> restoreVoteRecordFromVoter(Voter modelVoter){
+    public ElectoralDistrict restoreVoterBelongsToElectoralDistrict( Voter voter ) throws EVException{
     	//TODO
     	return null;
     }

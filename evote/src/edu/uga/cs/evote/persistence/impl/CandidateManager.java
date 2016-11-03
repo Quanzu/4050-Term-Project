@@ -140,6 +140,7 @@ class CandidateManager
         }
     }
 
+
     public List<Candidate> restore( Candidate modelCandidate ) 
             throws EVException
     {
@@ -212,6 +213,16 @@ class CandidateManager
         throw new EVException( "VoterManager.restore: Could not restore persistent voter objects" );
     }
     
+    public Election restoreCandidateIsCandidateInElection( Candidate candidate ) throws EVException{
+    	//TODO
+    	return null;
+    }
+    
+    public PoliticalParty restoreCandidateIsMemberOfPoliticalParty( Candidate candidate ) throws EVException{
+    	//TODO
+    	return null;
+    }
+    
     
     public void delete( Candidate candidate ) 
             throws EVException
@@ -244,4 +255,5 @@ class CandidateManager
             throw new EVException( "CandidateManager.delete: failed to delete this candidate: " + e.getMessage() );
         }
     }
+    
 }

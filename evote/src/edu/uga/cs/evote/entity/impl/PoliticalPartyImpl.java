@@ -10,15 +10,18 @@ import edu.uga.cs.evote.persistence.impl.Persistent;
 public class PoliticalPartyImpl extends Persistent implements PoliticalParty {
 
 	private String name;
+	private List<Candidate> candidates;
 	
 	public PoliticalPartyImpl() {
 		super(-1);
 		name = null;
+		candidates = null;
 	}
 	
 	public PoliticalPartyImpl(String name) {
 		super(-1);
 		this.name = name;
+		this.candidates = null;
 	}
 
 	@Override
@@ -33,8 +36,15 @@ public class PoliticalPartyImpl extends Persistent implements PoliticalParty {
 
 	@Override
 	public List<Candidate> getCandidates() throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		if( isPersistent() ) {
+			Candidate candidate = new CandidateImpl();
+			candidate.setPoliticalParty(this);
+            candidates = getPersistencaLayer().restoreCandidate( candidate );
+        }
+        else
+            throw new EVException( "This political party object is not persistent" );
+		
+		return candidates;
 	}
 
 }

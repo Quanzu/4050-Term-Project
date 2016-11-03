@@ -16,7 +16,8 @@ public class BallotImpl extends Persistent implements Ballot {
 	private Date openDate;
 	private Date closeDate;
 	private ElectoralDistrict electoralDistrict;
-	private List<BallotItem> ballotItems = new ArrayList<BallotItem>();
+	private List<BallotItem> ballotItems;
+	private List<VoteRecord> voteRecords;
 	
 	public BallotImpl() {
 		super(-1);
@@ -31,6 +32,8 @@ public class BallotImpl extends Persistent implements Ballot {
 		this.openDate = openDate;
 		this.closeDate = closeDate;
 		this.electoralDistrict = electoralDistrict;
+		ballotItems = null;
+		voteRecords = null;
 	}
 
 	@Override
@@ -80,8 +83,13 @@ public class BallotImpl extends Persistent implements Ballot {
 
 	@Override
 	public List<VoteRecord> getVoterVoteRecords() throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		if( isPersistent() ) {
+            voteRecords = getPersistencaLayer().restoreVoteRecord( this );
+        }
+        else
+            throw new EVException( "This club object is not persistent" );
+		
+		return voteRecords;
 	}
 
 }
