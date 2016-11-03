@@ -11,6 +11,7 @@ import com.mysql.jdbc.PreparedStatement;
 
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
+import edu.uga.cs.evote.entity.Voter;
 import edu.uga.cs.evote.object.ObjectLayer;
 
 class ElectoralDistrictManager
@@ -131,6 +132,10 @@ class ElectoralDistrictManager
         throw new EVException( "ElectoralDistrictManager.restore: Could not restore persistent district objects" );
     }
     
+    public List<Voter> restoreVoterFromElectoralDistrict(ElectoralDistrict district){
+    	//TODO
+    	return null;
+    }
     
     public void delete( ElectoralDistrict district ) 
             throws EVException

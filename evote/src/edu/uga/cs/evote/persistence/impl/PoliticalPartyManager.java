@@ -10,6 +10,7 @@ import java.util.List;
 import com.mysql.jdbc.PreparedStatement;
 
 import edu.uga.cs.evote.EVException;
+import edu.uga.cs.evote.entity.Candidate;
 import edu.uga.cs.evote.entity.PoliticalParty;
 import edu.uga.cs.evote.object.ObjectLayer;
 
@@ -130,6 +131,13 @@ class PoliticalPartyManager
         
         // if we get to this point, it's an error
         throw new EVException( "PoliticalPartyManager.restore: Could not restore persistent voter objects" );
+    }
+    
+    public List<Candidate> restoreCandidateFromPoliticalParty(PoliticalParty partyModel)
+    	throws EVException
+    {
+    	//TODO implement this method
+    	return null;
     }
     
     
