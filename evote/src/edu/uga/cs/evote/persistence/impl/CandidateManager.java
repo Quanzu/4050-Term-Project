@@ -11,6 +11,7 @@ import com.mysql.jdbc.PreparedStatement;
 
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Candidate;
+import edu.uga.cs.evote.entity.Election;
 import edu.uga.cs.evote.entity.PoliticalParty;
 import edu.uga.cs.evote.object.ObjectLayer;
 
@@ -29,10 +30,18 @@ class CandidateManager
             throws EVException
     {
         String               insertCandidateSql = "insert into Candidate ( name, voteCount, isAlternate ) values ( ?, ?, ? )";              
-        String               updateCandidateSql = "update Candidate set  name = ?, voteCount = ?, isAlternate = ? where candidateId = ?";              
+        String               insertCandidateElectionSql = "insert into CandidateElection ( electionId, candidateId ) values ( ?, ? )";
+        String               insertCandidatePartySql = "insert into CandidateParty ( candidateId, partyId ) values ( ?, ? )";
+        String               updateCandidateSql = "update Candidate set  name = ?, voteCount = ?, isAlternate = ? where candidateId = ?";
+        //String               updateCandidateElectionSql = "update Candidate set  electionId = ?, candidateId = ? where candidateId = ?";
         PreparedStatement    stmt;
         int                  inscnt;
         long                 candidateId;
+        long 				 partyId;
+        long				 electionId;
+        PoliticalParty 		 pp;
+        Election 			 e;
+        
         List<Candidate> candidates = new ArrayList<Candidate>();
         
         try {
@@ -57,7 +66,6 @@ class CandidateManager
             	stmt.setInt(3, 1);
             else
             	stmt.setInt(3, 0);
-            
             	
             
             if( candidate.isPersistent() )
@@ -87,7 +95,45 @@ class CandidateManager
                 if( inscnt < 1 )
                     throw new EVException( "CandidateManager.save: failed to save a Candidate" ); 
             }
+            
+            //Insert to candidatePolitical Party 
+            if( !candidate.isPersistent() )
+                stmt = (PreparedStatement) conn.prepareStatement( insertCandidatePartySql );
+            
+            if (candidate.getId() >= 0)
+            {
+            	stmt.setLong(1, candidate.getId());
+            }
+            
+            if (candidate.getPoliticalParty() != null)
+             {
+            	 pp =  candidate.getPoliticalParty();
+            	 partyId = pp.getId();
+            	 stmt.setLong(2, partyId);
+             }
+            inscnt = stmt.executeUpdate();
+             
+            //Insert into Candidate Election
+            if( !candidate.isPersistent() )
+                stmt = (PreparedStatement) conn.prepareStatement( insertCandidateElectionSql );
+            
+            if (candidate.getId() >= 0)
+            {
+            	stmt.setLong(2, candidate.getId());
+            }
+            
+            if (candidate.getElection() != null)
+             {
+            	 e =  candidate.getElection();
+            	 electionId = pp.getId();
+            	 stmt.setLong(1, electionId);
+             }
+            inscnt = stmt.executeUpdate();
+            
         }
+        
+        
+        
         catch( SQLException e ) {
             e.printStackTrace();
             throw new EVException( "CandidateManager.save: failed to save a Candidate: " + e );
@@ -97,16 +143,16 @@ class CandidateManager
     public List<Candidate> restore( Candidate modelCandidate ) 
             throws EVException
     {
-        String       selectOfficerSql = "select name, voteCount, isAlternate from Candidate";
+        String       selectCandidateSql = "select name, voteCount, isAlternate from Candidate";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         StringBuffer condition = new StringBuffer( 100 );
-        List<Candidate> voters = new ArrayList<Candidate>();
+        List<Candidate> candidates = new ArrayList<Candidate>();
         
         condition.setLength( 0 );
         
         // form the query based on the given Person object instance
-        query.append( selectOfficerSql );
+        query.append( selectCandidateSql );
         
         if( modelCandidate != null ) {
             if( modelCandidate.getId() >= 0 ) // id is unique, so it is sufficient to get a person
@@ -137,6 +183,8 @@ class CandidateManager
                 String name;
                 int voteCount;
                 boolean isAlternate;
+                long electionId;
+                long partyId;
                 
                 while( rs.next() ) {
 
@@ -144,16 +192,16 @@ class CandidateManager
                     name = rs.getString( 2 );
                     voteCount = rs.getInt( 3 );
                     isAlternate = rs.getBoolean( 4 );
-            
-
-                    Candidate candidate = objectLayer.createCandidate(name, voteCount, isAlternate);
+                    //String selectCandidatePartySql = "select partyId, from candidateParty";
+                    //TODO get party or something.
+                    Candidate candidate = objectLayer.createCandidate(name , );
                     candidate.setId( id );
-
+                    candidate.setVoteCount(voteCount);
                     candidates.add( candidate );
 
                 }
                 
-                return voters;
+                return candidates;
             }
         }
         catch( Exception e ) {      // just in case...
@@ -185,6 +233,8 @@ class CandidateManager
             stmt.setLong( 1, candidate.getId() );
             
             inscnt = stmt.executeUpdate();
+            
+           
             
             if( inscnt == 0 ) {
                 throw new EVException( "CandidateManager.delete: failed to delete this candidate" );
