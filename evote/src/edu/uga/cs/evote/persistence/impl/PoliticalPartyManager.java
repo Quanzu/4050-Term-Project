@@ -134,9 +134,55 @@ class PoliticalPartyManager
     }
     
     public List<Candidate> restoreCandidateIsMemberOfPoliticalParty( PoliticalParty politicalParty ) throws EVException{
-    	//TODO
-    	return null;
-    }
+    	 String       selectPartySql = "select partyName from Party";
+         Statement    stmt = null;
+         StringBuffer query = new StringBuffer( 100 );
+         List<Candidate> candidates = new ArrayList<Candidate>();
+                 
+         // form the query based on the given Person object instance
+         query.append( selectPartySql );
+         
+         if( politicalParty != null ) {
+             if( politicalParty.getId() >= 0 ) // id is unique, so it is sufficient to get a person
+                 query.append( " where partyId = " + politicalParty.getId() );
+             else if( politicalParty.getName() != null ) // userName is unique, so it is sufficient to get a person
+                 query.append( " where partyName = '" + politicalParty.getName() + "'" );
+             
+         }
+         
+         try {
+
+             stmt = conn.createStatement();
+
+             // retrieve the persistent Person objects
+             
+             if( stmt.execute( query.toString() ) ) { // statement returned a result
+                 ResultSet rs = stmt.getResultSet();
+                 long   id;
+                 String partyName;
+                 
+                 while( rs.next() ) {
+
+                     id = rs.getLong( 1 );
+                     partyName = rs.getString( 2 );
+
+                     PoliticalParty party = objectLayer.createPoliticalParty( partyName );
+                     party.setId( id );
+
+                     candidates = party.getCandidates();
+
+                 }
+                 
+                 return candidates;
+             }
+         }
+         catch( Exception e ) {      // just in case...
+             throw new EVException( "PoliticalPartyManager.restore: Could not restore persistent party object; Root cause: " + e );
+         }
+         
+         // if we get to this point, it's an error
+         throw new EVException( "PoliticalPartyManager.restore: Could not restore persistent party objects" );
+     }
     
     public void delete( PoliticalParty party ) 
             throws EVException
