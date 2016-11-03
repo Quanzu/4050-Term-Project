@@ -11,6 +11,7 @@ import com.mysql.jdbc.PreparedStatement;
 
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Candidate;
+import edu.uga.cs.evote.entity.PoliticalParty;
 import edu.uga.cs.evote.object.ObjectLayer;
 
 class CandidateManager
@@ -32,6 +33,7 @@ class CandidateManager
         PreparedStatement    stmt;
         int                  inscnt;
         long                 candidateId;
+        List<Candidate> candidates = new ArrayList<Candidate>();
         
         try {
             
@@ -95,7 +97,7 @@ class CandidateManager
     public List<Candidate> restore( Candidate modelCandidate ) 
             throws EVException
     {
-        String       selectOfficerSql = "select id, fname, lname, userName, password, email, address from User";
+        String       selectOfficerSql = "select name, voteCount, isAlternate from Candidate";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         StringBuffer condition = new StringBuffer( 100 );
@@ -109,37 +111,11 @@ class CandidateManager
         if( modelCandidate != null ) {
             if( modelCandidate.getId() >= 0 ) // id is unique, so it is sufficient to get a person
                 query.append( " where id = " + modelCandidate.getId() );
-            else if( modelCandidate.getUserName() != null ) // userName is unique, so it is sufficient to get a person
-                query.append( " where userName = '" + modelCandidate.getUserName() + "'" );
+            else if( modelCandidate.getName() != null ) // Name is unique, so it is sufficient to get a person
+                query.append( " where name = '" + modelCandidate.getName() + "'" );
             else {
             	condition.append("officer = 0"); //this value has to be true for voters
             	
-                if( modelCandidate.getFirstName() != null ) {
-                    if( condition.length() > 0 )
-                        condition.append( " and" );
-                    condition.append( " fname = '" + modelCandidate.getFirstName() + "'" );
-                }
-
-                if( modelCandidate.getLastName() != null ) {
-                    if( condition.length() > 0 )
-                        condition.append( " and" );
-                    condition.append( " lname = '" + modelCandidate.getLastName() + "'" );
-                }
-            	
-                if( modelCandidate.getPassword() != null )
-                    condition.append( " password = '" + modelCandidate.getPassword() + "'" );
-
-                if( modelCandidate.getEmailAddress() != null ) {
-                    if( condition.length() > 0 )
-                        condition.append( " and" );
-                    condition.append( " email = '" + modelCandidate.getEmailAddress() + "'" );
-                }
-
-                if( modelCandidate.getAddress() != null ) {
-                    if( condition.length() > 0 )
-                        condition.append( " and" );
-                    condition.append( " address = '" + modelCandidate.getAddress() + "'" );
-                }
 
 
                 if( condition.length() > 0 ) {
@@ -158,29 +134,22 @@ class CandidateManager
             if( stmt.execute( query.toString() ) ) { // statement returned a result
                 ResultSet rs = stmt.getResultSet();
                 long   id;
-                String fname;
-                String lname;
-                String userName;
-                String password;
-                String email;
-                String address;
-                int age;
+                String name;
+                int voteCount;
+                boolean isAlternate;
                 
                 while( rs.next() ) {
 
                     id = rs.getLong( 1 );
-                    fname = rs.getString( 2 );
-                    lname = rs.getString( 3 );
-                    userName = rs.getString( 4 );
-                    password = rs.getString( 5 );
-                    email = rs.getString( 6 );
-                    address = rs.getString( 7 );
-                    age = rs.getInt(8);
+                    name = rs.getString( 2 );
+                    voteCount = rs.getInt( 3 );
+                    isAlternate = rs.getBoolean( 4 );
+            
 
-                    Voter voter = objectLayer.createVoter( fname, lname, userName, password, email, address, age );
-                    voter.setId( id );
+                    Candidate candidate = objectLayer.createCandidate(name, voteCount, isAlternate);
+                    candidate.setId( id );
 
-                    voters.add( voter );
+                    candidates.add( candidate );
 
                 }
                 
