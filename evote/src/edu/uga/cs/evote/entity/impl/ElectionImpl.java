@@ -45,6 +45,12 @@ public class ElectionImpl extends BallotItemImpl implements Election {
 
 	@Override
 	public List<Candidate> getCandidates() throws EVException {
+		if(candidates == null)
+			if(isPersistent()){
+				candidates = getPersistencaLayer().restoreCandidateIsCandidateInElection(this);
+			} else
+	            throw new EVException( "This election object is not persistent" );
+			
 		return candidates;
 	}
 

@@ -42,19 +42,25 @@ public class ElectoralDistrictImpl extends Persistent implements ElectoralDistri
 
 	@Override
 	public List<Voter> getVoters() throws EVException {
-		if( isPersistent() ) {
-			Voter voter = new VoterImpl();
-			voter.setElectoralDistrict(this);
-            voters = getPersistencaLayer().restoreVoter( voter );
-        }
-        else
-            throw new EVException( "This electoral district object is not persistent" );
+		if(voters == null)
+			if( isPersistent() ) {
+	            voters = getPersistencaLayer().restoreVoterBelongsToElectoralDistrict(this);
+	        }
+	        else
+	            throw new EVException( "This electoral district object is not persistent" );
 		
 		return voters;
 	}
 
 	@Override
 	public List<Ballot> getBallots() throws EVException {
+		if(ballots == null)
+			if( isPersistent() ) {
+	            ballots = getPersistencaLayer().restoreElectoralDistrictHasBallotBallot(this)
+	        }
+	        else
+	            throw new EVException( "This electoral district object is not persistent" );
+		
 		return ballots;
 	}
 

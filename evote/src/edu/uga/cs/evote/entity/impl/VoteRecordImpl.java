@@ -49,7 +49,7 @@ public class VoteRecordImpl extends Persistent implements VoteRecord {
 	}
 
 	@Override
-	public Ballot getBallot() throws EVException {
+	public Ballot getBallot() throws EVException {		
 		return ballot;
 	}
 

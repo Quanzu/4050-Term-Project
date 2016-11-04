@@ -36,13 +36,12 @@ public class PoliticalPartyImpl extends Persistent implements PoliticalParty {
 
 	@Override
 	public List<Candidate> getCandidates() throws EVException {
-		if( isPersistent() ) {
-			Candidate candidate = new CandidateImpl();
-			candidate.setPoliticalParty(this);
-            candidates = getPersistencaLayer().restoreCandidate( candidate );
-        }
-        else
-            throw new EVException( "This political party object is not persistent" );
+		if(candidates == null)
+			if( isPersistent() ) {
+	            candidates = getPersistencaLayer().restoreCandidateIsMemberOfPoliticalParty(this);
+	        }
+	        else
+	            throw new EVException( "This political party object is not persistent" );
 		
 		return candidates;
 	}

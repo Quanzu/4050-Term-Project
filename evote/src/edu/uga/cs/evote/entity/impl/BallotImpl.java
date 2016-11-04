@@ -1,6 +1,5 @@
 package edu.uga.cs.evote.entity.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -58,6 +57,12 @@ public class BallotImpl extends Persistent implements Ballot {
 
 	@Override
 	public ElectoralDistrict getElectoralDistrict() throws EVException {
+		if(electoralDistrict == null)
+			if(isPersistent()){
+				electoralDistrict = getPersistencaLayer().restoreElectoralDistrictHasBallotBallot(this);
+			} else
+	            throw new EVException( "This ballot object is not persistent" );
+		
 		return electoralDistrict;
 	}
 
@@ -68,8 +73,13 @@ public class BallotImpl extends Persistent implements Ballot {
 
 	@Override
 	public List<BallotItem> getBallotItems() throws EVException {
-		return ballotItems;
-	}
+		if(ballotItems == null)
+			if(isPersistent()){
+				ballotItems = getPersistencaLayer().restoreBallotIncludesBallotItem(this);
+			} else
+	            throw new EVException( "This ballot object is not persistent" );
+		
+		return ballotItems;	}
 
 	@Override
 	public void addBallotItem(BallotItem ballotItem) throws EVException {
@@ -83,11 +93,14 @@ public class BallotImpl extends Persistent implements Ballot {
 
 	@Override
 	public List<VoteRecord> getVoterVoteRecords() throws EVException {
-		if( isPersistent() ) {
-            voteRecords = getPersistencaLayer().restoreVoteRecord( this );
-        }
-        else
-            throw new EVException( "This club object is not persistent" );
+		if(voteRecords == null)
+			if( isPersistent() ) {
+				VoteRecord voteRecord = new VoteRecordImpl();
+				voteRecord.setBallot(this);
+				voteRecords = getPersistencaLayer().restoreVoteRecord( voteRecord );
+			}
+	        else
+	            throw new EVException( "This ballot object is not persistent" );
 		
 		return voteRecords;
 	}

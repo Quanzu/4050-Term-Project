@@ -282,7 +282,8 @@ public interface PersistenceLayer
     // Voter--belongsTo-->ElectoralDistrict;   multiplicity:   1..*  -  1
     // Voter--VoteRecord-->Ballot;  multiplicity:   *  -  *
     //          it is an association class, so no traversals
-
+    
+    
 
     // Ballot--includes-->BallotItem;   multiplicity: 1 - *
     //
@@ -418,7 +419,8 @@ public interface PersistenceLayer
      * @throws EVException in case an error occurred during the delete operation 
      */
     public void deleteCandidateIsMemberOfElection( Candidate candidate, PoliticalParty politicalParty ) throws EVException;
-
+    
+    // Voter--belongsTo-->ElectoralDistrict;   multiplicity:   1..*  -  1
     /** 
      * Store a link between a Voter and a ElectoralDistrict to which the Voter belongs.
      * @param voter the Voter to be linked
@@ -449,5 +451,5 @@ public interface PersistenceLayer
      * @param electoralDistrict the ElectoralDistrict
      * @throws EVException in case an error occurred during the delete operation 
      */
-    public void deleteVoterBelongsToElection( Voter voter, ElectoralDistrict electoralDistrict ) throws EVException;
+    public void deleteVoterBelongsToElection( Voter voter, ElectoralDistrict electoralDistrict ) throws EVException;    
 }
