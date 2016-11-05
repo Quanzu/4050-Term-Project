@@ -29,8 +29,11 @@ class VoterManager
     public void store( Voter voter ) 
             throws EVException
     {
-        String               insertOfficerSql = "insert into User ( officer, fname, lname, userName, password, email, address ) values ( ?, ?, ?, ?, ?, ?, ? )";              
-        String               updateOfficerSql = "update User  set officer = ?, fname = ?, lname = ?, userName = ?, password = ?, email = ?, address = ? where userId = ?";              
+        String               insertUserSql = "insert into User ( fname, lname, userName, password, email, address ) values ( ?, ?, ?, ?, ?, ? )";              
+        String               updateUserSql = "update User  set fname = ?, lname = ?, userName = ?, password = ?, email = ?, address = ? where userId = ?";              
+        
+        String				 insertVoterSql = "insert into Voter ( userId, age ) values ( ?, ? )";
+        
         PreparedStatement    stmt;
         int                  inscnt;
         long                 userId;
@@ -38,45 +41,43 @@ class VoterManager
         try {
             
             if( !voter.isPersistent() )
-                stmt = (PreparedStatement) conn.prepareStatement( insertOfficerSql );
+                stmt = (PreparedStatement) conn.prepareStatement( insertUserSql );
             else
-                stmt = (PreparedStatement) conn.prepareStatement( updateOfficerSql );
+                stmt = (PreparedStatement) conn.prepareStatement( updateUserSql );
             
-            stmt.setInt(1, 0); //this user is a voter
-
             if( voter.getFirstName() != null )
-                stmt.setString( 2, voter.getFirstName() );
+                stmt.setString( 1, voter.getFirstName() );
             else 
                 throw new EVException( "VoterManager.save: can't save a User: fname undefined" );
 
             if( voter.getLastName() != null )
-                stmt.setString( 3, voter.getLastName() );
+                stmt.setString( 2, voter.getLastName() );
             else
                 throw new EVException( "VoterManager.save: can't save a User: last name undefined" );
 
             if( voter.getUserName() != null )
-                stmt.setString( 4, voter.getUserName() );
+                stmt.setString( 3, voter.getUserName() );
             else 
                 throw new EVException( "VoterManager.save: can't save a User: username undefined" );
             
             if( voter.getPassword() != null )
-                stmt.setString( 5, voter.getPassword() );
+                stmt.setString( 4, voter.getPassword() );
             else
                 throw new EVException( "VoterManager.save: can't save a User: password undefined" );
 
             if( voter.getEmailAddress() != null )
-                stmt.setString( 6,  voter.getEmailAddress() );
+                stmt.setString( 5,  voter.getEmailAddress() );
             else
                 throw new EVException( "VoterManager.save: can't save a User: email undefined" );
             
             if( voter.getAddress() != null )
-                stmt.setString( 7, voter.getAddress() );
+                stmt.setString( 6, voter.getAddress() );
             else
-                stmt.setNull(7, java.sql.Types.VARCHAR);
+                stmt.setNull(6, java.sql.Types.VARCHAR);
 
             
             if( voter.isPersistent() )
-                stmt.setLong( 8, voter.getId() );
+                stmt.setLong( 7, voter.getId() );
 
             inscnt = stmt.executeUpdate();
 
@@ -213,8 +214,50 @@ class VoterManager
     }
     
     public ElectoralDistrict restoreVoterBelongsToElectoralDistrict( Voter voter ) throws EVException{
-    	//TODO
-    	return null;
+        String       selectPersonSql = "select e.districtId, e.districtName from ElectoralDistrict e, Voter v, VoterDistrict vd where e.districtId = vd.districtId and v.voterId = vd.voterId";              
+        Statement    stmt = null;
+        StringBuffer query = new StringBuffer( 100 );
+        
+        // form the query based on the given Person object instance
+        query.append( selectPersonSql );
+        
+        if( voter != null ) {
+            if( voter.getId() >= 0 ) // id is unique, so it is sufficient to get a person
+                query.append( " and c.id = " + voter.getId() );
+            else {
+            	return null;  
+            }
+        }else
+        	return null;
+                
+        try {
+            stmt = conn.createStatement();
+
+            // retrieve the persistent Person object
+            //
+            if( stmt.execute( query.toString() ) ) { // statement returned a result
+                ResultSet rs = stmt.getResultSet();
+                
+                long   districtId;
+                String districtName;
+                ElectoralDistrict electoralDistrict = null;
+                
+                while( rs.next() ) {
+                    districtId = rs.getLong( 1 );
+                    districtName = rs.getString( 2 );
+
+                    electoralDistrict = objectLayer.createElectoralDistrict( districtName );
+                    electoralDistrict.setId( districtId );
+                }
+                
+                return electoralDistrict;
+            }
+            else
+                return null;
+        }
+        catch( Exception e ) {      // just in case...
+            throw new EVException( "VoterManager.restoreVoterBelongsToElectoralDistrict: Could not restore persistent Electoral object; Root cause: " + e );
+        }	
     }
     
     public void delete( Voter voter ) 
