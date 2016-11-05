@@ -89,7 +89,8 @@ class ElectoralDistrictManager
         StringBuffer query = new StringBuffer( 100 );
         List<ElectoralDistrict> districts = new ArrayList<ElectoralDistrict>();
         
-        query.append( selectDistrictSql );
+        //condition.setLength(0); //necessary for this code?
+      	query.append( selectDistrictSql );
         
         if( modelElectoralDistrict != null ) {
             if( modelElectoralDistrict.getId() >= 0 ) 
@@ -134,13 +135,129 @@ class ElectoralDistrictManager
     }
 
     public List<Ballot> restoreElectoralDistrictHasBallotBallot( ElectoralDistrict electoralDistrict ) throws EVException{
-    	//TODO
-    	return null;
+    	
+    	//This seems to be the way club does restore 
+      	String       selectDistrictSql = "select b.id, b.openDate, b.closeDate, e.districtId" +
+          								 "e.districtName from ballot b, electoralDistrict e where b.electoralDistrictid = e.districtId";
+        Statement    stmt = null;
+        StringBuffer query = new StringBuffer( 100 );
+        List<Ballot> ballots = new ArrayList<Ballot>();
+        
+        //condition.setLength(0); //necessary for this code?
+      	query.append( selectDistrictSql );
+        
+        if( electoralDistrict != null ) {
+            if( electoralDistrict.getId() >= 0 ) 
+                query.append( " and e.districtId = " + electoralDistrict.getId() );
+            else if( electoralDistrict.getName() != null ) 
+                query.append( " and e.districtName = '" + electoralDistrict.getName() + "'" );
+            
+        }
+        
+        try {
+
+            stmt = conn.createStatement();
+
+            // retrieve the persistent Ballot objects
+            //
+            if( stmt.execute( query.toString() ) ) { // statement returned a result
+                
+                long   id;
+                Date   openDate;
+              	Date   closeDate;
+              	Ballot nextBallot = null;
+              
+                ResultSet rs = stmt.getResultSet();
+              
+                while( rs.next() ) {
+
+                    id = rs.getLong( 1 );
+                    openDate = rs.getString( 2 );
+					closeDate = rs.getString( 3 );	
+                  
+                  	nextBallot = objectLayer.createBallot();
+                    nextBallot.setId( id );
+                  	nextBallot.setOpenDate( openDate );
+                  	nextBallot.setCloseDate( closeDate );
+                  	
+                  	nextBallot.setElectoralDistrict( null );
+
+                    ballots.add( nextBallot );
+
+                }
+                
+                return ballots;
+            }
+        }
+        catch( Exception e ) {      // just in case...
+            throw new EVException( "ElectoralDistrictManager.restoreElectoralDistrictHasBallotBallot: Could not restore persistent district object; Root cause: " + e );
+        }
+        
+        // if we get to this point, it's an error
+        throw new EVException( "ElectoralDistrictManager.restoreElectoralDistrictHasBallotBallot: Could not restore persistent district objects" );
     }
     
     public List<Voter> restoreVoterBelongsToElectoralDistrict( ElectoralDistrict electoralDistrict ) throws EVException{
-    	//TODO
-    	return null;
+    		String       selectDistrictSql = "select v.id, v.age, v.voterId, e.districtId" +
+          								 "e.districtName from voter v, electoralDistrict e where v.electoralDistrictid = e.districtId";
+        Statement    stmt = null;
+        StringBuffer query = new StringBuffer( 100 );
+        List<Voter> voters = new ArrayList<Voter>();
+        
+        //condition.setLength(0); //necessary for this code?
+      	query.append( selectDistrictSql );
+        
+        if( electoralDistrict != null ) {
+            if( electoralDistrict.getId() >= 0 ) 
+                query.append( " and e.districtId = " + electoralDistrict.getId() );
+            else if( electoralDistrict.getName() != null ) 
+                query.append( " and e.districtName = '" + electoralDistrict.getName() + "'" );
+            
+        }
+        
+        try {
+
+            stmt = conn.createStatement();
+
+            // retrieve the persistent Ballot objects
+            //
+            if( stmt.execute( query.toString() ) ) { // statement returned a result
+                
+                long   id;
+             	int    age;
+              	String voterId;
+              
+              	Voter nextVoter = null;
+              
+                ResultSet rs = stmt.getResultSet();
+              
+                while( rs.next() ) {
+
+                    id = rs.getLong( 1 );
+                    age = rs.getString( 2 );
+					voterId = rs.getString( 3 );	
+                  
+                  	nextVoter = objectLayer.createVoter();
+                    nextVoter.setId( id );
+                  	nextVoter.setAge( age );
+                  	nextVoter.setVoterId( voterId );
+                  	
+                  	nextVoter.setElectoralDistrict( null );
+
+                    voters.add( nextVoter );
+
+                }
+                
+                return voters;
+            }
+        }
+        catch( Exception e ) {      // just in case...
+            throw new EVException( "ElectoralDistrictManager.restoreVoterBelongsToElectoralDistrict: Could not restore persistent district object; Root cause: " + e );
+        }
+        
+        // if we get to this point, it's an error
+        throw new EVException( "ElectoralDistrictManager.restoreVoterBelongsToElectoralDistrict: Could not restore persistent district objects" );
+ 
     }
     
     public void delete( ElectoralDistrict district ) 
