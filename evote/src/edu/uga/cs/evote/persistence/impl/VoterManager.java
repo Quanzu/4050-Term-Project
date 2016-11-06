@@ -196,7 +196,6 @@ class VoterManager
 
                     Voter voter = objectLayer.createVoter( fname, lname, userName, password, email, address, age );
                     voter.setId( userId );
-
                     voters.add( voter );
 
                 }
