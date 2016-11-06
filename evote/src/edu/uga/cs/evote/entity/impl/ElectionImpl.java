@@ -11,6 +11,7 @@ public class ElectionImpl extends BallotItemImpl implements Election {
 
 	private String office;
 	private boolean isPartisan;
+	private boolean isAlternateAllowed;
 	List<Candidate> candidates = new ArrayList<Candidate>();
 	
 	public ElectionImpl() {
@@ -38,11 +39,19 @@ public class ElectionImpl extends BallotItemImpl implements Election {
 		return isPartisan;
 	}
 
-	@Override
 	public void setIsPartisan(boolean isPartisan) {
 		this.isPartisan = isPartisan;
 	}
 
+	@Override
+	public boolean getIsAlternateAllowed() {
+		return isAlternateAllowed;
+	}
+
+	public void setIsAlternateAllowed(boolean isAlternateAllowed) {
+		this.isAlternateAllowed = isAlternateAllowed;
+	}
+	
 	@Override
 	public List<Candidate> getCandidates() throws EVException {
 		if(candidates == null)
@@ -64,4 +73,5 @@ public class ElectionImpl extends BallotItemImpl implements Election {
 		candidates.remove(candidate);
 	}
 
+	
 }
