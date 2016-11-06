@@ -11,7 +11,6 @@ import com.mysql.jdbc.PreparedStatement;
 
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
-import edu.uga.cs.evote.entity.VoteRecord;
 import edu.uga.cs.evote.entity.Voter;
 import edu.uga.cs.evote.object.ObjectLayer;
 
@@ -93,8 +92,13 @@ class VoterManager
                         while( r.next() ) {
                             // retrieve the last insert auto_increment value
                             userId = r.getLong( 1 );
-                            if( userId > 0 )
+                            if( userId > 0 ){
                                 voter.setId( userId ); // set this person's db id (proxy object)
+                                stmt = (PreparedStatement) conn.prepareStatement( insertVoterSql );
+                                stmt.setLong(1,userId);
+                                stmt.setInt(2, voter.getAge());
+                                inscnt = stmt.executeUpdate();
+                            }
                         }
                     }
                 }
@@ -113,7 +117,7 @@ class VoterManager
     public List<Voter> restore( Voter modelVoter ) 
             throws EVException
     {
-        String       selectOfficerSql = "select id, fname, lname, userName, password, email, address from User";
+        String       selectOfficerSql = "select User.userId, fname, lname, userName, password, email, address, age from User, Voter where User.userId = Voter.userId";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         StringBuffer condition = new StringBuffer( 100 );
@@ -126,42 +130,37 @@ class VoterManager
         
         if( modelVoter != null ) {
             if( modelVoter.getId() >= 0 ) // id is unique, so it is sufficient to get a person
-                query.append( " where id = " + modelVoter.getId() );
+                query.append( " and User.userId = " + modelVoter.getId() );
             else if( modelVoter.getUserName() != null ) // userName is unique, so it is sufficient to get a person
-                query.append( " where userName = '" + modelVoter.getUserName() + "'" );
-            else {
-            	condition.append("officer = 0"); //this value has to be true for voters
-            	
+                query.append( " and userName = '" + modelVoter.getUserName() + "'" );
+            else {            	
                 if( modelVoter.getFirstName() != null ) {
-                    if( condition.length() > 0 )
-                        condition.append( " and" );
                     condition.append( " fname = '" + modelVoter.getFirstName() + "'" );
                 }
 
                 if( modelVoter.getLastName() != null ) {
-                    if( condition.length() > 0 )
-                        condition.append( " and" );
+                    condition.append( " and" );
                     condition.append( " lname = '" + modelVoter.getLastName() + "'" );
                 }
             	
-                if( modelVoter.getPassword() != null )
+                if( modelVoter.getPassword() != null ){
+                    condition.append( " and" );
                     condition.append( " password = '" + modelVoter.getPassword() + "'" );
+                }
 
                 if( modelVoter.getEmailAddress() != null ) {
-                    if( condition.length() > 0 )
-                        condition.append( " and" );
+                    condition.append( " and" );
                     condition.append( " email = '" + modelVoter.getEmailAddress() + "'" );
                 }
 
                 if( modelVoter.getAddress() != null ) {
-                    if( condition.length() > 0 )
-                        condition.append( " and" );
+                    condition.append( " and" );
                     condition.append( " address = '" + modelVoter.getAddress() + "'" );
                 }
 
 
                 if( condition.length() > 0 ) {
-                    query.append(  " where " );
+                    query.append(  " and " );
                     query.append( condition );
                 }
             }
@@ -175,7 +174,7 @@ class VoterManager
             //
             if( stmt.execute( query.toString() ) ) { // statement returned a result
                 ResultSet rs = stmt.getResultSet();
-                long   id;
+                long   userId;
                 String fname;
                 String lname;
                 String userName;
@@ -186,7 +185,7 @@ class VoterManager
                 
                 while( rs.next() ) {
 
-                    id = rs.getLong( 1 );
+                    userId = rs.getLong( 1 );
                     fname = rs.getString( 2 );
                     lname = rs.getString( 3 );
                     userName = rs.getString( 4 );
@@ -196,7 +195,7 @@ class VoterManager
                     age = rs.getInt(8);
 
                     Voter voter = objectLayer.createVoter( fname, lname, userName, password, email, address, age );
-                    voter.setId( id );
+                    voter.setId( userId );
 
                     voters.add( voter );
 
@@ -263,7 +262,11 @@ class VoterManager
     public void delete( Voter voter ) 
             throws EVException
     {
-        String               deleteUserSql = "delete from person where id = ?";              
+        String               deleteUserSql = "delete t1, t2, t3, t4 from User as t1 "
+        								   + "inner join Voter as t2 on t1.userId = t2.userId "
+        								   + "inner join VoterDistrict as t3 on t2.voterId = t3.voterId "
+        								   + "inner join VoteRecord as t4 on t2.voterId = t4.voterId "
+        								   + "where t1.userId = ?";
         PreparedStatement    stmt = null;
         int                  inscnt;
         
@@ -272,17 +275,12 @@ class VoterManager
             return;
         
         try {
-            
-            //DELETE t1, t2 FROM t1, t2 WHERE t1.id = t2.id;
-            //DELETE FROM t1, t2 USING t1, t2 WHERE t1.id = t2.id;
-            stmt = (PreparedStatement) conn.prepareStatement( deleteUserSql );
-            
-            stmt.setLong( 1, voter.getId() );
-            
+            stmt = (PreparedStatement) conn.prepareStatement( deleteUserSql );        
+            stmt.setLong( 1, voter.getId() );          
             inscnt = stmt.executeUpdate();
             
             if( inscnt == 0 ) {
-                throw new EVException( "VoterManager.delete: failed to delete this Voter" );
+                throw new EVException( "VoterManager.delete: failed to delete this voter from User" );
             }
         }
         catch( SQLException e ) {

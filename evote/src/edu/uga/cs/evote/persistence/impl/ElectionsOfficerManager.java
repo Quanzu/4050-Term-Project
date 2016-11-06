@@ -27,8 +27,11 @@ class ElectionsOfficerManager
     public void store( ElectionsOfficer officer ) 
             throws EVException
     {
-        String               insertOfficerSql = "insert into User ( officer, fname, lname, userName, password, email, address ) values ( ?, ?, ?, ?, ?, ?, ? )";              
-        String               updateOfficerSql = "update User  set officer = ?, fname = ?, lname = ?, userName = ?, password = ?, email = ?, address = ? where userId = ?";              
+        String               insertUserSql = "insert into User ( fname, lname, userName, password, email, address ) values ( ?, ?, ?, ?, ?, ? )";              
+        String               updateUserSql = "update User  set fname = ?, lname = ?, userName = ?, password = ?, email = ?, address = ? where userId = ?";              
+        
+        String				 insertOfficerSql = "insert into ElectionsOfficer (userId) values ( ? )";
+        
         PreparedStatement    stmt;
         int                  inscnt;
         long                 officerId;
@@ -36,44 +39,44 @@ class ElectionsOfficerManager
         try {
             
             if( !officer.isPersistent() )
-                stmt = (PreparedStatement) conn.prepareStatement( insertOfficerSql );
+                stmt = (PreparedStatement) conn.prepareStatement( insertUserSql );
             else
-                stmt = (PreparedStatement) conn.prepareStatement( updateOfficerSql );
+                stmt = (PreparedStatement) conn.prepareStatement( updateUserSql );
             
 
             if( officer.getFirstName() != null )
-                stmt.setString( 2, officer.getFirstName() );
+                stmt.setString( 1, officer.getFirstName() );
             else 
                 throw new EVException( "ElectionsOfficerManager.save: can't save a User: fname undefined" );
 
             if( officer.getLastName() != null )
-                stmt.setString( 3, officer.getLastName() );
+                stmt.setString( 2, officer.getLastName() );
             else
                 throw new EVException( "ElectionsOfficerManager.save: can't save a User: last name undefined" );
 
             if( officer.getUserName() != null )
-                stmt.setString( 4, officer.getUserName() );
+                stmt.setString( 3, officer.getUserName() );
             else 
                 throw new EVException( "ElectionsOfficerManager.save: can't save a User: username undefined" );
             
             if( officer.getPassword() != null )
-                stmt.setString( 5, officer.getPassword() );
+                stmt.setString( 4, officer.getPassword() );
             else
                 throw new EVException( "ElectionsOfficerManager.save: can't save a User: password undefined" );
 
             if( officer.getEmailAddress() != null )
-                stmt.setString( 6,  officer.getEmailAddress() );
+                stmt.setString( 5,  officer.getEmailAddress() );
             else
                 throw new EVException( "ElectionsOfficerManager.save: can't save a User: email undefined" );
             
             if( officer.getAddress() != null )
-                stmt.setString( 7, officer.getAddress() );
+                stmt.setString( 6, officer.getAddress() );
             else
-                stmt.setNull(7, java.sql.Types.VARCHAR);
+                stmt.setNull(6, java.sql.Types.VARCHAR);
 
             
             if( officer.isPersistent() )
-                stmt.setLong( 8, officer.getId() );
+                stmt.setLong( 7, officer.getId() );
 
             inscnt = stmt.executeUpdate();
 
@@ -89,8 +92,12 @@ class ElectionsOfficerManager
                         while( r.next() ) {
                             // retrieve the last insert auto_increment value
                             officerId = r.getLong( 1 );
-                            if( officerId > 0 )
+                            if( officerId > 0 ){
                                 officer.setId( officerId ); // set this person's db id (proxy object)
+                                stmt = (PreparedStatement) conn.prepareStatement( insertOfficerSql );
+                                stmt.setLong(1,officerId);
+                                inscnt = stmt.executeUpdate();
+                            }
                         }
                     }
                 }
@@ -109,7 +116,7 @@ class ElectionsOfficerManager
     public List<ElectionsOfficer> restore( ElectionsOfficer modelOfficer ) 
             throws EVException
     {
-        String       selectOfficerSql = "select id, fname, lname, userName, password, email, address from User";
+        String       selectOfficerSql = "select User.userId, fname, lname, userName, password, email, address from User, ElectionsOfficer where User.userId = ElectionsOfficer.userId";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         StringBuffer condition = new StringBuffer( 100 );
@@ -122,42 +129,37 @@ class ElectionsOfficerManager
         
         if( modelOfficer != null ) {
             if( modelOfficer.getId() >= 0 ) // id is unique, so it is sufficient to get a person
-                query.append( " where id = " + modelOfficer.getId() );
+                query.append( " and id = " + modelOfficer.getId() );
             else if( modelOfficer.getUserName() != null ) // userName is unique, so it is sufficient to get a person
-                query.append( " where userName = '" + modelOfficer.getUserName() + "'" );
+                query.append( " and userName = '" + modelOfficer.getUserName() + "'" );
             else {
-            	condition.append("officer = 1"); //this value has to be true for officers
-            	
                 if( modelOfficer.getFirstName() != null ) {
-                    if( condition.length() > 0 )
-                        condition.append( " and" );
                     condition.append( " fname = '" + modelOfficer.getFirstName() + "'" );
                 }
 
                 if( modelOfficer.getLastName() != null ) {
-                    if( condition.length() > 0 )
-                        condition.append( " and" );
+                    condition.append( " and" );
                     condition.append( " lname = '" + modelOfficer.getLastName() + "'" );
                 }
             	
-                if( modelOfficer.getPassword() != null )
+                if( modelOfficer.getPassword() != null ){
+                    condition.append( " and" );
                     condition.append( " password = '" + modelOfficer.getPassword() + "'" );
-
+                }
+                    
                 if( modelOfficer.getEmailAddress() != null ) {
-                    if( condition.length() > 0 )
-                        condition.append( " and" );
+                    condition.append( " and" );
                     condition.append( " email = '" + modelOfficer.getEmailAddress() + "'" );
                 }
 
                 if( modelOfficer.getAddress() != null ) {
-                    if( condition.length() > 0 )
-                        condition.append( " and" );
+                    condition.append( " and" );
                     condition.append( " address = '" + modelOfficer.getAddress() + "'" );
                 }
 
 
                 if( condition.length() > 0 ) {
-                    query.append(  " where " );
+                    query.append(  " and " );
                     query.append( condition );
                 }
             }
@@ -212,7 +214,7 @@ class ElectionsOfficerManager
     public void delete( ElectionsOfficer officer ) 
             throws EVException
     {
-        String               deleteUserSql = "delete from person where id = ?";              
+        String               deleteUserSql = "delete t1, t2 from User as t1 inner join ElectionsOfficer as t2 on t1.userId = t2.userId where t1.userId = ?";              
         PreparedStatement    stmt = null;
         int                  inscnt;
         
@@ -221,9 +223,6 @@ class ElectionsOfficerManager
             return;
         
         try {
-            
-            //DELETE t1, t2 FROM t1, t2 WHERE t1.id = t2.id;
-            //DELETE FROM t1, t2 USING t1, t2 WHERE t1.id = t2.id;
             stmt = (PreparedStatement) conn.prepareStatement( deleteUserSql );
             
             stmt.setLong( 1, officer.getId() );
