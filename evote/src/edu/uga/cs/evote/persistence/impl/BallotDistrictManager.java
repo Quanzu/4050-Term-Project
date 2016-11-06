@@ -24,65 +24,28 @@ public class BallotDistrictManager {
 
     public void storeElectoralDistrictHasBallotBallot( ElectoralDistrict electoralDistrict, Ballot ballot ) throws EVException{
     	//TODO
-    	String               insertBallotDistrictSql = "insert into BallotDistrict (districtId, ballotId ) values ( ?, ?)";  
-    	//String               insertBallotSql = "insert into ballot (ballotId, startTime, endTime ) values ( ?, ?, ?)";
-       // String               updateBallotDistrictSql = "update BallotDistrict  set districtId= ?,  ballotId = ? where districtId = ?";              
-       // String               updateBallotSql = "update ballot  set ballotId= ?,  startTime = ? , endTime = ? where ballotId = ?";              
+    	String               insertBallotDistrictSql = "insert into BallotDistrict (districtId, ballotId ) values ( ?, ?)";              
 
         PreparedStatement    stmt = null;
         int                  inscnt;
-        long                 ballotId;
-        long				 districtId;
         
-        try {
+        try {       
+            stmt = (PreparedStatement) conn.prepareStatement( insertBallotDistrictSql );          
             
-            if( !electoralDistrict.isPersistent() )
-                stmt = (PreparedStatement) conn.prepareStatement( insertBallotDistrictSql );
-            if( !ballot.isPersistent() )
-                stmt = (PreparedStatement) conn.prepareStatement( insertBallotDistrictSql );
-            //else
-                //stmt = (PreparedStatement) conn.prepareStatement( updateUserSql );
-            
-
-            
-            if(electoralDistrict.getId() >= 0 )
+            if(electoralDistrict.isPersistent() )
                 stmt.setLong( 1, electoralDistrict.getId());
             else
-                throw new EVException( "BallotDistrictMananger.save: can't save a electoral district: Id undefined" );
+                throw new EVException( "BallotDistrictMananger.save: Electoral District is not persistent" );
             
-            if(ballot.getId() >= 0 )
+            if(ballot.isPersistent() )
                 stmt.setLong( 2, ballot.getId());
             else
-            	throw new EVException( "BallotDistrictMananger.save: can't save to ballot: Id undefined" );
+            	throw new EVException( "BallotDistrictMananger.save: Ballot is not persistent" );
 
             inscnt = stmt.executeUpdate();
-
-            if( !electoralDistrict.isPersistent()) {
-                // in case this this object is stored for the first time,
-                // we need to establish its persistent identifier (primary key)
-                if( inscnt == 1 ) {
-                    String sql = "select last_insert_id()";
-                    if( stmt.execute( sql ) ) { // statement returned a result
-                        // retrieve the result
-                        ResultSet r = stmt.getResultSet();
-                        // we will use only the first row!
-                        while( r.next() ) {
-                            // retrieve the last insert auto_increment value
-                            districtId = r.getLong( 1 );
-                            if( districtId > 0 ){
-                                electoralDistrict.setId( districtId ); // set this person's db id (proxy object)
-                                stmt = (PreparedStatement) conn.prepareStatement( insertBallotDistrictSql );
-                                stmt.setLong(1,districtId);
-                                inscnt = stmt.executeUpdate();
-                            }
-                        }
-                    }
-                }
-            }
-            else {
-                if( inscnt < 1 )
-                    throw new EVException( "BallotDistrictManager.save: failed to save a to Ballot District" ); 
-            }
+            if( inscnt < 1 )
+            	throw new EVException( "BallotDistrictManager.save: failed to save a to Ballot District" ); 
+            
         }
         catch( SQLException e ) {
             e.printStackTrace();
@@ -93,10 +56,8 @@ public class BallotDistrictManager {
 
     public void deleteElectoralDistrictHasBallotBallot( ElectoralDistrict electoralDistrict, Ballot ballot ) throws EVException{
     	{
-            String               deleteBallotDistrictSql = "delete t1, t2, t3 from ElectoralDistrict as t1 "
-            									   + "inner join BallotDistrict as t2 on t1.districtId = t2.districtId "
-            									   + "inner join VoterDistrict as t3 on t1.districtId = t3.districtId "
-            									   + "where districtId = ?";              
+            String         deleteBallotDistrictSql = "delete t1 from BallotDistrict as t1 "
+            									   + "where districtId = ? and ballotId = ?";              
             PreparedStatement    stmt = null;
             int                  inscnt;
             
@@ -108,8 +69,8 @@ public class BallotDistrictManager {
             
             try {
                 stmt = (PreparedStatement) conn.prepareStatement( deleteBallotDistrictSql );
-                
                 stmt.setLong( 1, electoralDistrict.getId() );
+                stmt.setLong( 2, ballot.getId());
                 
                 inscnt = stmt.executeUpdate();
                 
