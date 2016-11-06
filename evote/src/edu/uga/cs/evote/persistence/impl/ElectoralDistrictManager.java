@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -84,12 +85,11 @@ class ElectoralDistrictManager
     public List<ElectoralDistrict> restore( ElectoralDistrict modelElectoralDistrict ) 
             throws EVException
     {
-        String       selectDistrictSql = "select districtName from ElectoralDistrict";
+        String       selectDistrictSql = "select districtId, districtName from ElectoralDistrict";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         List<ElectoralDistrict> districts = new ArrayList<ElectoralDistrict>();
         
-        //condition.setLength(0); //necessary for this code?
       	query.append( selectDistrictSql );
         
         if( modelElectoralDistrict != null ) {
@@ -97,11 +97,9 @@ class ElectoralDistrictManager
                 query.append( " where districtId = " + modelElectoralDistrict.getId() );
             else if( modelElectoralDistrict.getName() != null ) 
                 query.append( " where districtName = '" + modelElectoralDistrict.getName() + "'" );
-            
         }
         
         try {
-
             stmt = conn.createStatement();
 
             // retrieve the persistent Person objects
@@ -120,9 +118,7 @@ class ElectoralDistrictManager
                     district.setId( id );
 
                     districts.add( district );
-
                 }
-                
                 return districts;
             }
         }
@@ -137,13 +133,12 @@ class ElectoralDistrictManager
     public List<Ballot> restoreElectoralDistrictHasBallotBallot( ElectoralDistrict electoralDistrict ) throws EVException{
     	
     	//This seems to be the way club does restore 
-      	String       selectDistrictSql = "select b.id, b.openDate, b.closeDate, e.districtId" +
-          								 "e.districtName from ballot b, electoralDistrict e where b.electoralDistrictid = e.districtId";
+      	String       selectDistrictSql = "select b.ballotId, b.openDate, b.closeDate from ballot as b, electoralDistrict as e, ballotDistrict bd "
+      								   + "where bd.ballotId = b.ballotId and bd.districtId = e.districtId";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         List<Ballot> ballots = new ArrayList<Ballot>();
         
-        //condition.setLength(0); //necessary for this code?
       	query.append( selectDistrictSql );
         
         if( electoralDistrict != null ) {
@@ -172,15 +167,15 @@ class ElectoralDistrictManager
                 while( rs.next() ) {
 
                     id = rs.getLong( 1 );
-                    openDate = rs.getString( 2 );
-					closeDate = rs.getString( 3 );	
+                    openDate = rs.getDate( 2 );
+					closeDate = rs.getDate( 3 );	
                   
                   	nextBallot = objectLayer.createBallot();
                     nextBallot.setId( id );
                   	nextBallot.setOpenDate( openDate );
                   	nextBallot.setCloseDate( closeDate );
                   	
-                  	nextBallot.setElectoralDistrict( null );
+                  	nextBallot.setElectoralDistrict( restore(electoralDistrict).get(0) );
 
                     ballots.add( nextBallot );
 
@@ -198,8 +193,10 @@ class ElectoralDistrictManager
     }
     
     public List<Voter> restoreVoterBelongsToElectoralDistrict( ElectoralDistrict electoralDistrict ) throws EVException{
-    		String       selectDistrictSql = "select v.id, v.age, v.voterId, e.districtId" +
-          								 "e.districtName from voter v, electoralDistrict e where v.electoralDistrictid = e.districtId";
+    		String       selectDistrictSql = "select t1.userId, t1.fname, t1.lname, t1.userName, t1.password, t1.email, t1.address, t2.age from User as t1 "
+    									   + "inner join Voter as t2 on t1.userId = t2.userId "
+    									   + "inner join VoterDistrict as t3 on t1.userId = t3.userId "
+    									   + "inner join ElectoralDistrict as t4 on t4.districtId = t3.districtId ";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         List<Voter> voters = new ArrayList<Voter>();
@@ -209,9 +206,9 @@ class ElectoralDistrictManager
         
         if( electoralDistrict != null ) {
             if( electoralDistrict.getId() >= 0 ) 
-                query.append( " and e.districtId = " + electoralDistrict.getId() );
+                query.append( " where t4.districtId = " + electoralDistrict.getId() );
             else if( electoralDistrict.getName() != null ) 
-                query.append( " and e.districtName = '" + electoralDistrict.getName() + "'" );
+                query.append( " where t4.districtName = '" + electoralDistrict.getName() + "'" );
             
         }
         
@@ -222,29 +219,31 @@ class ElectoralDistrictManager
             // retrieve the persistent Ballot objects
             //
             if( stmt.execute( query.toString() ) ) { // statement returned a result
-                
-                long   id;
-             	int    age;
-              	String voterId;
-              
-              	Voter nextVoter = null;
-              
                 ResultSet rs = stmt.getResultSet();
-              
+                long   userId;
+                String fname;
+                String lname;
+                String userName;
+                String password;
+                String email;
+                String address;
+                int age;
+                
                 while( rs.next() ) {
 
-                    id = rs.getLong( 1 );
-                    age = rs.getString( 2 );
-					voterId = rs.getString( 3 );	
-                  
-                  	nextVoter = objectLayer.createVoter();
-                    nextVoter.setId( id );
-                  	nextVoter.setAge( age );
-                  	nextVoter.setVoterId( voterId );
-                  	
-                  	nextVoter.setElectoralDistrict( null );
+                    userId = rs.getLong( 1 );
+                    fname = rs.getString( 2 );
+                    lname = rs.getString( 3 );
+                    userName = rs.getString( 4 );
+                    password = rs.getString( 5 );
+                    email = rs.getString( 6 );
+                    address = rs.getString( 7 );
+                    age = rs.getInt(8);
 
-                    voters.add( nextVoter );
+                    Voter voter = objectLayer.createVoter( fname, lname, userName, password, email, address, age );
+                    voter.setId( userId );
+
+                    voters.add( voter );
 
                 }
                 
@@ -263,7 +262,10 @@ class ElectoralDistrictManager
     public void delete( ElectoralDistrict district ) 
             throws EVException
     {
-        String               deleteDistrictSql = "delete from ElectoralDistrict where districtId = ?";              
+        String               deleteDistrictSql = "delete t1, t2, t3 from ElectoralDistrict as t1 "
+        									   + "inner join BallotDistrict as t2 on t1.districtId = t2.districtId "
+        									   + "inner join VoterDistrict as t3 on t1.districtId = t3.districtId "
+        									   + "where districtId = ?";              
         PreparedStatement    stmt = null;
         int                  inscnt;
         
@@ -272,9 +274,6 @@ class ElectoralDistrictManager
             return;
         
         try {
-            
-            //DELETE t1, t2 FROM t1, t2 WHERE t1.id = t2.id;
-            //DELETE FROM t1, t2 USING t1, t2 WHERE t1.id = t2.id;
             stmt = (PreparedStatement) conn.prepareStatement( deleteDistrictSql );
             
             stmt.setLong( 1, district.getId() );
