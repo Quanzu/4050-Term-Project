@@ -25,13 +25,13 @@ public class CandidateElectionManager {
 
 	
 	public void storeCandidateIsCandidateInElection( Candidate candidate, Election election ) throws EVException{
-		String               insertBallotDistrictSql = "insert into CandidateElection (candidateId, electionId ) values ( ?, ?)";              
+		String               insertCandidateElectionSql = "insert into CandidateElection (candidateId, electionId ) values ( ?, ?)";              
 
         PreparedStatement    stmt = null;
         int                  inscnt;
         
         try {       
-            stmt = (PreparedStatement) conn.prepareStatement( insertBallotDistrictSql );          
+            stmt = (PreparedStatement) conn.prepareStatement( insertCandidateElectionSql );          
             
             if(election.isPersistent() )
                 stmt.setLong( 1, election.getId());
