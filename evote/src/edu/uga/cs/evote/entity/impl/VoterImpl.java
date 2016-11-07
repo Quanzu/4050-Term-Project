@@ -14,7 +14,7 @@ public class VoterImpl extends UserImpl implements Voter {
 	private ElectoralDistrict electoralDistrict;
 	private List<VoteRecord> voteRecords;
 	
-	public VoterImpl() {
+	public VoterImpl()  {
 		super();
 		this.age = 0;
 		this.electoralDistrict = null;
