@@ -5,8 +5,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Connection;
 
-import com.mysql.jdbc.Connection;
+
 import com.mysql.jdbc.PreparedStatement;
 
 import edu.uga.cs.evote.EVException;
