@@ -1,11 +1,36 @@
+//import com.mysql.jdbc.Connection;
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.*;
 import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.object.impl.ObjectLayerImpl;
+import edu.uga.cs.evote.persistence.PersistenceLayer;
+import edu.uga.cs.evote.persistence.impl.DbUtils;
+import edu.uga.cs.evote.persistence.impl.PersistenceLayerImpl;
 
 public class EvoteTester {
 
 	public static void main(String[] args) throws EVException {
+		
+		Connection conn = null;
+		PersistenceLayer persistence;
+		
+		try{
+			conn = DbUtils.connect();
+		}
+		catch(Exception seq){
+			System.err.println("DeleteTest: Unable to obtain a database connection");
+			
+		}
+		if (conn == null)
+		{
+			System.out.println("DeleteTest: failed to conccect to the database");
+			return;
+		}
+		
+		ObjectLayer test = new ObjectLayerImpl();
+		persistence = new PersistenceLayerImpl(conn, test);
+		test.setPersistence(persistence);
+		
 		
 		ObjectLayer test = new ObjectLayerImpl();
 		ElectoralDistrict ec;
@@ -158,7 +183,12 @@ public class EvoteTester {
 		i5.addYesVote();
 		i6.addYesVote();
 		
-<<<<<<< HEAD
+		
+		//Store the data...
+		
+		
+		
+		
 <<<<<<< HEAD
 		//delete ballot and item link (issues and elections)
 		persistence.deleteBallotIncludesBallotItem(b1, elect1);
@@ -264,9 +294,6 @@ public class EvoteTester {
 		persistence.deleteVoter(voter1);
 		persistence.deleteVoter(voter2);
 
-=======
-		//delete
->>>>>>> origin/master
 =======
 		//delete
 >>>>>>> origin/master
