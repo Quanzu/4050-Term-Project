@@ -14,12 +14,12 @@ public interface Voter
     /** Return the voter id for this voter.
      * @return the String representing the id of the voter
      */
-    public String getVoterId();
+    public long getVoterId();
     
     /** Set the new voter id for this voter.
      * @param voterId the new voter id of this voter
      */
-    public void setVoterId( String voterId );
+    public void setVoterId( long voterId );
     
     /** Return the age of this voter.
      * @return the age of this voter
