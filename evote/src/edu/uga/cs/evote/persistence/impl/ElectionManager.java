@@ -45,6 +45,7 @@ public class ElectionManager {
                 query.append( " where id = " + election.getId() );
             else {
 
+            	//Election does not have a getname method
                 if(election.getName() != null ) {
                     condition.append( " and e.name = " + election.getName().getId() ); 
                 }
@@ -105,12 +106,14 @@ public class ElectionManager {
                     
                 return candidates;
             }
-            catch( Exception e ) {      // just in case...
-                throw new EVException( "MembershipManager.restore: Could not restore persistent Membership objects; Root cause: " + e );
-            }
+        }
+        
+        catch( Exception e ) {      // just in case...
+             throw new EVException( "MembershipManager.restore: Could not restore persistent Membership objects; Root cause: " + e );
+        }
 
-            // if we reach this point, it's an error
-            throw new EVException( "MembershipManager.restore: Could not restore persistent Membership objects" );
+        // if we reach this point, it's an error
+        throw new EVException( "MembershipManager.restore: Could not restore persistent Membership objects" );
 
     	
     	
