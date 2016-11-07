@@ -185,10 +185,9 @@ public class ElectionManager {
 	//Return Candidates running in a given Election.
     public List<Candidate> restoreCandidateIsCandidateInElection( Election election ) throws EVException{
     	
-    	String       selectCandidateSql = "select e.electionId, e.name, e.isPartisan, e.alternateAllowed, e.voteCount" + 
-    	" c.candidateId, c.name, c.voteCount, c.isAlternate" +
-    	 " from ElectoralDistrict e, Candidate c, CandidateElection ce " + 
-    			"where e.districtId = ce.electionId and c.candidateId = ce.candidateId";              
+    	String       selectCandidateSql = "c.candidateId, c.name, c.voteCount, c.isAlternate " 
+    									+ "from Election e, Candidate c, CandidateElection ce " 
+    									+ "where e.electionId = ce.electionId and c.candidateId = ce.candidateId";              
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         StringBuffer condition = new StringBuffer( 100 );
@@ -197,10 +196,7 @@ public class ElectionManager {
         // form the query based on the given Person object instance
         query.append( selectCandidateSql );
     	
-    	
-    
-    	
-    	if(election.getId() >= 0 && !election.isPersistent() )
+    	if(!election.isPersistent() )
             throw new EVException( "ElectionManager.restore: the argument election includes a non-persistent Election object" );
         
         condition.setLength( 0 );
@@ -208,7 +204,7 @@ public class ElectionManager {
         query.append( selectCandidateSql);
         if(election != null ) {
             if(election.isPersistent() ) // id is unique, so it is sufficient to get an election
-                query.append( " where id = " + election.getId() );
+                query.append( " and electionId = " + election.getId() );
             else {
 
                 if(election.getOffice() != null ) {
@@ -238,35 +234,32 @@ public class ElectionManager {
             stmt = conn.createStatement();
 
             // retrieve the persistent Candidate object
-            //IDK HOW TO MAKE SURE THAT ALL CANDIDATES FROM THIS CERTAIN ELECTION IS PUT IN LIST.
             if( stmt.execute( query.toString() ) ) { // statement returned a result
                 
                 ResultSet rs = stmt.getResultSet();
-                              
-               
                 
+                Candidate candidate = null;
                 String name;
                 int voteCount;
                 int isAlternate;
                 long candidateId;
-                Candidate candidate = null;
-                //Election  = null;
                 
                 while( rs.next() ) {
-
-                    name = rs.getString( 6 );
-                    voteCount = rs.getInt( 7 );
-                    isAlternate = rs.getInt( 8 );
-                    candidateId = rs.getLong( 9 );
-                    
-                    
+                    candidateId = rs.getLong( 1 );
+                    name = rs.getString( 2 );
+                    voteCount = rs.getInt( 3 );
+                    isAlternate = rs.getInt( 4 );
+                                   
                     // create a Candidate proxy object
                     candidate = objectLayer.createCandidate();
+                    candidate.setId(candidateId);
                     candidate.setName(name);
                     candidate.setVoteCount(voteCount);
-                    candidate.setId(candidateId);
-                    //candidate.setIsAlternate(isAlternate);  CAN'T CAUSE THERE IS NO .getBoolean();?
                     
+                    if(isAlternate == 1)
+                    	candidate.setIsAlternate(true);
+                    else
+                    	candidate.setIsAlternate(false);                    
                     
                     candidates.add(candidate);
                 }
@@ -276,11 +269,41 @@ public class ElectionManager {
         }
             
             catch( Exception e ) {      // just in case...
-                throw new EVException( "ElectionManager.restore: Could not restore persistent Election objects; Root cause: " + e );
+                throw new EVException( "ElectionManager.restore: Could not restore persistent candidates objects; Root cause: " + e );
             }
 
             // if we reach this point, it's an error
-            throw new EVException( "ElectionManager.restore: Could not restore persistent Election objects" );
+            throw new EVException( "ElectionManager.restore: Could not restore persistent candidates objects" );
 
     }
+    
+    
+    public void delete( Election election ) 
+            throws EVException
+    {
+        String               deleteElectionSql = "delete t1, t2, t3 from Election as t1 "
+        										+ "inner join CandidateElection as t2 on t1.electionId = t2.electionId "
+        										+ "inner join ElectionBallot as t3 on t1.electionId = t3.electionId "
+        										+ "where t1.electionId = ?";              
+        PreparedStatement    stmt = null;
+        int                  inscnt;
+        
+        // form the query based on the given Person object instance
+        if( !election.isPersistent() ) // is the Person object persistent?  If not, nothing to actually delete
+            return;
+        
+        try {  
+            stmt = (PreparedStatement) conn.prepareStatement( deleteElectionSql );
+            stmt.setLong( 1, election.getId() );
+            
+            inscnt = stmt.executeUpdate();       
+            if( inscnt == 0 ) {
+                throw new EVException( "ElectionManager.delete: failed to delete this election" );
+            }
+        }
+        catch( SQLException e ) {
+            throw new EVException( "ElectionManager.delete: failed to delete this election: " + e.getMessage() );
+        }
+    }
+    
 }
