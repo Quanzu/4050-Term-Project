@@ -12,6 +12,7 @@ import com.mysql.jdbc.PreparedStatement;
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Candidate;
 import edu.uga.cs.evote.entity.Election;
+import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.entity.PoliticalParty;
 import edu.uga.cs.evote.object.ObjectLayer;
 

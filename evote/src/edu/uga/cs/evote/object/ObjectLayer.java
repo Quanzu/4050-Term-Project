@@ -13,7 +13,6 @@ import edu.uga.cs.evote.entity.Issue;
 import edu.uga.cs.evote.entity.PoliticalParty;
 import edu.uga.cs.evote.entity.VoteRecord;
 import edu.uga.cs.evote.entity.Voter;
-import edu.uga.cs.evote.persistence.PersistenceLayer;
 
 
 
@@ -408,11 +407,5 @@ public interface ObjectLayer
      * @param voteRecord the object to be deleted.
      * @throws EVException in case there is a problem with the deletion of the object
      */
-    public void deleteVoteRecord( VoteRecord voteRecord ) throws EVException;
-    
-    /**
-     * 
-     * @param persistence
-     */
-    public void setPersistence(PersistenceLayer persistence);
+    public void deleteVoteRecord( VoteRecord voteRecord ) throws EVException; 
 }
