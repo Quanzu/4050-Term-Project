@@ -1,37 +1,13 @@
-import java.sql.Connection;
-
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.*;
 import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.object.impl.ObjectLayerImpl;
-import edu.uga.cs.evote.persistence.PersistenceLayer;
-import edu.uga.cs.evote.persistence.impl.DbUtils;
-import edu.uga.cs.evote.persistence.impl.PersistenceLayerImpl;
 
 public class EvoteTester {
 
 	public static void main(String[] args) throws EVException {
-		Connection conn = null;
-		PersistenceLayer persistence;
-		
-		try{
-			conn = DbUtils.connect();
-		}
-		catch(Exception seq){
-			System.err.println("DeleteTest: Unable to obtain a database connection");
-			
-		}
-		if (conn == null)
-		{
-			System.out.println("DeleteTest: failed to conccect to the database");
-			return;
-		}
 		
 		ObjectLayer test = new ObjectLayerImpl();
-		persistence = new PersistenceLayerImpl(conn, test);
-		test.setPersistence(persistence);
-		
-		
 		ElectoralDistrict ec;
 		Ballot b1;
 		Ballot b2;
@@ -182,8 +158,114 @@ public class EvoteTester {
 		i5.addYesVote();
 		i6.addYesVote();
 		
-		//delete
+<<<<<<< HEAD
+		//delete ballot and item link (issues and elections)
+		persistence.deleteBallotIncludesBallotItem(b1, elect1);
+		persistence.deleteBallotIncludesBallotItem(b1, elect2);
+		persistence.deleteBallotIncludesBallotItem(b1, elect3);
+		persistence.deleteBallotIncludesBallotItem(b2, i1);
+		persistence.deleteBallotIncludesBallotItem(b2, i2);
+		persistence.deleteBallotIncludesBallotItem(b2, i3);
+		persistence.deleteBallotIncludesBallotItem(b1, elect4);
+		persistence.deleteBallotIncludesBallotItem(b1, elect5);
+		persistence.deleteBallotIncludesBallotItem(b1, elect6);
+		persistence.deleteBallotIncludesBallotItem(b2, i4);
+		persistence.deleteBallotIncludesBallotItem(b2, i5);
+		persistence.deleteBallotIncludesBallotItem(b2, i6);
 		
+		//delete ballotdistrict link
+		persistence.deleteElectoralDistrictHasBallotBallot(ec, b1);
+		persistence.deleteElectoralDistrictHasBallotBallot(ec, b2);
+		
+		//delete voter district link
+		persistence.deleteVoterBelongsToElection(voter1, ec);
+		persistence.deleteVoterBelongsToElection(voter2, ec);
+		
+		//Need delete vote record?
+		
+		//delete ballot
+		persistence.deleteBallot(b1);
+		persistence.deleteBallot(b2);
+		
+		//delete electoral district
+		persistence.deleteElectoralDistrict(ec);
+		
+		//delete Issues
+		persistence.deleteIssue(i1);
+		persistence.deleteIssue(i2);
+		persistence.deleteIssue(i3);
+		persistence.deleteIssue(i4);
+		persistence.deleteIssue(i5);
+		persistence.deleteIssue(i6);
+		
+		//delete elections
+		persistence.deleteElection(elect1);
+		persistence.deleteElection(elect2);
+		persistence.deleteElection(elect3);
+		persistence.deleteElection(elect4);
+		persistence.deleteElection(elect5);
+		persistence.deleteElection(elect6);
+				
+		
+		//delete candidate and party llink
+		persistence.deleteCandidateIsMemberOfElection(c13, p1);
+		persistence.deleteCandidateIsMemberOfElection(c14, p1);
+		persistence.deleteCandidateIsMemberOfElection(c15, p2);
+		persistence.deleteCandidateIsMemberOfElection(c16, p1);
+		persistence.deleteCandidateIsMemberOfElection(c17, p1);
+		persistence.deleteCandidateIsMemberOfElection(c18, p2);
+		
+		//delete parties
+		persistence.deletePoliticalParty(p1);
+		persistence.deletePoliticalParty(p2);
+		
+		//delete candidate - election
+		persistence.deleteCandidateIsCandidateInElection(c1, elect1);
+		persistence.deleteCandidateIsCandidateInElection(c2, elect1);
+		persistence.deleteCandidateIsCandidateInElection(c3, elect1);
+		persistence.deleteCandidateIsCandidateInElection(c13, elect2);
+		persistence.deleteCandidateIsCandidateInElection(c14, elect2);
+		persistence.deleteCandidateIsCandidateInElection(c15, elect2);
+		persistence.deleteCandidateIsCandidateInElection(c4, elect3);
+		persistence.deleteCandidateIsCandidateInElection(c5, elect3);
+		persistence.deleteCandidateIsCandidateInElection(c6, elect3);
+		persistence.deleteCandidateIsCandidateInElection(c7, elect4);
+		persistence.deleteCandidateIsCandidateInElection(c8, elect4);
+		persistence.deleteCandidateIsCandidateInElection(c9, elect4);
+		persistence.deleteCandidateIsCandidateInElection(c16, elect5);
+		persistence.deleteCandidateIsCandidateInElection(c17, elect5);
+		persistence.deleteCandidateIsCandidateInElection(c18, elect5);
+		persistence.deleteCandidateIsCandidateInElection(c10, elect6);
+		persistence.deleteCandidateIsCandidateInElection(c11, elect6);
+		persistence.deleteCandidateIsCandidateInElection(c12, elect6);
+		
+		//Delete candidates
+		persistence.deleteCandidate(c1);
+		persistence.deleteCandidate(c2);
+		persistence.deleteCandidate(c3);
+		persistence.deleteCandidate(c4);
+		persistence.deleteCandidate(c5);
+		persistence.deleteCandidate(c6);
+		persistence.deleteCandidate(c7);
+		persistence.deleteCandidate(c8);
+		persistence.deleteCandidate(c9);
+		persistence.deleteCandidate(c10);
+		persistence.deleteCandidate(c11);
+		persistence.deleteCandidate(c12);
+		persistence.deleteCandidate(c13);
+		persistence.deleteCandidate(c14);
+		persistence.deleteCandidate(c15);
+		persistence.deleteCandidate(c16);
+		persistence.deleteCandidate(c17);
+		persistence.deleteCandidate(c18);
+		
+		//delete voter
+		persistence.deleteVoter(voter1);
+		persistence.deleteVoter(voter2);
+
+=======
+		//delete
+>>>>>>> origin/master
 	}
 
 }
