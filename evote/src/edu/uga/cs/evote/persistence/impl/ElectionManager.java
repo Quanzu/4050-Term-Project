@@ -52,13 +52,14 @@ public class ElectionManager {
                 query.append( " where id = " + election.getId() );
             else {
 
-
+<<<<<<< HEAD
                 if(election.getOffice() != null ) {
                     condition.append( " and e.name = " + election.getOffice()); 
-
+=======
             	//Election does not have a getname method
                 if(election.getName() != null ) {
                     condition.append( " and e.name = " + election.getName().getId() ); 
+>>>>>>> origin/master
                 }
 
                 if( election.getIsPartisan() == true ||  election.getIsPartisan() == false) {
