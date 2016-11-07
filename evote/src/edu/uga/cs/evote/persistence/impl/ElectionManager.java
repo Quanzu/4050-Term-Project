@@ -211,24 +211,21 @@ public class ElectionManager {
                 query.append( " where id = " + election.getId() );
             else {
 
-<<<<<<< HEAD
                 if(election.getOffice() != null ) {
                     condition.append( " and e.name = " + election.getOffice()); 
-=======
-            	//Election does not have a getname method
-                if(election.getName() != null ) {
-                    condition.append( " and e.name = " + election.getName().getId() ); 
->>>>>>> origin/master
                 }
 
-                if( election.getIsPartisan() == true ||  election.getIsPartisan() == false) {
-                    condition.append( " and e.isPartisan = " + election.getIsPartisan()); 
-                }
+                if( election.getIsPartisan())
+                    condition.append( " and e.isPartisan = 1"); 
+                else
+                    condition.append( " and e.isPartisan = 0"); 
+
                 
-                if(election.getIsAlternateAllowed() == true || election.getIsAlternateAllowed() == false ) {
-                    // fix the date conversion
-                    condition.append( " and e.alternateAllowed = " + election.getIsAlternateAllowed());
-                }
+                if(election.getAlternateAllowed())
+                    condition.append( " and e.alternateAllowed = 1");
+                else
+                    condition.append( " and e.alternateAllowed = 0");
+                
                 if (election.getVoteCount() >= 0)
                 	condition.append(" and e.voteCount = " + election.getVoteCount());
 
@@ -277,7 +274,6 @@ public class ElectionManager {
                 return candidates;
             }
         }
-<<<<<<< HEAD
             
             catch( Exception e ) {      // just in case...
                 throw new EVException( "ElectionManager.restore: Could not restore persistent Election objects; Root cause: " + e );
@@ -285,63 +281,6 @@ public class ElectionManager {
 
             // if we reach this point, it's an error
             throw new EVException( "ElectionManager.restore: Could not restore persistent Election objects" );
-=======
-        
-        catch( Exception e ) {      // just in case...
-             throw new EVException( "MembershipManager.restore: Could not restore persistent Membership objects; Root cause: " + e );
-        }
 
-        // if we reach this point, it's an error
-        throw new EVException( "MembershipManager.restore: Could not restore persistent Membership objects" );
-
-    	
-    	
- //IDK
-/*
-    	String       selectElectionSql = "select electionId from CandidateElection";
-        Statement    stmt = null;
-        StringBuffer query = new StringBuffer( 100 );
-        List<Candidate> candidates = new ArrayList<Candidate>();
-        List<Election> elections = new ArrayList<Election>();
-      	query.append( selectElectionSql );
-        
-        if( election != null ) {
-            if( election.getId() >= 0 ) 
-                query.append( " where electionId = " + election.getId() );
-   
-        }
-        
-        try {
-            stmt = conn.createStatement();
-
-            // retrieve the persistent Person objects
-            //
-            if( stmt.execute( query.toString() ) ) { // statement returned a result
-                ResultSet rs = stmt.getResultSet();
-                long   id;
-                long candidateId;
-                
-                while( rs.next() ) {
-
-                    id = rs.getLong( 1 );
-                    candidateId = rs.getLong( 2 );
-
-                    //ElectoralDistrict district = objectLayer.createElectoralDistrict( districtName );
-                    elections = objectLayer.findElection(election);
-                    election.setId( id );
-
-                    candidates.add(cand);
-                }
-                return candidates;
-            }
-        }
-        catch( Exception e ) {      // just in case...
-            throw new EVException( "ElectionManager.restore: Could not restore persistent candidate object; Root cause: " + e );
-        }
-        
-        // if we get to this point, it's an error
-        throw new EVException( "ElectionManager.restore: Could not restore persistent candidate objects" );
-    */
->>>>>>> origin/master
     }
 }
