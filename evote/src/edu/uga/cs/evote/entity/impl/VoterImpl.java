@@ -10,7 +10,7 @@ import edu.uga.cs.evote.entity.Voter;
 public class VoterImpl extends UserImpl implements Voter {
 
 	private int age;
-	private String voterId;
+	private long voterId;
 	private ElectoralDistrict electoralDistrict;
 	private List<VoteRecord> voteRecords;
 	
@@ -30,12 +30,12 @@ public class VoterImpl extends UserImpl implements Voter {
 	}
 
 	@Override
-	public String getVoterId() {
+	public long getVoterId() {
 		return voterId;
 	}
 
 	@Override
-	public void setVoterId(String voterId) {
+	public void setVoterId(long voterId) {
 		this.voterId = voterId;
 	}
 

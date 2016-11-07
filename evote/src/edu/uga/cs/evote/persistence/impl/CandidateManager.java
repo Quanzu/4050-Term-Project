@@ -35,7 +35,7 @@ class CandidateManager
         PreparedStatement    stmt;
         int                  inscnt;
         long                 candidateId;
-                
+        
         try {
             
             if( !candidate.isPersistent() )
@@ -87,7 +87,7 @@ class CandidateManager
                 if( inscnt < 1 )
                     throw new EVException( "CandidateManager.save: failed to save a Candidate" ); 
             }
-        }   
+        }
         catch( SQLException e ) {
             e.printStackTrace();
             throw new EVException( "CandidateManager.save: failed to save a Candidate: " + e );

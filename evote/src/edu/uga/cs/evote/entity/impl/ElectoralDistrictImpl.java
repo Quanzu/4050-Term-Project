@@ -56,7 +56,7 @@ public class ElectoralDistrictImpl extends Persistent implements ElectoralDistri
 	public List<Ballot> getBallots() throws EVException {
 		if(ballots == null)
 			if( isPersistent() ) {
-	            ballots = getPersistencaLayer().restoreElectoralDistrictHasBallotBallot(this)
+	            ballots = getPersistencaLayer().restoreElectoralDistrictHasBallotBallot(this);
 	        }
 	        else
 	            throw new EVException( "This electoral district object is not persistent" );
