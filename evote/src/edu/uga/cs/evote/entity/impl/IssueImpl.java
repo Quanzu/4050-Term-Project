@@ -8,6 +8,7 @@ public class IssueImpl extends BallotItemImpl implements Issue {
 	private String question;
 	private int yesCount;
 	
+	
 	public IssueImpl() {
 		question = null;
 		yesCount = 0;
@@ -18,6 +19,7 @@ public class IssueImpl extends BallotItemImpl implements Issue {
 		yesCount = 0;
 	}
 
+	
 	@Override
 	public String getQuestion() {
 		return question;

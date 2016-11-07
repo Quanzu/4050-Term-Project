@@ -31,8 +31,7 @@ public class EvoteTester {
 		persistence = new PersistenceLayerImpl(conn, test);
 		test.setPersistence(persistence);
 		
-		
-		ObjectLayer test = new ObjectLayerImpl();
+
 		ElectoralDistrict ec;
 		Ballot b1;
 		Ballot b2;

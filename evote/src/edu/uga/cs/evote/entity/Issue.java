@@ -41,4 +41,5 @@ public interface Issue
     /** Add one NO vote (increment by one) to the yes votes cast for this Issue.
      */
     public void addNoVote();
+  
 }
