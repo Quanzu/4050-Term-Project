@@ -2,7 +2,7 @@ package edu.uga.cs.evote.persistence.impl;
 
 import java.util.List;
 
-import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Ballot;

@@ -287,4 +287,9 @@ public class ObjectLayerImpl implements ObjectLayer {
 		persistence.deleteVoteRecord(voteRecord);
 	}
 
+	@Override
+	public void setPersistence(PersistenceLayer persistence) {
+		this.persistence = persistence;
+	}
+
 }

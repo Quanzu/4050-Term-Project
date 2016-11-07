@@ -1,13 +1,37 @@
+import java.sql.Connection;
+
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.*;
 import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.object.impl.ObjectLayerImpl;
+import edu.uga.cs.evote.persistence.PersistenceLayer;
+import edu.uga.cs.evote.persistence.impl.DbUtils;
+import edu.uga.cs.evote.persistence.impl.PersistenceLayerImpl;
 
 public class EvoteTester {
 
 	public static void main(String[] args) throws EVException {
+		Connection conn = null;
+		PersistenceLayer persistence;
+		
+		try{
+			conn = DbUtils.connect();
+		}
+		catch(Exception seq){
+			System.err.println("DeleteTest: Unable to obtain a database connection");
+			
+		}
+		if (conn == null)
+		{
+			System.out.println("DeleteTest: failed to conccect to the database");
+			return;
+		}
 		
 		ObjectLayer test = new ObjectLayerImpl();
+		persistence = new PersistenceLayerImpl(conn, test);
+		test.setPersistence(persistence);
+		
+		
 		ElectoralDistrict ec;
 		Ballot b1;
 		Ballot b2;
@@ -159,6 +183,7 @@ public class EvoteTester {
 		i6.addYesVote();
 		
 		//delete
+		
 	}
 
 }
