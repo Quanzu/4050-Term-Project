@@ -7,13 +7,14 @@ import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Ballot;
 import edu.uga.cs.evote.entity.BallotItem;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
+import edu.uga.cs.evote.entity.Issue;
 
 
 public class BallotManager {
     public void storeBallotIncludesBallotItem( Ballot ballot, BallotItem ballotItem ) throws EVException{
     	//TODO
       //Check if Issue or Election and then store in the IssueBallot or ElectionBallot, instanceOf(classname)
-      if(ballotItem instanceOf IssueBallot){
+      if(ballotItem instanceof Issue){
         String               insertIssueBallotSql = "insert into IssueBallot (issueId, ballotId ) values ( ?, ?)";              
 
         PreparedStatement    stmt = null;
