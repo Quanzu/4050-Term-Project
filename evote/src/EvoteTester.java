@@ -159,6 +159,7 @@ public class EvoteTester {
 		i6.addYesVote();
 		
 <<<<<<< HEAD
+<<<<<<< HEAD
 		//delete ballot and item link (issues and elections)
 		persistence.deleteBallotIncludesBallotItem(b1, elect1);
 		persistence.deleteBallotIncludesBallotItem(b1, elect2);
@@ -263,6 +264,9 @@ public class EvoteTester {
 		persistence.deleteVoter(voter1);
 		persistence.deleteVoter(voter2);
 
+=======
+		//delete
+>>>>>>> origin/master
 =======
 		//delete
 >>>>>>> origin/master

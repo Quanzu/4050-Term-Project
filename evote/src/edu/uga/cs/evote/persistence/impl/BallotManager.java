@@ -7,13 +7,75 @@ import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Ballot;
 import edu.uga.cs.evote.entity.BallotItem;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
+import edu.uga.cs.evote.entity.Issue;
 
 
 public class BallotManager {
     public void storeBallotIncludesBallotItem( Ballot ballot, BallotItem ballotItem ) throws EVException{
     	//TODO
       //Check if Issue or Election and then store in the IssueBallot or ElectionBallot, instanceOf(classname)
+<<<<<<< HEAD
     
+=======
+      if(ballotItem instanceof Issue){
+        String               insertIssueBallotSql = "insert into IssueBallot (issueId, ballotId ) values ( ?, ?)";              
+
+        PreparedStatement    stmt = null;
+        int                  inscnt;
+        
+        try {       
+            stmt = (PreparedStatement) conn.prepareStatement( insertIssueBallotSql );          
+            
+            if(ballotItem.isPersistent() )
+                stmt.setLong( 1, ballotItem.getId());
+            else
+                throw new EVException( "BallotMananger.save: ballotItem is not persistent" );
+            
+            if(ballot.isPersistent() )
+                stmt.setLong( 2, ballot.getId());
+            else
+            	throw new EVException( "BallotMananger.save: ballot is not persistent" );
+
+            inscnt = stmt.executeUpdate();
+            if( inscnt < 1 )
+            	throw new EVException( "Ballot.save: failed to save a to IssueBallot" ); 
+            
+        }
+        catch( SQLException e ) {
+            e.printStackTrace();
+            throw new EVException( "Ballot.save: failed to IssueBallot: " + e );
+        }
+      }
+       else if(ballotItem instanceOf ElectionBallot){
+        String               insertElectionBallotSql = "insert into ElectionBallot (electionId, ballotId ) values ( ?, ?)";              
+
+        PreparedStatement    stmt = null;
+        int                  inscnt;
+        
+        try {       
+            stmt = (PreparedStatement) conn.prepareStatement( insertElectionBallotSql );          
+            
+            if(ballotItem.isPersistent() )
+                stmt.setLong( 1, ballotItem.getId());
+            else
+                throw new EVException( "BallotMananger.save: ballotItem is not persistent" );
+            
+            if(ballot.isPersistent() )
+                stmt.setLong( 2, ballot.getId());
+            else
+            	throw new EVException( "BallotMananger.save: ballot is not persistent" );
+
+            inscnt = stmt.executeUpdate();
+            if( inscnt < 1 )
+            	throw new EVException( "Ballot.save: failed to save a to ElectionBallot" ); 
+            
+        }
+        catch( SQLException e ) {
+            e.printStackTrace();
+            throw new EVException( "Ballot.save: failed to ElecitonBallot: " + e );
+        }
+      }   
+>>>>>>> origin/master
     }
     
     public Ballot restoreBallotIncludesBallotItem( BallotItem ballotItem ) throws EVException{

@@ -52,7 +52,7 @@ class CandidateManager
             if( candidate.getVoteCount() >= 0 )
                 stmt.setLong( 2, candidate.getVoteCount() );
             else 
-                throw new EVException( "CandidateManager.save: can't save a Candidate: name undefined" );
+                throw new EVException( "CandidateManager.save: can't save a Candidate: voteCount undefined" );
 
             if (candidate.getIsAlternate())
             	stmt.setInt(3, 1);
@@ -98,7 +98,7 @@ class CandidateManager
     public List<Candidate> restore( Candidate modelCandidate ) 
             throws EVException
     {
-        String       selectCandidateSql = "select name, voteCount, isAlternate from Candidate";
+        String       selectCandidateSql = "select candidateId, name, voteCount, isAlternate from Candidate";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         StringBuffer condition = new StringBuffer( 100 );
