@@ -39,8 +39,8 @@ class CandidateManager
         long                 candidateId;
         long 				 partyId;
         long				 electionId;
-        PoliticalParty 		 pp;
-        Election 			 e;
+        PoliticalParty 		 pp = null;
+        Election 			 election;
         
         List<Candidate> candidates = new ArrayList<Candidate>();
         
@@ -124,7 +124,7 @@ class CandidateManager
             
             if (candidate.getElection() != null)
              {
-            	 e =  candidate.getElection();
+            	 election =  candidate.getElection();
             	 electionId = pp.getId();
             	 stmt.setLong(1, electionId);
              }
