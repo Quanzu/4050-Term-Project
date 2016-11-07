@@ -12,6 +12,7 @@ import com.mysql.jdbc.PreparedStatement;
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Candidate;
 import edu.uga.cs.evote.entity.Election;
+import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.entity.PoliticalParty;
 import edu.uga.cs.evote.object.ObjectLayer;
 
@@ -30,19 +31,10 @@ class CandidateManager
             throws EVException
     {
         String               insertCandidateSql = "insert into Candidate ( name, voteCount, isAlternate ) values ( ?, ?, ? )";              
-        String               insertCandidateElectionSql = "insert into CandidateElection ( electionId, candidateId ) values ( ?, ? )";
-        String               insertCandidatePartySql = "insert into CandidateParty ( candidateId, partyId ) values ( ?, ? )";
         String               updateCandidateSql = "update Candidate set  name = ?, voteCount = ?, isAlternate = ? where candidateId = ?";
-        //String               updateCandidateElectionSql = "update Candidate set  electionId = ?, candidateId = ? where candidateId = ?";
         PreparedStatement    stmt;
         int                  inscnt;
         long                 candidateId;
-        long 				 partyId;
-        long				 electionId;
-        PoliticalParty 		 pp = null;
-        Election 			 election;
-        
-        List<Candidate> candidates = new ArrayList<Candidate>();
         
         try {
             
@@ -69,7 +61,7 @@ class CandidateManager
             	
             
             if( candidate.isPersistent() )
-                stmt.setLong( 8, candidate.getId() );
+                stmt.setLong( 4, candidate.getId() );
 
             inscnt = stmt.executeUpdate();
 
@@ -95,45 +87,7 @@ class CandidateManager
                 if( inscnt < 1 )
                     throw new EVException( "CandidateManager.save: failed to save a Candidate" ); 
             }
-            
-            //Insert to candidatePolitical Party 
-            if( !candidate.isPersistent() )
-                stmt = (PreparedStatement) conn.prepareStatement( insertCandidatePartySql );
-            
-            if (candidate.getId() >= 0)
-            {
-            	stmt.setLong(1, candidate.getId());
-            }
-            
-            if (candidate.getPoliticalParty() != null)
-             {
-            	 pp =  candidate.getPoliticalParty();
-            	 partyId = pp.getId();
-            	 stmt.setLong(2, partyId);
-             }
-            inscnt = stmt.executeUpdate();
-             
-            //Insert into Candidate Election
-            if( !candidate.isPersistent() )
-                stmt = (PreparedStatement) conn.prepareStatement( insertCandidateElectionSql );
-            
-            if (candidate.getId() >= 0)
-            {
-            	stmt.setLong(2, candidate.getId());
-            }
-            
-            if (candidate.getElection() != null)
-             {
-            	 election =  candidate.getElection();
-            	 electionId = pp.getId();
-            	 stmt.setLong(1, electionId);
-             }
-            inscnt = stmt.executeUpdate();
-            
         }
-        
-        
-        
         catch( SQLException e ) {
             e.printStackTrace();
             throw new EVException( "CandidateManager.save: failed to save a Candidate: " + e );
@@ -150,7 +104,6 @@ class CandidateManager
         StringBuffer condition = new StringBuffer( 100 );
         List<Candidate> candidates = new ArrayList<Candidate>();
         
-        condition.setLength( 0 );
         
         // form the query based on the given Person object instance
         query.append( selectCandidateSql );
@@ -161,14 +114,15 @@ class CandidateManager
             else if( modelCandidate.getName() != null ) // Name is unique, so it is sufficient to get a person
                 query.append( " where name = '" + modelCandidate.getName() + "'" );
             else {
-            	condition.append("officer = 0"); //this value has to be true for voters
+            	condition.append(" where voteCount = '" + modelCandidate.getVoteCount() + "'");
             	
-
-
-                if( condition.length() > 0 ) {
-                    query.append(  " where " );
-                    query.append( condition );
-                }
+            	if(modelCandidate.getIsAlternate())
+            		condition.append(" where isAlternate = 1");
+            	else
+            		condition.append(" where isAlternate = 0");
+                    
+            	query.append(  " where " );
+            	query.append( condition );              
             }
         }
         
@@ -183,23 +137,24 @@ class CandidateManager
                 long   id;
                 String name;
                 int voteCount;
-                boolean isAlternate;
-                long electionId;
-                long partyId;
+                int isAlternate;
                 
                 while( rs.next() ) {
-
                     id = rs.getLong( 1 );
                     name = rs.getString( 2 );
                     voteCount = rs.getInt( 3 );
-                    isAlternate = rs.getBoolean( 4 );
-                    //String selectCandidatePartySql = "select partyId, from candidateParty";
-                    //TODO get party or something.
-                    Candidate candidate = objectLayer.createCandidate(name , );
-                    candidate.setId( id );
-                    candidate.setVoteCount(voteCount);
-                    candidates.add( candidate );
+                    isAlternate = rs.getInt( 4 );
 
+                    Candidate candidate = objectLayer.createCandidate();
+                    candidate.setId( id );
+                    candidate.setName(name);
+                    if(isAlternate == 1)
+                    	candidate.setIsAlternate(true);
+                    else
+                    	candidate.setIsAlternate(false);
+                    candidate.setVoteCount(voteCount);
+                    
+                    candidates.add( candidate );
                 }
                 
                 return candidates;
@@ -214,20 +169,123 @@ class CandidateManager
     }
     
     public Election restoreCandidateIsCandidateInElection( Candidate candidate ) throws EVException{
-    	//TODO
-    	return null;
+    	String       selectElectionSql = "select e.electionId, e.office, e.isPartisan, e.alternateAllowed, e.voteCount from Election e, Candidate c, CandidateElection ce where e.electionId = ce.electionId and c.candidateId = ce.candidateId";              
+        Statement    stmt = null;
+        StringBuffer query = new StringBuffer( 100 );
+        
+        // form the query based on the given Person object instance
+        query.append( selectElectionSql );
+        
+        if( candidate != null ) {
+            if( candidate.getId() >= 0 ) // id is unique, so it is sufficient to get a person
+                query.append( " where c.id = " + candidate.getId() );
+            else {
+            	return null;  
+            }
+        }else
+        	return null;
+                
+        try {
+            stmt = conn.createStatement();
+
+            // retrieve the persistent Person object
+            //
+            if( stmt.execute( query.toString() ) ) { // statement returned a result
+                ResultSet rs = stmt.getResultSet();
+                
+                long   electionId;
+                String office;
+                int isPartisan;
+                int alternateAllowed;
+                int voteCount;
+                Election election = null;
+                
+                while( rs.next() ) {
+                    electionId = rs.getLong( 1 );
+                    office = rs.getString( 2 );
+                    isPartisan = rs.getInt( 3 );
+                    alternateAllowed = rs.getInt(4);
+                    voteCount = rs.getInt(5);
+
+                    election = objectLayer.createElection();
+                    election.setId( electionId );
+                    election.setOffice(office);
+                    if(isPartisan == 1)
+                    	election.setIsPartisan(true);
+                    else
+                    	election.setIsPartisan(false);
+                    if(alternateAllowed == 1)
+                    	election.setAlternateAllowed(true);
+                    else
+                    	election.setAlternateAllowed(false);
+                    election.setVoteCount(voteCount);
+                }
+                
+                return election;
+            }
+            else
+                return null;
+        }
+        catch( Exception e ) {      // just in case...
+            throw new EVException( "CandidateManager.restoreCandidateIsCandidateInElection: Could not restore persistent election object; Root cause: " + e );
+        }
     }
     
     public PoliticalParty restoreCandidateIsMemberOfPoliticalParty( Candidate candidate ) throws EVException{
-    	//TODO
-    	return null;
+    	String       selectElectionSql = "select p.partyId, p.partyName from Party p, Candidate c, CandidateParty cp where p.partyId = cp.partyId and c.candidateId = cp.candidateId";              
+        Statement    stmt = null;
+        StringBuffer query = new StringBuffer( 100 );
+        
+        // form the query based on the given Person object instance
+        query.append( selectElectionSql );
+        
+        if( candidate != null ) {
+            if( candidate.getId() >= 0 ) // id is unique, so it is sufficient to get a person
+                query.append( " where c.id = " + candidate.getId() );
+            else {
+            	return null;  
+            }
+        }else
+        	return null;
+                
+        try {
+            stmt = conn.createStatement();
+
+            // retrieve the persistent Person object
+            //
+            if( stmt.execute( query.toString() ) ) { // statement returned a result
+                ResultSet rs = stmt.getResultSet();
+                
+                long   partyId;
+                String partyName;
+                PoliticalParty party = null;
+                
+                while( rs.next() ) {
+                    partyId = rs.getLong( 1 );
+                    partyName = rs.getString( 2 );
+                   
+                    party = objectLayer.createPoliticalParty();
+                    party.setId( partyId );
+                    party.setName(partyName);
+                }             
+                return party;
+            }
+            else
+                return null;
+        }
+        catch( Exception e ) {      // just in case...
+            throw new EVException( "CandidateManager.restoreCandidateIsMemberOfPoliticalParty: Could not restore persistent party object; Root cause: " + e );
+        }
     }
     
     
     public void delete( Candidate candidate ) 
             throws EVException
     {
-        String               deleteCandidateSql = "delete from Candidate where candidateId = ?";              
+        String               deleteCandidateSql = "delete t1, t2, t3 from Candidate as t1 "
+        										+ "inner join CandidateElection as t2 on t1.candidateId = t2.candidateId "
+        										+ "inner join CandidateParty as t3 on t1.candidateId = t3.candidateId "
+        										+ "where t1.candidateId = ?";              
         PreparedStatement    stmt = null;
         int                  inscnt;
         
@@ -235,18 +293,13 @@ class CandidateManager
         if( !candidate.isPersistent() ) // is the Person object persistent?  If not, nothing to actually delete
             return;
         
-        try {
-            
+        try {  
             //DELETE t1, t2 FROM t1, t2 WHERE t1.id = t2.id;
             //DELETE FROM t1, t2 USING t1, t2 WHERE t1.id = t2.id;
             stmt = (PreparedStatement) conn.prepareStatement( deleteCandidateSql );
-            
             stmt.setLong( 1, candidate.getId() );
             
-            inscnt = stmt.executeUpdate();
-            
-           
-            
+            inscnt = stmt.executeUpdate();       
             if( inscnt == 0 ) {
                 throw new EVException( "CandidateManager.delete: failed to delete this candidate" );
             }

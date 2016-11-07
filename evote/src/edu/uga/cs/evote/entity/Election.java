@@ -22,11 +22,20 @@ public interface Election
      */
     public boolean getIsPartisan();
     
-    public boolean getIsAlternateAllowed();
     /** Set the new partisan status of this election.
      * @param isPartisan the new partisan status
      */
-    public void setIsAlternateAllowed( boolean isAlternateAllowed );
+    public void setIsPartisan( boolean isPartisan );
+    
+    /** Return true if this election allows alternate candidates and false otherwise.
+     * @return alternate status of this election
+     */
+    public boolean getAlternateAllowed();
+    
+    /** Set the new alternate status of this election.
+     * @param alternateAllowed the new alternate status
+     */
+    public void setAlternateAllowed( boolean alternateAllowed );
     
     /** Return a list of the candidates for this election.
      * @return the list of the candidates
