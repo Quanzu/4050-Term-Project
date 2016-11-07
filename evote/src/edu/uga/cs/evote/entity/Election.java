@@ -27,6 +27,16 @@ public interface Election
      */
     public void setIsPartisan( boolean isPartisan );
     
+    /** Return true if this election allows alternate candidates and false otherwise.
+     * @return alternate status of this election
+     */
+    public boolean getAlternateAllowed();
+    
+    /** Set the new alternate status of this election.
+     * @param alternateAllowed the new alternate status
+     */
+    public void setAlternateAllowed( boolean alternateAllowed );
+    
     /** Return a list of the candidates for this election.
      * @return the list of the candidates
      * @throws EVException in case there is a problem with traversing a link to the requested objects

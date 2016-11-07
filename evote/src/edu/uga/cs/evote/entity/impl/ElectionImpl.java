@@ -11,16 +11,19 @@ public class ElectionImpl extends BallotItemImpl implements Election {
 
 	private String office;
 	private boolean isPartisan;
+	private boolean alternateAllowed;
 	List<Candidate> candidates = new ArrayList<Candidate>();
 	
 	public ElectionImpl() {
 		office = null;
 		isPartisan = false;
+		alternateAllowed = false;
 	}
 	
 	public ElectionImpl(String office, boolean isPartisan){
 		this.office = office;
 		this.isPartisan = isPartisan;
+		alternateAllowed = false;
 	}
 
 	@Override
@@ -41,6 +44,16 @@ public class ElectionImpl extends BallotItemImpl implements Election {
 	@Override
 	public void setIsPartisan(boolean isPartisan) {
 		this.isPartisan = isPartisan;
+	}
+	
+	@Override
+	public boolean getAlternateAllowed() {
+		return alternateAllowed;
+	}
+
+	@Override
+	public void setAlternateAllowed(boolean alternateAllowed) {
+		this.alternateAllowed = alternateAllowed;
 	}
 
 	@Override
