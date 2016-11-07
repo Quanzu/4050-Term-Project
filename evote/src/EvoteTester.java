@@ -1,4 +1,4 @@
-//import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.*;
 import edu.uga.cs.evote.object.ObjectLayer;
@@ -189,7 +189,6 @@ public class EvoteTester {
 		
 		
 		
-<<<<<<< HEAD
 		//delete ballot and item link (issues and elections)
 		persistence.deleteBallotIncludesBallotItem(b1, elect1);
 		persistence.deleteBallotIncludesBallotItem(b1, elect2);
@@ -294,9 +293,6 @@ public class EvoteTester {
 		persistence.deleteVoter(voter1);
 		persistence.deleteVoter(voter2);
 
-=======
-		//delete
->>>>>>> origin/master
 	}
 
 }
