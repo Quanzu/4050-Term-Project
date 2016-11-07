@@ -1,16 +1,33 @@
 package edu.uga.cs.evote.persistence.impl;
 
 import java.util.List;
+
+import com.mysql.jdbc.PreparedStatement;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Date;
 import edu.uga.cs.evote.entity.VoteRecord;
+import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Ballot;
 import edu.uga.cs.evote.entity.BallotItem;
+import edu.uga.cs.evote.entity.Election;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.entity.Issue;
 
 
 public class BallotManager {
+	
+	private ObjectLayer objectLayer = null;
+    private Connection  conn = null;
+    
+	public BallotManager( Connection conn, ObjectLayer objectLayer )
+    {
+        this.conn = conn;
+        this.objectLayer = objectLayer;
+    }
+	
     public void storeBallotIncludesBallotItem( Ballot ballot, BallotItem ballotItem ) throws EVException{
     	//TODO
       //Check if Issue or Election and then store in the IssueBallot or ElectionBallot, instanceOf(classname)
@@ -43,7 +60,7 @@ public class BallotManager {
             throw new EVException( "Ballot.save: failed to IssueBallot: " + e );
         }
       }
-       else if(ballotItem instanceOf ElectionBallot){
+       else if(ballotItem instanceof Election){
         String               insertElectionBallotSql = "insert into ElectionBallot (electionId, ballotId ) values ( ?, ?)";              
 
         PreparedStatement    stmt = null;
@@ -77,7 +94,7 @@ public class BallotManager {
     public Ballot restoreBallotIncludesBallotItem( BallotItem ballotItem ) throws EVException{
     	String       selectBallotSql = "select i.ballotItemId, i.voteCount from ballotItem as i, ballot as b, electionBallot ed "
       								   + "where be.ballotId = i.ballotItemId and bd.electionId = b.ballotId";              
-        Statement    stmt = null;
+        PreparedStatement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         StringBuffer condition = new StringBuffer( 100 );
 
@@ -136,7 +153,7 @@ public class BallotManager {
     public List<BallotItem> restoreBallotIncludesBallotItem( Ballot ballot ) throws EVException{
     	String       selectBallotSql = "select i.ballotItemId, i.voteCount from ballotItem as i, ballot as b, electionBallot ed "
       								   + "where be.ballotId = i.ballotItemId and bd.electionId = b.ballotId";
-        Statement    stmt = null;
+        PreparedStatement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         List<BallotItem> ballotItems = new ArrayList<BallotItem>();
         
