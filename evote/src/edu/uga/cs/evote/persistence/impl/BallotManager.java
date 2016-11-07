@@ -14,9 +14,6 @@ public class BallotManager {
     public void storeBallotIncludesBallotItem( Ballot ballot, BallotItem ballotItem ) throws EVException{
     	//TODO
       //Check if Issue or Election and then store in the IssueBallot or ElectionBallot, instanceOf(classname)
-<<<<<<< HEAD
-    
-=======
       if(ballotItem instanceof Issue){
         String               insertIssueBallotSql = "insert into IssueBallot (issueId, ballotId ) values ( ?, ?)";              
 
@@ -75,7 +72,6 @@ public class BallotManager {
             throw new EVException( "Ballot.save: failed to ElecitonBallot: " + e );
         }
       }   
->>>>>>> origin/master
     }
     
     public Ballot restoreBallotIncludesBallotItem( BallotItem ballotItem ) throws EVException{
