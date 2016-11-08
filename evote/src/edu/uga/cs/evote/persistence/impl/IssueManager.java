@@ -104,13 +104,13 @@ public class IssueManager {
         if( modelIssue != null ) {
             if( modelIssue.getId() >= 0 ) // id is unique, so it is sufficient to get a person
                 query.append( " and issueId = " + modelIssue.getId() );
-            else if( modelIssue.getQuestion() != null ) // userName is unique, so it is sufficient to get a person
+            else if( modelIssue.getQuestion() != null ) 
                 query.append( " and question = '" + modelIssue.getQuestion() + "'" );
             else {            	
                 if( modelIssue.getNoCount() > -1 ) {
                     condition.append( " and noCount = " + modelIssue.getNoCount());
                     
-               if( modelIssue.getYesCount() > -1 ) // userName is unique, so it is sufficient to get a person
+               if( modelIssue.getYesCount() > -1 ) 
                         query.append( " and yesCount = " + modelIssue.getYesCount() );
                 }
 

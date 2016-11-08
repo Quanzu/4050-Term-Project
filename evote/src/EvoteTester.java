@@ -139,7 +139,7 @@ public class EvoteTester {
 		b1.addBallotItem(i6);
 		
 		
-		//Creating Data
+		//Creating Data- do we need this?
 		VoteRecord vr = test.createVoteRecord(b1, voter1, null);
 		VoteRecord vr2 = test.createVoteRecord(b2, voter1, null);
 		
@@ -184,10 +184,106 @@ public class EvoteTester {
 		
 		
 		//Store the data...
+		//Store voter
+		persistence.storeVoter(voter1);
+		persistence.storeVoter(voter1);
+		//Store candidate
+		persistence.storeCandidate(c1);
+		persistence.storeCandidate(c2);
+		persistence.storeCandidate(c3);
+		persistence.storeCandidate(c4);
+		persistence.storeCandidate(c5);
+		persistence.storeCandidate(c6);
+		persistence.storeCandidate(c7);
+		persistence.storeCandidate(c8);
+		persistence.storeCandidate(c9);
+		persistence.storeCandidate(c10);
+		persistence.storeCandidate(c11);
+		persistence.storeCandidate(c12);
+		persistence.storeCandidate(c13);
+		persistence.storeCandidate(c14);
+		persistence.storeCandidate(c15);
+		persistence.storeCandidate(c16);
+		persistence.storeCandidate(c17);
+		persistence.storeCandidate(c18);
+		//Store districts
+		persistence.storeElectoralDistrict(ec);
+		//store political parties
+		persistence.storePoliticalParty(p1);
+		persistence.storePoliticalParty(p2);
+		//Store ballot
+		persistence.storeBallot(b1);
+		persistence.storeBallot(b2);
 		
+		//store elections
+		persistence.storeElection(elect1);
+		persistence.storeElection(elect2);
+		persistence.storeElection(elect3);
+		persistence.storeElection(elect4);
+		persistence.storeElection(elect5);
+		persistence.storeElection(elect6);
+		//store issues
+		persistence.storeIssue(i1);
+		persistence.storeIssue(i2);
+		persistence.storeIssue(i3);
+		persistence.storeIssue(i4);
+		persistence.storeIssue(i5);
+		persistence.storeIssue(i6);
 		
+		//Store district and voter link
+		persistence.storeVoterBelongsToElectoralDistrict(voter1, ec);
+		persistence.storeVoterBelongsToElectoralDistrict(voter2, ec);
+		//store district and ballot link
+		persistence.storeElectoralDistrictHasBallotBallot(ec, b1);
+		persistence.storeElectoralDistrictHasBallotBallot(ec, b2);
+		//store Candidate and party
+		persistence.storeCandidateIsMemberOfPoliticalParty(c13, p1);
+		persistence.storeCandidateIsMemberOfPoliticalParty(c14, p1);
+		persistence.storeCandidateIsMemberOfPoliticalParty(c15, p2);
+		persistence.storeCandidateIsMemberOfPoliticalParty(c16, p1);
+		persistence.storeCandidateIsMemberOfPoliticalParty(c17, p1);
+		persistence.storeCandidateIsMemberOfPoliticalParty(c18, p2);
 		
+		//store candidates and election link
+		persistence.storeCandidateIsCandidateInElection(c1, elect1);
+		persistence.storeCandidateIsCandidateInElection(c2, elect1);
+		persistence.storeCandidateIsCandidateInElection(c3, elect1);
+		persistence.storeCandidateIsCandidateInElection(c4, elect3);
+		persistence.storeCandidateIsCandidateInElection(c5, elect3);
+		persistence.storeCandidateIsCandidateInElection(c6, elect3);
+		persistence.storeCandidateIsCandidateInElection(c7, elect4);
+		persistence.storeCandidateIsCandidateInElection(c8, elect4);
+		persistence.storeCandidateIsCandidateInElection(c9, elect4);
+		persistence.storeCandidateIsCandidateInElection(c10, elect6);
+		persistence.storeCandidateIsCandidateInElection(c11, elect6);
+		persistence.storeCandidateIsCandidateInElection(c12, elect6);
+		persistence.storeCandidateIsCandidateInElection(c13, elect2);
+		persistence.storeCandidateIsCandidateInElection(c14, elect2);
+		persistence.storeCandidateIsCandidateInElection(c15, elect2);
+		persistence.storeCandidateIsCandidateInElection(c16, elect5);
+		persistence.storeCandidateIsCandidateInElection(c17, elect5);
+		persistence.storeCandidateIsCandidateInElection(c18, elect5);
 		
+		//store election and ballot link
+		persistence.storeElectoralDistrictHasBallotBallot(ec, b1);
+		persistence.storeElectoralDistrictHasBallotBallot(ec, b2);
+
+		//store ballot and issue link
+		persistence.storeBallotIncludesBallotItem(b1, i1);
+		persistence.storeBallotIncludesBallotItem(b1, i2);
+		persistence.storeBallotIncludesBallotItem(b1, i3);
+		persistence.storeBallotIncludesBallotItem(b2, i4);
+		persistence.storeBallotIncludesBallotItem(b2, i5);
+		persistence.storeBallotIncludesBallotItem(b2, i6);
+		//store ballot and election
+		persistence.storeBallotIncludesBallotItem(b1, elect1);
+		persistence.storeBallotIncludesBallotItem(b1, elect2);
+		persistence.storeBallotIncludesBallotItem(b1, elect3);
+		persistence.storeBallotIncludesBallotItem(b2, elect4);
+		persistence.storeBallotIncludesBallotItem(b2, elect5);
+		persistence.storeBallotIncludesBallotItem(b2, elect6);
+		
+		//DELETE
 		//delete ballot and item link (issues and elections)
 		persistence.deleteBallotIncludesBallotItem(b1, elect1);
 		persistence.deleteBallotIncludesBallotItem(b1, elect2);
