@@ -1,32 +1,26 @@
 CREATE TABLE Ballot (
  ballotId INT NOT NULL AUTO_INCREMENT,
  openDate DATE,
- closeDate DATE
+ closeDate DATE,
+ PRIMARY KEY (ballotId)
 );
-
-ALTER TABLE Ballot ADD CONSTRAINT PK_Ballot PRIMARY KEY (ballotId);
-
 
 CREATE TABLE Candidate (
  candidateId INT NOT NULL AUTO_INCREMENT,
  name CHAR(20),
  voteCount INT,
- isAlternate INT
+ isAlternate INT,
+ PRIMARY KEY (candidateId)
 );
-
-ALTER TABLE Candidate ADD CONSTRAINT PK_Candidate PRIMARY KEY (candidateId);
-
 
 CREATE TABLE Election (
  electionId INT NOT NULL AUTO_INCREMENT,
  office CHAR(15),
  isPartisan INT,
  alternateAllowed INT,
- voteCount CHAR(10)
+ voteCount CHAR(10),
+ PRIMARY KEY (electionId)
 );
-
-ALTER TABLE Election ADD CONSTRAINT PK_Election PRIMARY KEY (electionId);
-
 
 CREATE TABLE ElectionBallot (
  electionId INT NOT NULL,
@@ -38,21 +32,17 @@ ALTER TABLE ElectionBallot ADD CONSTRAINT PK_ElectionBallot PRIMARY KEY (electio
 
 CREATE TABLE ElectoralDistrict (
  districtId INT NOT NULL AUTO_INCREMENT,
- districtName CHAR(15)
+ districtName CHAR(15),
+ PRIMARY KEY (districtId)
 );
-
-ALTER TABLE ElectoralDistrict ADD CONSTRAINT PK_ElectoralDistrict PRIMARY KEY (districtId);
-
 
 CREATE TABLE Issue (
  issueId INT NOT NULL AUTO_INCREMENT,
  question CHAR(100),
  yesCount INT,
- noCount INT
+ noCount INT,
+ PRIMARY KEY (issueId)
 );
-
-ALTER TABLE Issue ADD CONSTRAINT PK_Issue PRIMARY KEY (issueId);
-
 
 CREATE TABLE IssueBallot (
  issueId INT NOT NULL,
@@ -64,11 +54,9 @@ ALTER TABLE IssueBallot ADD CONSTRAINT PK_IssueBallot PRIMARY KEY (issueId,ballo
 
 CREATE TABLE Party (
  partyId INT NOT NULL AUTO_INCREMENT,
- partyName CHAR(20)
+ partyName CHAR(20),
+ PRIMARY KEY (partyId)
 );
-
-ALTER TABLE Party ADD CONSTRAINT PK_Party PRIMARY KEY (partyId);
-
 
 CREATE TABLE User (
  userId INT NOT NULL AUTO_INCREMENT,
@@ -77,20 +65,16 @@ CREATE TABLE User (
  userName CHAR(20),
  password CHAR(50),
  email CHAR(25),
- address CHAR(50)
+ address CHAR(50),
+ PRIMARY KEY (userId)
 );
-
-ALTER TABLE User ADD CONSTRAINT PK_User PRIMARY KEY (userId);
-
 
 CREATE TABLE Voter (
  voterId INT NOT NULL AUTO_INCREMENT,
  userId INT NOT NULL,
- age INT
+ age INT,
+ PRIMARY KEY (voterId)
 );
-
-ALTER TABLE Voter ADD CONSTRAINT PK_Voter PRIMARY KEY (voterId);
-
 
 CREATE TABLE VoterDistrict (
  districtId INT NOT NULL,
