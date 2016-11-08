@@ -85,7 +85,7 @@ ALTER TABLE VoterDistrict ADD CONSTRAINT PK_VoterDistrict PRIMARY KEY (districtI
 
 
 CREATE TABLE VoteRecord (
- date TIMESTAMP(10) NOT NULL,
+ date TIMESTAMP(6) NOT NULL,
  ballotId INT NOT NULL,
  voterId INT NOT NULL
 );
