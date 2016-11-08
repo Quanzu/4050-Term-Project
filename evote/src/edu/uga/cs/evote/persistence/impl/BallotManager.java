@@ -5,8 +5,10 @@ import java.util.List;
 import com.mysql.jdbc.PreparedStatement;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+
 import edu.uga.cs.evote.entity.VoteRecord;
 import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.EVException;
@@ -166,7 +168,11 @@ public class BallotManager {
         if( ballotItem != null ) {
             if( ballotItem.getId() >= 0 ) // id is unique, so it is sufficient to get a person
                 query.append( " and i.id = " + ballotItem.getId() );
+<<<<<<< Updated upstream
             else if( ballotItem.getVoteCount() != null ) // userName is unique, so it is sufficient to get a person
+=======
+            else if( ballotItem.getVoteCount() >= 0 ) // userName is unique, so it is sufficient to get a person
+>>>>>>> Stashed changes
                 query.append( " and i.voteCount = '" + ballotItem.getVoteCount() + "'" );
             else {
 
@@ -321,11 +327,11 @@ public class BallotManager {
         throw new EVException( "BallotManager.restoreBallotIncludesBallotItem: Could not restore persistent district objects" );
       }
     }
-    
+    //returns electoral district
     public ElectoralDistrict restoreElectoralDistrictHasBallotBallot( Ballot ballot ) throws EVException{
     	String       selectBallotSql = "select e.districtId, e.districtName from electoralDistrict as e, ballot as b, ballotDistrict bd"
-          										+"where bd.districtId = e.districtId and bd.ballotId;              
-        Statement    stmt = null;
+          										+"where bd.districtId = e.districtId and bd.ballotId";              
+        PreparedStatement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         StringBuffer condition = new StringBuffer( 100 );
 
@@ -418,7 +424,7 @@ public class BallotManager {
     	if (!ballotItem.isPersistent())
     		return;
     	try {
-    		stmt = (PreparedStatement) conn.prepareStatement( deleteIssueBallotSql );
+    		stmt = (PreparedStatement) conn.prepareStatement( deleteElectionBallotSql );
     		stmt.setLong( 1, ballotItem.getId() );
     		stmt.setLong( 2, ballot.getId());
     		inscnt = stmt.executeUpdate();
