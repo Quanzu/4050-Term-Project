@@ -11,6 +11,7 @@ public class EvoteTester {
 
 	public static void main(String[] args) throws EVException {
 		
+		System.out.println("HI");
 		Connection conn = null;
 		PersistenceLayer persistence;
 		
@@ -23,7 +24,7 @@ public class EvoteTester {
 		}
 		if (conn == null)
 		{
-			System.out.println("DeleteTest: failed to conccect to the database");
+			System.out.println("DeleteTest: failed to connect to the database");
 			return;
 		}
 		
@@ -31,11 +32,11 @@ public class EvoteTester {
 		persistence = new PersistenceLayerImpl(conn, test);
 		test.setPersistence(persistence);
 		
-
+		
 		ElectoralDistrict ec;
 		Ballot b1;
 		Ballot b2;
-		
+		/*
 		//Create 2 political parties
 		PoliticalParty p1 = test.createPoliticalParty("republican");
 		PoliticalParty p2 = test.createPoliticalParty("democrat");
@@ -387,7 +388,7 @@ public class EvoteTester {
 		//delete voter
 		persistence.deleteVoter(voter1);
 		persistence.deleteVoter(voter2);
-
+*/
 	}
 
 }

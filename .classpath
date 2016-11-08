@@ -2,11 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="clubs/src"/>
 	<classpathentry kind="src" path="evote/src"/>
-	<classpathentry kind="lib" path="clubs/lib/freemarker.jar"/>
-	<classpathentry kind="lib" path="clubs/lib/jboss-servlet-api_3.1_spec-1.0.0.Final.jar"/>
-	<classpathentry kind="lib" path="clubs/lib/mysql-connector-java-5.1.33-bin.jar"/>
-	<classpathentry kind="lib" path="clubs/WebContent/WEB-INF/lib/freemarker.jar"/>
-	<classpathentry kind="lib" path="clubs/WebContent/WEB-INF/lib/mysql-connector-java-5.1.33-bin.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="evote/lib/mysql-connector-java-5.1.40-bin.jar"/>
 	<classpathentry kind="output" path="clubs/classes"/>
