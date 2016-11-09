@@ -58,6 +58,9 @@ CREATE TABLE Party (
  PRIMARY KEY (partyId)
 );
 
+select * FROM Voter;
+
+
 CREATE TABLE User (
  userId INT NOT NULL AUTO_INCREMENT,
  fname CHAR(20),

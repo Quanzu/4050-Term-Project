@@ -83,6 +83,12 @@ public class DbUtils {
     public static Connection connect() 
             throws EVException 
     {
+    	try {
+			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
         try {
             Class.forName(DbAccessConfig.DB_DRIVE_NAME);
         } 
