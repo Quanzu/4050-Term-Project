@@ -1,4 +1,4 @@
-import java.sql.Connection;
+import java.sql.*;
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.*;
 import edu.uga.cs.evote.object.ObjectLayer;
@@ -16,7 +16,9 @@ public class EvoteTester {
 		PersistenceLayer persistence;
 		
 		try{
-			conn = DbUtils.connect();
+			conn = DriverManager.getConnection(  
+					"jdbc:mysql://localhost:3306/evote","root","Ihave0ideas!");
+					//DbUtils.connect();
 		}
 		catch(Exception seq){
 			System.err.println("DeleteTest: Unable to obtain a database connection");
