@@ -50,7 +50,7 @@ class PoliticalPartyManager
                 stmt.setLong( 2, party.getId() );
 
             inscnt = stmt.executeUpdate();
-
+            System.out.println("STORED" + party.getName());
             if( !party.isPersistent() ) {
                 // in case this this object is stored for the first time,
                 // we need to establish its persistent identifier (primary key)
@@ -83,7 +83,7 @@ class PoliticalPartyManager
     public List<PoliticalParty> restore( PoliticalParty modelPoliticalParty ) 
             throws EVException
     {
-        String       selectPartySql = "select partyName from Party";
+        String       selectPartySql = "select partyId, partyName from Party";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         List<PoliticalParty> parties = new ArrayList<PoliticalParty>();
@@ -102,7 +102,7 @@ class PoliticalPartyManager
         try {
 
             stmt = conn.createStatement();
-
+            System.out.println(stmt);
             // retrieve the persistent Person objects
             //
             if( stmt.execute( query.toString() ) ) { // statement returned a result
@@ -187,7 +187,7 @@ class PoliticalPartyManager
     public void delete( PoliticalParty party ) 
             throws EVException
     {
-        String               deletePartySql = "delete from person where partyId = ?";              
+        String               deletePartySql = "delete from Party where partyId = ?";              
         PreparedStatement    stmt = null;
         int                  inscnt;
         
@@ -201,7 +201,7 @@ class PoliticalPartyManager
             //DELETE FROM t1, t2 USING t1, t2 WHERE t1.id = t2.id;
             stmt = (PreparedStatement) conn.prepareStatement( deletePartySql );
             
-            stmt.setLong( 1, party.getId() );
+            stmt.setLong(1, party.getId() );
             
             inscnt = stmt.executeUpdate();
             
