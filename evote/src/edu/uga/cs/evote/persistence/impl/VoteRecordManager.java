@@ -104,7 +104,7 @@ public class VoteRecordManager {
 	}
 	
 	//Restore all VoteRecord objects that match attributes of the model VoteRecord.
-	public List<VoteRecord> restoreVoteRecord(VoteRecord voteRecord) throws EVException
+	public List<VoteRecord> restoreVoteRecord(VoteRecord modelVoteRecord) throws EVException
 	{
 		String selectVoteRecordSql = "select vr.date, vr.voterId, vr.ballotId"
 				+ "b.ballotId, b.openDate" + "v.voterId, v.userId, v.age"
@@ -115,9 +115,9 @@ public class VoteRecordManager {
 		List<VoteRecord>  records = new ArrayList<VoteRecord>();
 
 		
-		if(voteRecord.getBallot() == null && !voteRecord.getBallot().isPersistent())
+		if(modelVoteRecord.getBallot() == null && !modelVoteRecord.getBallot().isPersistent())
         	throw new EVException( "VoteReocrdManager.restore: the argument vote record includes a non-persistent ballot object" );
-        if( voteRecord.getVoter() == null && !voteRecord.getVoter().isPersistent() )
+        if( modelVoteRecord.getVoter() == null && !modelVoteRecord.getVoter().isPersistent() )
             throw new EVException( "VoteRecordManager.restore: the argument vote record includes a non-persistent voter object" );
 
 		//TODO
@@ -126,22 +126,22 @@ public class VoteRecordManager {
         // form the query based on the given Club object instance
         query.append( selectVoteRecordSql );
         
-        if(voteRecord != null ) {
-            if( voteRecord.isPersistent() ) // id is unique, so it is sufficient to get a membership
-                query.append( " where id = " + voteRecord.getId() );
+        if(modelVoteRecord != null ) {
+            if( modelVoteRecord.isPersistent() ) // id is unique, so it is sufficient to get a membership
+                query.append( " where id = " + modelVoteRecord.getId() );
             else {
 
-                if(voteRecord.getBallot() != null ) {
-                    condition.append( " and vr.ballotId = " + voteRecord.getBallot().getId() ); 
+                if(modelVoteRecord.getBallot() != null ) {
+                    condition.append( " and vr.ballotId = " + modelVoteRecord.getBallot().getId() ); 
                 }
 
-                if(voteRecord.getVoter() != null ) {
-                	condition.append( " and vr.voterId = " + voteRecord.getVoter().getId() ); 
+                if(modelVoteRecord.getVoter() != null ) {
+                	condition.append( " and vr.voterId = " + modelVoteRecord.getVoter().getId() ); 
                 }
                 
-                if(voteRecord.getDate() != null ) {
+                if(modelVoteRecord.getDate() != null ) {
                     // fix the date conversion
-                    condition.append( " and vr.date = '" + voteRecord.getDate() + "'" );
+                    condition.append( " and vr.date = '" + modelVoteRecord.getDate() + "'" );
                 }
 
                 if( condition.length() > 0 )

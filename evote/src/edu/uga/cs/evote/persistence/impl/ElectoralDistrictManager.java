@@ -27,7 +27,7 @@ class ElectoralDistrictManager
         this.objectLayer = objectLayer;
     }
     
-    public void store( ElectoralDistrict district ) 
+    public void store( ElectoralDistrict electoralDistrict ) 
             throws EVException
     {
         String               insertDistrictSql = "insert into ElectoralDistrict ( districtName ) values ( ? )";              
@@ -38,22 +38,22 @@ class ElectoralDistrictManager
         
         try {
             
-            if( !district.isPersistent() )
+            if( !electoralDistrict.isPersistent() )
                 stmt = (PreparedStatement) conn.prepareStatement( insertDistrictSql );
             else
                 stmt = (PreparedStatement) conn.prepareStatement( updateDistrictSql );
             
-            if( district.getName() != null )
-                stmt.setString( 1, district.getName() );
+            if( electoralDistrict.getName() != null )
+                stmt.setString( 1, electoralDistrict.getName() );
             else 
                 throw new EVException( "ElectoralDistrictManager.save: can't save a District: name undefined" );
             
-            if( district.isPersistent() )
-                stmt.setLong( 2, district.getId() );
+            if( electoralDistrict.isPersistent() )
+                stmt.setLong( 2, electoralDistrict.getId() );
 
             inscnt = stmt.executeUpdate();
 
-            if( !district.isPersistent() ) {
+            if( !electoralDistrict.isPersistent() ) {
                 // in case this this object is stored for the first time,
                 // we need to establish its persistent identifier (primary key)
                 if( inscnt == 1 ) {
@@ -66,7 +66,7 @@ class ElectoralDistrictManager
                             // retrieve the last insert auto_increment value
                             districtId = r.getLong( 1 );
                             if( districtId > 0 )
-                                district.setId( districtId ); // set this party's db id (proxy object)
+                                electoralDistrict.setId( districtId ); // set this party's db id (proxy object)
                         }
                     }
                 }
@@ -259,7 +259,7 @@ class ElectoralDistrictManager
  
     }
     
-    public void delete( ElectoralDistrict district ) 
+    public void delete( ElectoralDistrict electoralDistrict ) 
             throws EVException
     {
         String               deleteDistrictSql = "delete t1, t2, t3 from ElectoralDistrict as t1 "
@@ -270,13 +270,13 @@ class ElectoralDistrictManager
         int                  inscnt;
         
         // form the query based on the given Person object instance
-        if( !district.isPersistent() ) // is the Person object persistent?  If not, nothing to actually delete
+        if( !electoralDistrict.isPersistent() ) // is the Person object persistent?  If not, nothing to actually delete
             return;
         
         try {
             stmt = (PreparedStatement) conn.prepareStatement( deleteDistrictSql );
             
-            stmt.setLong( 1, district.getId() );
+            stmt.setLong( 1, electoralDistrict.getId() );
             
             inscnt = stmt.executeUpdate();
             

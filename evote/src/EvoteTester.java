@@ -20,7 +20,7 @@ public class EvoteTester {
 		PersistenceLayer persistence;
 		Properties prop = new Properties();
 		prop.setProperty("user", "root");
-		prop.setProperty("password", "asdfa");
+		prop.setProperty("password", "abcd1234");
 		prop.setProperty("useSSL", "false");
 		prop.setProperty("autoReconnect", "true");
 		try{
