@@ -97,21 +97,12 @@ public class VoteRecordManager {
 	//Restore all VoteRecord objects that match attributes of the model VoteRecord.
 	public List<VoteRecord> restoreVoteRecord(VoteRecord modelVoteRecord) throws EVException
 	{
-		String selectVoteRecordSql = "select vr.date, vr.voterId, vr.ballotId"
-				+ "b.ballotId, b.openDate" + "v.voterId, v.userId, v.age"
-                + "from VoteRecord vr, Ballot b, voter v where vr.voterId == v.voterId and vr.ballotId == b.ballotId and vr.date = b.openDate";              
+		String selectVoteRecordSql = "select voteRecordId, date, voterId, ballotId from VoteRecord";              
 		Statement    stmt = null;
 		StringBuffer query = new StringBuffer( 100 );
 		StringBuffer condition = new StringBuffer( 100 );
 		List<VoteRecord>  records = new ArrayList<VoteRecord>();
 
-		
-		if(modelVoteRecord.getBallot() == null && !modelVoteRecord.getBallot().isPersistent())
-        	throw new EVException( "VoteReocrdManager.restore: the argument vote record includes a non-persistent ballot object" );
-        if( modelVoteRecord.getVoter() == null && !modelVoteRecord.getVoter().isPersistent() )
-            throw new EVException( "VoteRecordManager.restore: the argument vote record includes a non-persistent voter object" );
-
-		//TODO
         condition.setLength( 0 );
         
         // form the query based on the given Club object instance
@@ -119,24 +110,28 @@ public class VoteRecordManager {
         
         if(modelVoteRecord != null ) {
             if( modelVoteRecord.isPersistent() ) // id is unique, so it is sufficient to get a membership
-                query.append( " where id = " + modelVoteRecord.getId() );
+                query.append( " where voteRecordId = " + modelVoteRecord.getId() );
             else {
-
-                if(modelVoteRecord.getBallot() != null ) {
-                    condition.append( " and vr.ballotId = " + modelVoteRecord.getBallot().getId() ); 
+                if(modelVoteRecord.getBallot() != null && modelVoteRecord.getBallot().isPersistent()) {
+                    condition.append( " ballotId = " + modelVoteRecord.getBallot().getId() ); 
                 }
 
-                if(modelVoteRecord.getVoter() != null ) {
-                	condition.append( " and vr.voterId = " + modelVoteRecord.getVoter().getId() ); 
+                if(modelVoteRecord.getVoter() != null && modelVoteRecord.getVoter().isPersistent()) {
+                    if( condition.length() > 0 )
+                    	condition.append(" and ");
+                	condition.append( " voterId = " + modelVoteRecord.getVoter().getId() ); 
                 }
                 
                 if(modelVoteRecord.getDate() != null ) {
-                    // fix the date conversion
-                    condition.append( " and vr.date = '" + modelVoteRecord.getDate() + "'" );
+                    if( condition.length() > 0 )
+                    	condition.append(" and ");
+                    condition.append( " date = '" + modelVoteRecord.getDate() + "'" );
                 }
 
-                if( condition.length() > 0 )
+                if( condition.length() > 0 ){
+                	query.append(" where ");
                     query.append( condition );
+                }
             }
         }
 
@@ -145,57 +140,25 @@ public class VoteRecordManager {
 
             // retrieve the persistent ballot object
             if( stmt.execute( query.toString() ) ) { // statement returned a result
-                
-            	//I may have duplicate variables that hold the same thing...
                 ResultSet rs = stmt.getResultSet();
-                              
-                long   ballotId;
-                Date   open;
                 
-                int 	age;
-                long   voterId;
-                long	userId;
-                long vrVoterId;
-                long vrBallotId;
-                Date vrDate;
-                
-                Voter voter = null;
-                Ballot ballot = null;
-                VoteRecord voteRecordNext = null;
+                long voteRecordId;
+                Date date;
+                long ballotId;
+                long voterId;
 
                 while( rs.next() ) {
 
-                    vrDate = rs.getDate( 1 );
-                    vrVoterId = rs.getLong( 2 );
-                    vrBallotId = rs.getLong( 3 );
-                    ballotId = rs.getLong( 4 );
-                    open = rs.getDate( 5 );
-                    voterId = rs.getLong( 6 );
-                    userId = rs.getLong( 7 );
-                    age = rs.getInt( 8 );
+                    voteRecordId = rs.getLong( 1 );
+                    date = rs.getDate(2);
+                    ballotId = rs.getLong( 3 );
+                    voterId = rs.getLong( 4 );
                     
-                    // create a Voter proxy object
-                    voter = objectLayer.createVoter();
-                    voter.setAge(age);
-                    voter.setVoterId(voterId);
-                    voter.setId(userId);
-                    
-                    
-                    // create a proxy Ballot object    
-                    ballot = objectLayer.createBallot(); 
-                    // and now set its attributes
+                    Voter voter = objectLayer.createVoter();
+                    voter.setId(voterId);
+                    Ballot ballot = objectLayer.createBallot();
                     ballot.setId(ballotId);
-                    ballot.setOpenDate(open);
-                    
-                   /* DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-                    Date dateobj = new Date();
-                    df.format(dateobj);
-                    */
-                    // now, create a Vote Record object
-                    
-                    //uses ballot opendate or could use vrDate, but they are the same...
-                    voteRecordNext = objectLayer.createVoteRecord(ballot, voter, open);
-                    //voteRecordNext.setId( id );
+                    VoteRecord voteRecordNext = objectLayer.createVoteRecord(objectLayer.getPersistence().restoreBallot(ballot).get(0), objectLayer.getPersistence().restoreVoter(voter).get(0), date);
                     
                     records.add(voteRecordNext);
                 }
@@ -217,7 +180,7 @@ public class VoteRecordManager {
 	{
 		//TODO
 		String         deleteVoteRecordSql = "delete t1 from VoteRecord as t1 "
-				   + "where voterId = ? and ballotId = ? date = ?";              
+				   						   + "where voterRecordId = ?";              
 		PreparedStatement    stmt = null;
 		int                  inscnt;
 
@@ -227,11 +190,8 @@ public class VoteRecordManager {
 
 		try {
 			stmt = (PreparedStatement) conn.prepareStatement( deleteVoteRecordSql );
-			stmt.setLong( 1, voteRecord.getVoter().getId() );
-			stmt.setLong( 2, voteRecord.getBallot().getId() );
-			stmt.setDate( 3, (Date) voteRecord.getDate() );
+			stmt.setLong( 1, voteRecord.getId() );
 			
-
 			inscnt = stmt.executeUpdate();
 
 			if( inscnt == 0 ) {
