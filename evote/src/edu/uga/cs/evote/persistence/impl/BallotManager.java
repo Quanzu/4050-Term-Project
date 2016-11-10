@@ -47,15 +47,20 @@ public class BallotManager {
                 stmt = (PreparedStatement) conn.prepareStatement( insertBallotSql );
             else
                 stmt = (PreparedStatement) conn.prepareStatement( updateBallotSql );
-            
-            
-            if( ballot.getOpenDate() != null )
-                stmt.setDate( 1, (java.sql.Date) ballot.getOpenDate() );
+                        
+            if( ballot.getOpenDate() != null ){
+                java.util.Date jDate = ballot.getOpenDate();
+                java.sql.Date sDate = new java.sql.Date( jDate.getTime() );
+                stmt.setDate( 1,  sDate );
+            }
             else 
                 throw new EVException( "BallotManager.save: can't save a Ballot: name undefined" );
 
-            if( ballot.getCloseDate() != null)
-                stmt.setDate( 2, (java.sql.Date) ballot.getCloseDate() );
+            if( ballot.getCloseDate() != null){
+                java.util.Date jDate = ballot.getCloseDate();
+                java.sql.Date sDate = new java.sql.Date( jDate.getTime() );
+                stmt.setDate( 2,  sDate );
+            }
             else 
             	throw new EVException( "BallotManager.save: can't save a Ballot: name undefined" );
             	
@@ -93,11 +98,9 @@ public class BallotManager {
 	}
 	
     public void storeBallotIncludesBallotItem( Ballot ballot, BallotItem ballotItem ) throws EVException{
-    	//TODO
       //Check if Issue or Election and then store in the IssueBallot or ElectionBallot, instanceOf(classname)
       if(ballotItem instanceof Issue){
-        String               insertIssueBallotSql = "insert into IssueBallot (issueId, ballotId ) values ( ?, ?)";              
-
+        String               insertIssueBallotSql = "insert into IssueBallot (issueId, ballotId ) values ( ?, ?)";
         PreparedStatement    stmt = null;
         int                  inscnt;
         
@@ -124,9 +127,8 @@ public class BallotManager {
             throw new EVException( "Ballot.save: failed to IssueBallot: " + e );
         }
       }
-       else if(ballotItem instanceof Election){
-        String               insertElectionBallotSql = "insert into ElectionBallot (electionId, ballotId ) values ( ?, ?)";              
-
+      else if(ballotItem instanceof Election){
+        String               insertElectionBallotSql = "insert into ElectionBallot (electionId, ballotId ) values ( ?, ?)";
         PreparedStatement    stmt = null;
         int                  inscnt;
         
@@ -159,17 +161,30 @@ public class BallotManager {
     	String       selectBallotSql = "select ballotId, openDate, closeDate from Ballot";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
+        StringBuffer condition = new StringBuffer( 100 );
         List<Ballot> ballots = new ArrayList<Ballot>();
+        
+        condition.setLength(0);
         
       	query.append( selectBallotSql );
         
         if( modelBallot != null ) {
             if( modelBallot.getId() >= 0 ) 
                 query.append( " where ballotId = " + modelBallot.getId() );
-            else if( modelBallot.getOpenDate() != null ) 
-                query.append( " where openDate = '" + modelBallot.getOpenDate() + "'" );
-            else if( modelBallot.getCloseDate() != null ) 
-                query.append( " where closeDate = '" + modelBallot.getCloseDate() + "'" );
+            else{
+            	if( modelBallot.getOpenDate() != null )        
+            		condition.append( " openDate = '" + modelBallot.getOpenDate() + "'" );
+            	if( modelBallot.getCloseDate() != null ){
+            		if(condition.length() > 0)
+            			condition.append(" and ");
+            		condition.append( " closeDate = '" + modelBallot.getCloseDate() + "'" );
+            	}
+            	if(condition.length() > 0){
+            		query.append(" where ");
+            		query.append(condition);
+            	}
+            		
+            }
         }
         
         try {
@@ -179,7 +194,7 @@ public class BallotManager {
             //
             if( stmt.execute( query.toString() ) ) { // statement returned a result
                 ResultSet rs = stmt.getResultSet();
-                long   id;
+                long    id;
                 Date	openDate;
                 Date	closeDate;
                 
@@ -188,10 +203,8 @@ public class BallotManager {
                     id = rs.getLong( 1 );
                     openDate = rs.getDate( 2 );
                     closeDate = rs.getDate( 3 );
-
                     Ballot ballot = objectLayer.createBallot( openDate,closeDate, null );
                     ballot.setId( id );
-
                     ballots.add( ballot );
                 }
                 return ballots;
@@ -206,14 +219,13 @@ public class BallotManager {
     	
     }
     
-    public Ballot restoreBallotIncludesBallotItem( BallotItem ballotItem ) throws EVException{
-    	
+    public Ballot restoreBallotIncludesBallotItem( BallotItem ballotItem ) throws EVException{  	
        if(ballotItem instanceof Issue){
       	String       selectIssueBallotSql = "select b.ballotId, b.openDate, b.closeDate from Ballot as b, Issue i, issueBallot ib "
       								   + "where b.ballotId = ib.ballotId and i.issueId = ib.issueId";              
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
-        
+
         // form the query based on the given Ballot object instance
         query.append( selectIssueBallotSql );
         //Should it be like this ? or change to issueBallot instead of ballotItem
@@ -223,8 +235,7 @@ public class BallotManager {
             else {
             	return null;
             }
-        }else
-        	return null;
+        }
         
         try {
 
@@ -251,8 +262,6 @@ public class BallotManager {
                 
                 return ballot;
             }
-            else
-                return null;
         }
         catch( Exception e ) {      // just in case...
             throw new EVException( "BallotManager.restoreBallotIncludesBallotItem: Could not restore persistent elec object; Root cause: " + e );
@@ -273,8 +282,7 @@ public class BallotManager {
             else {
             	return null;
             }
-        }else
-        	return null;
+        }
                 
         try {
 
@@ -302,13 +310,12 @@ public class BallotManager {
                 
                 return ballot;
             }
-            else
-                return null;
         }
         catch( Exception e ) {      // just in case...
             throw new EVException( "BallotManager.restoreBallotIncludesBallotItem: Could not restore persistent elec object; Root cause: " + e );
         }
        }
+       return null;
     }
 
     public List<BallotItem> restoreBallotIncludesBallotItem( Ballot ballot ) throws EVException{
