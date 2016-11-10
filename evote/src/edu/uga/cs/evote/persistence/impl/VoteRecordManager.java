@@ -35,10 +35,8 @@ public class VoteRecordManager {
 	public void storeVoteRecord(VoteRecord voteRecord) throws EVException
 	{
 		String               insertVoteRecordSql = "insert into VoteRecord (date, ballotId, voterId) values ( ?, ?, ?)";              
-        String               updateVoteRecordSql = "update VoteRecord  set date = ?, ballotId = ?, voterId = ? where ballotId = ?";              
-        
-        //String				 insertOfficerSql = "insert into ElectionsOfficer (userId) values ( ? )";
-        
+        String               updateVoteRecordSql = "update VoteRecord  set date = ?, ballotId = ?, voterId = ? where date = ? and ballotId = ? and voterId = ?";              
+                
         PreparedStatement    stmt;
         int                  inscnt;
         long                 ballotId;
@@ -49,16 +47,15 @@ public class VoteRecordManager {
         if( !voteRecord.getBallot().isPersistent() || !voteRecord.getVoter().isPersistent() )
             throw new EVException( "VoteRecordManager.save: Attempting to save a Vote Record where either Ballot or Voter are not persistent" );
 
-        try {
-            
+        try { 
         	 if( !voteRecord.isPersistent() )
                  stmt = (PreparedStatement) conn.prepareStatement( insertVoteRecordSql );
              else
                  stmt = (PreparedStatement) conn.prepareStatement( updateVoteRecordSql );
             
         	 
-        	 stmt.setLong( 1, voteRecord.getBallot().getId() );
-             stmt.setLong( 2, voteRecord.getVoter().getId() );
+        	stmt.setLong( 1, voteRecord.getBallot().getId() );
+            stmt.setLong( 2, voteRecord.getVoter().getId() );
         	 
             if( voteRecord.getDate() != null )
             {
