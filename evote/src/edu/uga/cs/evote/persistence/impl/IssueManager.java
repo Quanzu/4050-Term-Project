@@ -163,8 +163,7 @@ public class IssueManager {
 	
 	 public void delete( Issue issue ) throws EVException
 	    {
-	        String               deleteIssueSql = "delete t1, t2 from Issue as t1 
-						+ "inner join IssueBallot as t2 on t1.issueId = t2.issueId "
+	        String               deleteIssueSql = "delete t1 from Issue as t1 
 	        				+ "where issueId = ?";              
 	        PreparedStatement    stmt = null;
 	        int                  inscnt;
