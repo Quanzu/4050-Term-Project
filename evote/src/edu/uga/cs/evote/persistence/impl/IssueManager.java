@@ -27,8 +27,8 @@ public class IssueManager {
 	}
 	
 	public void store(Issue issue) throws EVException{
-        String               insertIssueSql = "insert into Issue (question, yesCount, noCount ) values ( ?, ?, ? )";              
-        String               updateIssueSql = "update issue set issueId = ?, question = ?, yesCount = ?, noCount = ? where issueId = ?";              
+        String               insertIssueSql = "insert into Issue (question, yesCount) values ( ?, ?)";              
+        String               updateIssueSql = "update issue set issueId = ?, question = ?, yesCount = ? where issueId = ?";              
         PreparedStatement    stmt;
         int                  inscnt;
         long                 issueId;
@@ -50,16 +50,9 @@ public class IssueManager {
             	stmt.setInt(2, issue.getYesCount());
             else 
                 throw new EVException( "IssueManager.save: can't save a Issue: question undefined" );
-           
-            	
-            if (issue.getNoCount() > -1)
-            	stmt.setInt(3, issue.getNoCount());
-            else 
-                throw new EVException( "IssueManager.save: can't save a Issue: question undefined" );
-          
             
             if( issue.isPersistent() )
-                stmt.setLong( 4, issue.getId() );
+                stmt.setLong( 3, issue.getId() );
 
             inscnt = stmt.executeUpdate();
             if( !issue.isPersistent() ) {
@@ -95,7 +88,7 @@ public class IssueManager {
 		String       selectIssueSql = "select Issue issueId, question, yesCount, noCount from Issue";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
-        StringBuffer condition = new StringBuffer( 100 );
+        
         List<Issue> issues = new ArrayList<Issue>();
         
         // form the query based on the given Person object instance
@@ -107,8 +100,6 @@ public class IssueManager {
             else if( modelIssue.getQuestion() != null ) 
                 query.append( " and question = '" + modelIssue.getQuestion() + "'" );
             else {            	
-                if( modelIssue.getNoCount() > -1 ) {
-                    condition.append( " and noCount = " + modelIssue.getNoCount());
                     
                if( modelIssue.getYesCount() > -1 ) 
                         query.append( " and yesCount = " + modelIssue.getYesCount() );
@@ -123,11 +114,11 @@ public class IssueManager {
                     condition.append( " and" );
                     condition.append( " nocount = '" + modelIssue.getNoCount() + "'" );
                 }
-*/
+
                 if( condition.length() > 0 ) {
                     query.append(  " and " );
                     query.append( condition );
-                }
+                }*/
             }
         }
         try {
@@ -141,20 +132,20 @@ public class IssueManager {
                 long   issueId;
                 String question;
                 int yesCount;
-                int noCount;
+                
                 
                 while( rs.next() ) {
 
                     issueId = rs.getLong( 1 );
                     question = rs.getString( 2 );
                     yesCount = rs.getInt(3);
-                    noCount = rs.getInt(4);
+                    
 
                     Issue issue = objectLayer.createIssue();
                     issue.setId( issueId );
                     issue.setQuestion(question);
                     issue.setYesCount(yesCount);
-                    issue.setVoteCount(noCount + yesCount);
+                    issue.setVoteCount(yesCount);
                     issues.add( issue );
 
                 }
@@ -172,10 +163,9 @@ public class IssueManager {
 	
 	 public void delete( Issue issue ) throws EVException
 	    {
-	        String               deleteIssueSql = "delete t1, t2, t3 from Issue as t1 "
-	        									   + "inner join question as t2 on t1.issueId = t2.issueId "
-	        									   + "inner join yescount as t3 on t1.issueId = t3.issueId "
-	        									   + "where issueId = ?";              
+	        String               deleteIssueSql = "delete t1, t2 from Issue as t1 
+						+ "inner join IssueBallot as t2 on t1.issueId = t2.issueId "
+	        				+ "where issueId = ?";              
 	        PreparedStatement    stmt = null;
 	        int                  inscnt;
 	        
