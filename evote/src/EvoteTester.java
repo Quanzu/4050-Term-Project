@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.*;
@@ -20,7 +22,7 @@ public class EvoteTester {
 		PersistenceLayer persistence;
 		Properties prop = new Properties();
 		prop.setProperty("user", "root");
-		prop.setProperty("password", "abcd1234");
+		prop.setProperty("password", "asdf");
 		prop.setProperty("useSSL", "false");
 		prop.setProperty("autoReconnect", "true");
 		try{
@@ -53,14 +55,14 @@ public class EvoteTester {
 		PoliticalParty p2 = test.createPoliticalParty("democrat");
 		
 		//creating elections
-		/*
+		
 		Election elect1 = test.createElection("Judge1", false);
 		Election elect2 = test.createElection("UGA SGA President", true);
 		Election elect3 = test.createElection("HomeComing", false);
 		Election elect4 = test.createElection("Judge3", false);
 		Election elect5 = test.createElection("President", true);
 		Election elect6 = test.createElection("Student Council", false);
-		System.out.println("CREATED election");
+		
 		
 		//Creates issues
 		Issue i1 = test.createIssue("Would you like a new CS building?");
@@ -122,11 +124,13 @@ public class EvoteTester {
 		test.createElectionsOfficer();
 		
 		//create 1 electoral district
-		ec = test.createElectoralDistrict();
-		*/
+		ec = test.createElectoralDistrict("Fulton");
+		
 		//create voter and add to a electoral district
 		Voter voter1 = test.createVoter("Danielle", "Lee", "dlee", "dlee", "dlee@gmail.com", "123 D road", 43);
 		Voter voter2 = test.createVoter("Sammy", "Bro", "SBro", "SBro", "sammy@gmail.com", "456 Simon Street", 31);
+		persistence.storeVoter(voter1);
+		persistence.storeVoter(voter2);
 		//System.out.println("Voter 1: " + voter1.getFirstName());
 		//voter1.setElectoralDistrict(ec);
 		//voter2.setElectoralDistrict(ec);
@@ -146,11 +150,15 @@ public class EvoteTester {
 		persistence.deleteVoter(voter1);
 		*/
 		
-		/*
+		
 		//create 2 ballots with 3 issues and 3 elections
+		Date dat = new Date(111111111);
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		//Date myDate = formatter.parse(dat);
 		b1 = test.createBallot();
 		b2 = test.createBallot();
-		
+		persistence.storeBallot(b1);
+		/*
 		//add to ballot 1
 		b1.addBallotItem(elect1);
 		b1.addBallotItem(elect2);
@@ -175,7 +183,7 @@ public class EvoteTester {
 		
 		VoteRecord vr3 = test.createVoteRecord(b1, voter2, null);
 		VoteRecord vr4 = test.createVoteRecord(b2, voter2, null);
-		
+		*/
 		//Voter 1 
 		//c1-3 in elect1
 		//c4-6 in elect3
@@ -214,11 +222,9 @@ public class EvoteTester {
 		
 		
 		//Store the data...
-		//Store voter
-		persistence.storeVoter(voter1);
-		persistence.storeVoter(voter1);
 		
-		//Store candidate
+		
+		/*Store candidate
 		persistence.storeCandidate(c1);
 		persistence.storeCandidate(c2);
 		persistence.storeCandidate(c3);
@@ -231,6 +237,7 @@ public class EvoteTester {
 		persistence.storeCandidate(c10);
 		persistence.storeCandidate(c11);
 		persistence.storeCandidate(c12);
+		*/
 		persistence.storeCandidate(c13);
 		persistence.storeCandidate(c14);
 		persistence.storeCandidate(c15);
@@ -240,12 +247,10 @@ public class EvoteTester {
 		
 		//Store districts
 		persistence.storeElectoralDistrict(ec);
-		*/
+		
 		//store political parties
-		//persistence.storePoliticalParty(p1);
-		//persistence.storePoliticalParty(p2);
-		//System.out.println(p1.getId());
-		//System.out.println(p2.getId());
+		persistence.storePoliticalParty(p1);
+		persistence.storePoliticalParty(p2);
 		
 		
 		//Restore and Delete pp- testing purposes
@@ -265,7 +270,8 @@ public class EvoteTester {
 		persistence.storeBallot(b1);
 		persistence.storeBallot(b2);
 		
-		//store elections
+		
+		store elections
 		persistence.storeElection(elect1);
 		persistence.storeElection(elect2);
 		persistence.storeElection(elect3);
@@ -279,13 +285,20 @@ public class EvoteTester {
 		persistence.storeIssue(i4);
 		persistence.storeIssue(i5);
 		persistence.storeIssue(i6);
+		*/
 		
-		//Store district and voter link
+		
+		//Store district and voter link - WORKS
 		persistence.storeVoterBelongsToElectoralDistrict(voter1, ec);
 		persistence.storeVoterBelongsToElectoralDistrict(voter2, ec);
+		persistence.deleteVoterBelongsToElection(voter1, ec);
+		/*
+		 * 
 		//store district and ballot link
 		persistence.storeElectoralDistrictHasBallotBallot(ec, b1);
 		persistence.storeElectoralDistrictHasBallotBallot(ec, b2);
+		
+		*/
 		//store Candidate and party
 		persistence.storeCandidateIsMemberOfPoliticalParty(c13, p1);
 		persistence.storeCandidateIsMemberOfPoliticalParty(c14, p1);
@@ -293,7 +306,14 @@ public class EvoteTester {
 		persistence.storeCandidateIsMemberOfPoliticalParty(c16, p1);
 		persistence.storeCandidateIsMemberOfPoliticalParty(c17, p1);
 		persistence.storeCandidateIsMemberOfPoliticalParty(c18, p2);
+		List<Candidate> cand = new ArrayList<Candidate>();
+		for (int i = 0; i< cand.size(); i ++)
+		{
+			
+		}
 		
+		
+		/*
 		//store candidates and election link
 		persistence.storeCandidateIsCandidateInElection(c1, elect1);
 		persistence.storeCandidateIsCandidateInElection(c2, elect1);
