@@ -214,7 +214,7 @@ class ElectionsOfficerManager
     public void delete( ElectionsOfficer officer ) 
             throws EVException
     {
-        String               deleteUserSql = "delete t1, t2 from User as t1 inner join ElectionsOfficer as t2 on t1.userId = t2.userId where t1.userId = ?";              
+        String               deleteUserSql = "delete t1 from User as t1 where t1.userId = ?";              
         PreparedStatement    stmt = null;
         int                  inscnt;
         
