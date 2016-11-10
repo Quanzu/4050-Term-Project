@@ -413,5 +413,11 @@ public interface ObjectLayer
     /**
      * 
      */
+	public PersistenceLayer getPersistence();
+    
+    /**
+     * 
+     */
 	public void setPersistence(PersistenceLayer persistence);
+	
 }

@@ -27,7 +27,7 @@ import edu.uga.cs.evote.persistence.PersistenceLayer;
 
 public class ObjectLayerImpl implements ObjectLayer {
 
-	PersistenceLayer persistence = null;
+	private PersistenceLayer persistence = null;
     
     public ObjectLayerImpl()
     {
@@ -287,6 +287,11 @@ public class ObjectLayerImpl implements ObjectLayer {
 		persistence.deleteVoteRecord(voteRecord);
 	}
 
+	@Override
+	public PersistenceLayer getPersistence(){
+		return this.persistence;
+	}
+	
 	@Override
 	public void setPersistence(PersistenceLayer persistence){
 		this.persistence = persistence;
