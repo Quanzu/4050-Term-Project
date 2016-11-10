@@ -276,10 +276,7 @@ class VoterManager
     public void delete( Voter voter ) 
             throws EVException
     {
-        String               deleteUserSql = "delete t1, t2, t3, t4 from User as t1 "
-        								   + "inner join Voter as t2 on t1.userId = t2.userId "
-        								   + "inner join VoterDistrict as t3 on t2.voterId = t3.voterId "
-        								   + "inner join VoteRecord as t4 on t2.voterId = t4.voterId "
+        String               deleteUserSql = "delete t1 from User as t1 "
         								   + "where t1.userId = ?";
         PreparedStatement    stmt = null;
         int                  inscnt;
