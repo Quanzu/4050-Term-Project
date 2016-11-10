@@ -35,7 +35,7 @@ public class VoteRecordManager {
 	public void storeVoteRecord(VoteRecord voteRecord) throws EVException
 	{
 		String               insertVoteRecordSql = "insert into VoteRecord (date, ballotId, voterId) values ( ?, ?, ?)";              
-        String               updateVoteRecordSql = "update VoteRecord  set date = ?, ballotId = ?, voterId = ? where date = ? and ballotId = ? and voterId = ?";              
+        String               updateVoteRecordSql = "update VoteRecord  set date = ?, ballotId = ?, voterId = ? where voteRecordId = ?";              
                 
         PreparedStatement    stmt;
         int                  inscnt;

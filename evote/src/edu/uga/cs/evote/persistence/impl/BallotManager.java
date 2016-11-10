@@ -6,7 +6,9 @@ import com.mysql.jdbc.PreparedStatement;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import edu.uga.cs.evote.entity.VoteRecord;
@@ -48,12 +50,12 @@ public class BallotManager {
             
             
             if( ballot.getOpenDate() != null )
-                stmt.setDate( 1, ballot.getOpenDate() );
+                stmt.setDate( 1, (java.sql.Date) ballot.getOpenDate() );
             else 
                 throw new EVException( "BallotManager.save: can't save a Ballot: name undefined" );
 
-            if( ballot.getCloseDate())
-                stmt.setDate( 2, ballot.getCloseDate() );
+            if( ballot.getCloseDate() != null)
+                stmt.setDate( 2, (java.sql.Date) ballot.getCloseDate() );
             else 
             	throw new EVException( "BallotManager.save: can't save a Ballot: name undefined" );
             	
@@ -187,7 +189,7 @@ public class BallotManager {
                     openDate = rs.getDate( 2 );
                     closeDate = rs.getDate( 3 );
 
-                    Ballot ballot = objectLayer.createBallot( openDate,closeDate );
+                    Ballot ballot = objectLayer.createBallot( openDate,closeDate, null );
                     ballot.setId( id );
 
                     ballots.add( ballot );
@@ -243,7 +245,7 @@ public class BallotManager {
                     openDate = rs.getDate( 2 );
                   	closeDate = rs.getDate( 3 );
 
-                    ballot = objectLayer.createBallot(openDate,closeDate);
+                    ballot = objectLayer.createBallot(openDate,closeDate, null);
                     ballot.setId( id );
                 }
                 
@@ -294,7 +296,7 @@ public class BallotManager {
                     openDate = rs.getDate( 2 );
                   	closeDate = rs.getDate( 3 );
 
-                    ballot = objectLayer.createBallot(openDate,closeDate);
+                    ballot = objectLayer.createBallot(openDate,closeDate, null);
                     ballot.setId( id );
                 }
                 
@@ -351,7 +353,7 @@ public class BallotManager {
                 String question;
                 int	   yesCount;
                 long   issueId;
-              	BallotItem nextBallotItem = null;
+              	Issue nextBallotItem = null;
               
                 ResultSet rs = stmt.getResultSet();
               
@@ -390,7 +392,7 @@ public class BallotManager {
                 int    voteCount;
                 boolean   isPartisanb;
                 boolean	  alternateAllowedb;
-              	BallotItem nextBallotItem = null;
+              	Election nextBallotItem = null;
               
                 ResultSet rs = stmt.getResultSet();
               
@@ -430,7 +432,6 @@ public class BallotManager {
             throw new EVException( "BallotManager.restoreBallotIncludesBallotItem: Could not restore persistent elec object; Root cause: " + e );
         }
         return ballotItems;
-        throw new EVException( "BallotManager.restoreBallotIncludesBallotItem: Could not restore persistent district objects" );
     }
   
     //returns electoral district
@@ -525,7 +526,7 @@ throw new EVException( "BallotManager.delete: failed to delete this ballot: " + 
     
     
     public void deleteBallotIncludesBallotItem( Ballot ballot, BallotItem ballotItem ) throws EVException{
-    	if(ballotItem instanceof IssueBallot){
+    	if(ballotItem instanceof Issue){
        String         deleteIssueBallotSql = "delete t1 from IssueBallot as t1 "
 				   + "where ballotId = ? and issueId = ?";              
     	PreparedStatement    stmt = null;
@@ -548,7 +549,7 @@ throw new EVException( "BallotManager.delete: failed to delete this ballot: " + 
     		throw new EVException( "BallotManager.delete: failed to delete this IssueBallot: " + e.getMessage() );
     	} 
       }
-      else if(ballotItem instanceof ElectionBallot){
+      else if(ballotItem instanceof Election){
        String         deleteElectionBallotSql = "delete t1 from ElectionBallot as t1 "
 				   + "where electionId = ? and issueId = ?";              
     	PreparedStatement    stmt = null;
