@@ -134,7 +134,8 @@ class PoliticalPartyManager
     }
     
     public List<Candidate> restoreCandidateIsMemberOfPoliticalParty( PoliticalParty politicalParty ) throws EVException{
-    	 String       selectPartySql = "select partyId, partyName from Party";
+    	 String       selectPartySql = "select c.candidateId, c.name, c.voteCount, c.isAlternate from Candidate c, PoliticalParty p, CandidateParty cp "
+    	 							 + "where c.candidateId = cp.candidateId and p.partyId = cp.partyId ";
          Statement    stmt = null;
          StringBuffer query = new StringBuffer( 100 );
          List<Candidate> candidates = new ArrayList<Candidate>();
@@ -144,33 +145,38 @@ class PoliticalPartyManager
          
          if( politicalParty != null ) {
              if( politicalParty.getId() >= 0 ) // id is unique, so it is sufficient to get a person
-                 query.append( " where partyId = " + politicalParty.getId() );
+                 query.append( " and p.partyId = " + politicalParty.getId() );
              else if( politicalParty.getName() != null ) // userName is unique, so it is sufficient to get a person
-                 query.append( " where partyName = '" + politicalParty.getName() + "'" );
+                 query.append( " and p.partyName = '" + politicalParty.getName() + "'" );
              
          }
          
          try {
-
              stmt = conn.createStatement();
-
-             // retrieve the persistent Person objects
-             
+             // retrieve the persistent Person objects      
              if( stmt.execute( query.toString() ) ) { // statement returned a result
                  ResultSet rs = stmt.getResultSet();
                  long   id;
-                 String partyName;
+                 String name;
+                 int voteCount;
+                 int isAlternate;
                  
                  while( rs.next() ) {
+                	 id = rs.getLong( 1 );
+                     name = rs.getString( 2 );
+                     voteCount = rs.getInt( 3 );
+                     isAlternate = rs.getInt( 4 );
 
-                     id = rs.getLong( 1 );
-                     partyName = rs.getString( 2 );
-
-                     PoliticalParty party = objectLayer.createPoliticalParty( partyName );
-                     party.setId( id );
-
-                     candidates = party.getCandidates();
-
+                     Candidate candidate = objectLayer.createCandidate();
+                     candidate.setId( id );
+                     candidate.setName(name);
+                     if(isAlternate == 1)
+                     	candidate.setIsAlternate(true);
+                     else
+                     	candidate.setIsAlternate(false);
+                     candidate.setVoteCount(voteCount);
+                     
+                     candidates.add( candidate );
                  }
                  
                  return candidates;
