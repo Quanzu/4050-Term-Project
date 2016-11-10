@@ -22,7 +22,7 @@ public class EvoteTester {
 		PersistenceLayer persistence;
 		Properties prop = new Properties();
 		prop.setProperty("user", "root");
-		prop.setProperty("password", "asdf");
+		prop.setProperty("password", "fdas!");
 		prop.setProperty("useSSL", "false");
 		prop.setProperty("autoReconnect", "true");
 		try{
@@ -57,7 +57,7 @@ public class EvoteTester {
 		//creating elections
 		
 		Election elect1 = test.createElection("Judge1", false);
-		Election elect2 = test.createElection("UGA SGA President", true);
+		Election elect2 = test.createElection("Pants", true);
 		Election elect3 = test.createElection("HomeComing", false);
 		Election elect4 = test.createElection("Judge3", false);
 		Election elect5 = test.createElection("President", true);
@@ -152,12 +152,24 @@ public class EvoteTester {
 		
 		
 		//create 2 ballots with 3 issues and 3 elections
-		Date dat = new Date(111111111);
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date utilDate = new java.util.Date(1111111111);
+		//java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		//Date myDate = formatter.parse(dat);
-		b1 = test.createBallot();
-		b2 = test.createBallot();
+		//System.out.println(utilDate.toString());
+		b1 = test.createBallot(utilDate, utilDate, ec);
+		b2 = test.createBallot(utilDate, utilDate, ec);
 		persistence.storeBallot(b1);
+		persistence.storeBallot(b2);
+		/*List<Ballot> x = new ArrayList<Ballot>();
+		x = persistence.restoreBallot(null);
+		
+		for (int i = 0; i < x.size(); i++)
+		{
+			System.out.println(x.get(i).getOpenDate());
+		}
+		
+		persistence.deleteBallot(b2);
+		*/
 		/*
 		//add to ballot 1
 		b1.addBallotItem(elect1);
@@ -224,7 +236,7 @@ public class EvoteTester {
 		//Store the data...
 		
 		
-		/*Store candidate
+		//Store candidate
 		persistence.storeCandidate(c1);
 		persistence.storeCandidate(c2);
 		persistence.storeCandidate(c3);
@@ -237,7 +249,7 @@ public class EvoteTester {
 		persistence.storeCandidate(c10);
 		persistence.storeCandidate(c11);
 		persistence.storeCandidate(c12);
-		*/
+		
 		persistence.storeCandidate(c13);
 		persistence.storeCandidate(c14);
 		persistence.storeCandidate(c15);
@@ -253,8 +265,8 @@ public class EvoteTester {
 		persistence.storePoliticalParty(p2);
 		
 		
-		//Restore and Delete pp- testing purposes
-		/*List<PoliticalParty> x = new ArrayList<PoliticalParty>();
+		/*Restore and Delete pp- testing purposes
+		List<PoliticalParty> x = new ArrayList<PoliticalParty>();
 		x = persistence.restorePoliticalParty(null);
 		
 		for (int i = 0; i < x.size(); i++)
@@ -263,22 +275,19 @@ public class EvoteTester {
 			System.out.println(x.get(i).getId());
 		}
 		//persistence.deletePoliticalParty(p1);
-		//persistence.deletePoliticalParty(p2);
-		
-		/*
-		//Store ballot
-		persistence.storeBallot(b1);
-		persistence.storeBallot(b2);
+		*/persistence.deletePoliticalParty(p2);
 		
 		
-		store elections
+		
+		
+		//store elections
 		persistence.storeElection(elect1);
 		persistence.storeElection(elect2);
 		persistence.storeElection(elect3);
 		persistence.storeElection(elect4);
 		persistence.storeElection(elect5);
 		persistence.storeElection(elect6);
-		//store issues
+		/*store issues
 		persistence.storeIssue(i1);
 		persistence.storeIssue(i2);
 		persistence.storeIssue(i3);
@@ -291,14 +300,23 @@ public class EvoteTester {
 		//Store district and voter link - WORKS
 		persistence.storeVoterBelongsToElectoralDistrict(voter1, ec);
 		persistence.storeVoterBelongsToElectoralDistrict(voter2, ec);
-		persistence.deleteVoterBelongsToElection(voter1, ec);
+		/*List<Voter> voters = new ArrayList<Voter>();
+		voters = ec.getVoters();
+		//System.out.println(cand.size());
+		//cand = persistence.restoreElectoralDistrictHasBallotBallot(ec);
+		for (int i = 0; i< voters.size(); i ++)
+		{
+			System.out.println(voters.get(i).getFirstName());
+		}
+		*/
+		//persistence.deleteVoterBelongsToElection(voter1, ec);
 		/*
 		 * 
 		//store district and ballot link
 		persistence.storeElectoralDistrictHasBallotBallot(ec, b1);
 		persistence.storeElectoralDistrictHasBallotBallot(ec, b2);
 		
-		*/
+		/*
 		//store Candidate and party
 		persistence.storeCandidateIsMemberOfPoliticalParty(c13, p1);
 		persistence.storeCandidateIsMemberOfPoliticalParty(c14, p1);
@@ -307,13 +325,16 @@ public class EvoteTester {
 		persistence.storeCandidateIsMemberOfPoliticalParty(c17, p1);
 		persistence.storeCandidateIsMemberOfPoliticalParty(c18, p2);
 		List<Candidate> cand = new ArrayList<Candidate>();
+		cand = p1.getCandidates();
+		//cand = persistence.restoreCandidateIsMemberOfPoliticalParty(p1);
 		for (int i = 0; i< cand.size(); i ++)
 		{
-			
+			System.out.println(cand.get(i).getName());
 		}
+		persistence.deleteCandidateIsMemberOfElection(c13, p1);
+		*/
 		
 		
-		/*
 		//store candidates and election link
 		persistence.storeCandidateIsCandidateInElection(c1, elect1);
 		persistence.storeCandidateIsCandidateInElection(c2, elect1);
@@ -321,7 +342,7 @@ public class EvoteTester {
 		persistence.storeCandidateIsCandidateInElection(c4, elect3);
 		persistence.storeCandidateIsCandidateInElection(c5, elect3);
 		persistence.storeCandidateIsCandidateInElection(c6, elect3);
-		persistence.storeCandidateIsCandidateInElection(c7, elect4);
+		//persistence.storeCandidateIsCandidateInElection(c7, elect4);
 		persistence.storeCandidateIsCandidateInElection(c8, elect4);
 		persistence.storeCandidateIsCandidateInElection(c9, elect4);
 		persistence.storeCandidateIsCandidateInElection(c10, elect6);
@@ -333,11 +354,39 @@ public class EvoteTester {
 		persistence.storeCandidateIsCandidateInElection(c16, elect5);
 		persistence.storeCandidateIsCandidateInElection(c17, elect5);
 		persistence.storeCandidateIsCandidateInElection(c18, elect5);
+		Election temp = persistence.restoreCandidateIsCandidateInElection(c1);
+		/*System.out.println(temp.getOffice());
+		
+		List<Candidate> candidate = new ArrayList<Candidate>();
+		candidate = persistence.restoreCandidateIsCandidateInElection(elect3);
+		for (int i = 0; i< candidate.size(); i ++)
+		{
+			System.out.println(candidate.get(i).getName());
+		}
+		*/
+		//persistence.deleteCandidateIsCandidateInElection(c1, elect1);
+		
+		
 		
 		//store election and ballot link
 		persistence.storeElectoralDistrictHasBallotBallot(ec, b1);
 		persistence.storeElectoralDistrictHasBallotBallot(ec, b2);
-
+		//ec.s;
+		//ElectoralDistrict yes = persistence.restoreElectoralDistrictHasBallotBallot(b1);
+		//System.out.println(ec.getName());
+		/*
+		List<Ballot> cand = new ArrayList<Ballot>();
+		cand = ec.getBallots();
+		//System.out.println(cand.size());
+		//cand = persistence.restoreElectoralDistrictHasBallotBallot(ec);
+		/*for (int i = 0; i< cand.size(); i ++)
+		{
+			System.out.println(cand.get(i).getOpenDate());
+		}
+		*/
+		//persistence.deleteElectoralDistrictHasBallotBallot(ec, b2);
+		
+		/*
 		//store ballot and issue link
 		persistence.storeBallotIncludesBallotItem(b1, i1);
 		persistence.storeBallotIncludesBallotItem(b1, i2);
