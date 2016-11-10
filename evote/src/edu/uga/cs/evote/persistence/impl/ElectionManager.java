@@ -286,7 +286,7 @@ public class ElectionManager {
             throws EVException
     {
         String               deleteElectionSql = "delete t1 from Election as t1 "
-        										+ "where t1.electionId = ?";              
+        					 + "where t1.electionId = ?";              
         PreparedStatement    stmt = null;
         int                  inscnt;
         
