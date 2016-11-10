@@ -195,7 +195,7 @@ class ElectoralDistrictManager
     public List<Voter> restoreVoterBelongsToElectoralDistrict( ElectoralDistrict electoralDistrict ) throws EVException{
     		String       selectDistrictSql = "select t1.userId, t1.fname, t1.lname, t1.userName, t1.password, t1.email, t1.address, t2.age from User as t1 "
     									   + "inner join Voter as t2 on t1.userId = t2.userId "
-    									   + "inner join VoterDistrict as t3 on t1.userId = t3.userId "
+    									   + "inner join VoterDistrict as t3 on t2.voterId = t3.voterId "
     									   + "inner join ElectoralDistrict as t4 on t4.districtId = t3.districtId ";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
