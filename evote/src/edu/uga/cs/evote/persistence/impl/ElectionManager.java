@@ -125,9 +125,9 @@ public class ElectionManager {
 	            		condition.append(" isPartisan = 0 ");
 	            	
 	            	if(modelElection.getAlternateAllowed())
-	            		condition.append(" and alternateAllowed = 1");
+	            		condition.append(" and alternateAllowed = 1 ");
 	            	else
-	            		condition.append(" and alternateAllowed = 0");
+	            		condition.append(" and alternateAllowed = 0 ");
 	            	
 	            	condition.append(" and voteCount = '" + modelElection.getVoteCount() + "'");
 	                    
@@ -216,18 +216,18 @@ public class ElectionManager {
                 }
 
                 if( election.getIsPartisan())
-                    condition.append( " and e.isPartisan = 1"); 
+                    condition.append( " and e.isPartisan = 1 "); 
                 else
-                    condition.append( " and e.isPartisan = 0"); 
+                    condition.append( " and e.isPartisan = 0 "); 
 
                 
                 if(election.getAlternateAllowed())
-                    condition.append( " and e.alternateAllowed = 1");
+                    condition.append( " and e.alternateAllowed = 1 ");
                 else
-                    condition.append( " and e.alternateAllowed = 0");
+                    condition.append( " and e.alternateAllowed = 0 ");
                 
                 if (election.getVoteCount() >= 0)
-                	condition.append(" and e.voteCount = " + election.getVoteCount());
+                	condition.append(" and e.voteCount = '" + election.getVoteCount());
 
                 if( condition.length() > 0 )
                     query.append( condition );
