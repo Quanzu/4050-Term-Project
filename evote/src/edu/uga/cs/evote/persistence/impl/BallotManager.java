@@ -322,33 +322,29 @@ public class BallotManager {
         query2.append( selectElectionBallotSql );
         
         if( ballot != null ) {
-            if( ballot.getId() >= 0 ) 
+            if( ballot.getId() >= 0 ){
                 query.append( " and b.ballotId = " + ballot.getId() );
-            else if( ballot.getOpenDate() != null ) 
-                query.append( " and b.openDate = '" + ballot.getOpenDate() + "'" );
-            else if(ballot.getCloseDate() !=null )
-              	query.append( " and b.closeDate = '" + ballot.getCloseDate() + "'");
-            
-        }
-        if( ballot != null ) {
-            if( ballot.getId() >= 0 ) 
                 query2.append( " and b.ballotId = " + ballot.getId() );
-            else if( ballot.getOpenDate() != null ) 
+
+            }
+            else if( ballot.getOpenDate() != null ){
+                query.append( " and b.openDate = '" + ballot.getOpenDate() + "'" );
                 query2.append( " and b.openDate = '" + ballot.getOpenDate() + "'" );
-            else if(ballot.getCloseDate() !=null )
+            }
+            else if(ballot.getCloseDate() !=null ){
+              	query.append( " and b.closeDate = '" + ballot.getCloseDate() + "'");
               	query2.append( " and b.closeDate = '" + ballot.getCloseDate() + "'");
-            
+            }           
         }
+
         try {
-
             stmt = conn.createStatement();
-
             // retrieve the persistent BallotItem objects
             if( stmt.execute( query.toString() ) ) { // statement returned a result
-                
+               
+            	long   issueId;
                 String question;
                 int	   yesCount;
-                long   issueId;
               	Issue nextBallotItem = null;
               
                 ResultSet rs = stmt.getResultSet();
@@ -365,12 +361,9 @@ public class BallotManager {
                   	nextBallotItem.setYesCount( yesCount );
 
                     ballotItems.add( nextBallotItem );
-
-                }
-                
-             
+                }                    
             }
-           }
+        }
         catch( Exception e ) {      // just in case...
             throw new EVException( "BallotManager.restoreBallotIncludesBallotItem: Could not restore persistent elec object; Root cause: " + e );
         }
@@ -397,15 +390,13 @@ public class BallotManager {
                     electionId = rs.getLong( 1 );
                     office = rs.getString( 2 );
                     isPartisan = rs.getInt( 3 );
-                    if(isPartisan == 1){
+                    if(isPartisan == 1)
                     	isPartisanb = true;
-                    }
                     else
                     	isPartisanb = false;
                     alternateAllowed = rs.getInt( 4 );
-                    if(alternateAllowed == 1){
+                    if(alternateAllowed == 1)
                     	alternateAllowedb = true;
-                    }
                     else
                     	alternateAllowedb = false;
                     voteCount = rs.getInt( 5 );
@@ -418,12 +409,9 @@ public class BallotManager {
                   	nextBallotItem.setVoteCount( voteCount );
 
                     ballotItems.add( nextBallotItem );
-
-                }
-                
-                
+                }                
             }
-           }
+        }
         catch( Exception e ) {      // just in case...
             throw new EVException( "BallotManager.restoreBallotIncludesBallotItem: Could not restore persistent elec object; Root cause: " + e );
         }
@@ -433,7 +421,7 @@ public class BallotManager {
     //returns electoral district
     public ElectoralDistrict restoreElectoralDistrictHasBallotBallot( Ballot ballot ) throws EVException{
     	String       selectDistrictSql = "select e.districtId, e.districtName from electoralDistrict as e, ballot as b, ballotDistrict bd"
-          										+"where bd.districtId = e.districtId and bd.ballotId";              
+          							   + "where bd.districtId = e.districtId and bd.ballotId = b.ballotId";              
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         StringBuffer condition = new StringBuffer( 100 );
@@ -448,19 +436,11 @@ public class BallotManager {
                 query.append( " and b.id = " + ballot.getId() );
             else if( ballot.getOpenDate() != null ) // userName is unique, so it is sufficient to get a person
                 query.append( " and b.openDate = '" + ballot.getOpenDate() + "'" );
-            else {
-                if( ballot.getCloseDate() != null ) {
-                    condition.append( " and b.established = '" + ballot.getCloseDate() + "'" );
-                }
-
-                if( condition.length() > 0 ) {
-                    query.append( condition );
-                }
-            }
+            else if( ballot.getCloseDate() != null )
+                query.append( " and b.closeDate = '" + ballot.getCloseDate() + "'" );          
         }
-                
+        
         try {
-
             stmt = conn.createStatement();
 
             // retrieve the persistent ElectoralDistrict object
@@ -483,12 +463,11 @@ public class BallotManager {
                 
                 return electoralDistrict;
             }
-            else
-                return null;
         }
         catch( Exception e ) {      // just in case...
             throw new EVException( "BallotManager.ElectoralDistrictHasBallotBallot: Could not restore persistent elec object; Root cause: " + e );
         }
+        return null;
     }
 	
     

@@ -67,8 +67,11 @@ public class DriverTest {
 		test.storePoliticalParty(party2);
 		
 		
-
+		//Ballot ballot1 = test.createBallot(openDate, closeDate, electoralDistrict);
+		//Ballot ballot2 = test.createBallot(openDate, closeDate, electoralDistrict);
 		
+		
+
 		
 		
 	}
