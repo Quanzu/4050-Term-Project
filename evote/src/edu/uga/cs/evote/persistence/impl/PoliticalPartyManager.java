@@ -160,6 +160,7 @@ class PoliticalPartyManager
                  int isAlternate;
                  
                  while( rs.next() ) {
+
                 	 id = rs.getLong( 1 );
                      name = rs.getString( 2 );
                      voteCount = rs.getInt( 3 );
@@ -175,6 +176,9 @@ class PoliticalPartyManager
                      candidate.setVoteCount(voteCount);
                      
                      candidates.add( candidate );
+
+
+                    
                  }
                  
                  return candidates;

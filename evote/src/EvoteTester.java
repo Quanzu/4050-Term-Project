@@ -1,6 +1,4 @@
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.*;
@@ -10,26 +8,16 @@ import edu.uga.cs.evote.persistence.PersistenceLayer;
 import edu.uga.cs.evote.persistence.impl.DbUtils;
 import edu.uga.cs.evote.persistence.impl.PersistenceLayerImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
 public class EvoteTester {
 
+	
 	public static void main(String[] args) throws EVException {
 		
-		System.out.println("HI");
 		Connection conn = null;
 		PersistenceLayer persistence;
-		Properties prop = new Properties();
-		prop.setProperty("user", "root");
-		prop.setProperty("password", "fdas!");
-		prop.setProperty("useSSL", "false");
-		prop.setProperty("autoReconnect", "true");
+
 		try{
-			conn = DriverManager.getConnection(  
-					"jdbc:mysql://localhost:3306/eVote", prop);
-					//"jdbc:mysql://localhost:3306/evote","root","sdafsd");
-					//DbUtils.connect();
+			conn =	DbUtils.connect();
 		}
 		catch(Exception seq){
 			System.err.println("DeleteTest: Unable to obtain a database connection");
@@ -44,34 +32,67 @@ public class EvoteTester {
 		ObjectLayer test = new ObjectLayerImpl();
 		persistence = new PersistenceLayerImpl(conn, test);
 		test.setPersistence(persistence);
+		java.util.Date utilDate = new java.util.Date(1478649600);
+
 		
+		boolean toCreateAndStore = false;
+		boolean toDelete = true;
 		
-		ElectoralDistrict ec;
-		Ballot b1;
-		Ballot b2;
+
+		//creating elections officer
+		ElectionsOfficer officer1 = test.createElectionsOfficer("Phi", "Nguyen", "pnguyen", "abcd1234", "philong@uga.edu", "123 Main St");
+		ElectionsOfficer officer2 = test.createElectionsOfficer("John", "Smith", "jsmith", "1234abcd", "jsmith@uga.edu", "321 Main St");
+		//storing eo
+		test.storeElectionsOfficer(officer1);
+		test.storeElectionsOfficer(officer2);
 		
-		//Create 2 political parties
-		PoliticalParty p1 = test.createPoliticalParty("republican");
-		PoliticalParty p2 = test.createPoliticalParty("democrat");
+		//creating electoral district
+		ElectoralDistrict electoralDistrict1 = test.createElectoralDistrict("District 9");
+		//storing district
+		test.storeElectoralDistrict(electoralDistrict1);
 		
+		//creating two voters
+		Voter voter1 = test.createVoter("Michael", "Jordan", "MJ23", "mjpass", "mj@jumpman.com", "123 Jordan Ave", 60);
+		Voter voter2 = test.createVoter("Steve", "Jobs", "appleguy", "apple123", "steve@apple.com", "123 Silicon Valley", 60);
+		//storing voters
+		test.storeVoter(voter1);
+		test.storeVoter(voter2);
+		
+		//storing voter district associations
+		test.getPersistence().storeVoterBelongsToElectoralDistrict(voter1, electoralDistrict1);
+		test.getPersistence().storeVoterBelongsToElectoralDistrict(voter2, electoralDistrict1);
+		
+		//creating two political parties
+		PoliticalParty p1 = test.createPoliticalParty("Republican");
+		PoliticalParty p2 = test.createPoliticalParty("Democrat");
+		//storing political party
+		test.storePoliticalParty(p1);
+		test.storePoliticalParty(p2);
+		
+		//creating ballots
+		Ballot b1 = test.createBallot(utilDate, utilDate, electoralDistrict1);
+		Ballot b2 = test.createBallot(utilDate, utilDate, electoralDistrict1);		
+		//storing ballots and storing district ballot associations
+		test.storeBallot(b1);
+		test.storeBallot(b2);
+		test.getPersistence().storeElectoralDistrictHasBallotBallot(electoralDistrict1, b1);
+		test.getPersistence().storeElectoralDistrictHasBallotBallot(electoralDistrict1, b2);
+
 		//creating elections
-		
 		Election elect1 = test.createElection("Judge1", false);
 		Election elect2 = test.createElection("Pants", true);
-		Election elect3 = test.createElection("HomeComing", false);
+		Election elect3 = test.createElection("HomeComing", false);	
 		Election elect4 = test.createElection("Judge3", false);
 		Election elect5 = test.createElection("President", true);
 		Election elect6 = test.createElection("Student Council", false);
-		
-		
-		//Creates issues
-		Issue i1 = test.createIssue("Would you like a new CS building?");
-		Issue i2 = test.createIssue("Should we ban knives at the MLC");
-		Issue i3 = test.createIssue("Should the drinking age be lowered?");
-		Issue i4 = test.createIssue("Should Bolton be open later than 8?");
-		Issue i5 = test.createIssue("Should UGA enforce a dress code?");
-		Issue i6 = test.createIssue("Should teachers make attendance mandatory?");
-		
+		//storing elections
+		persistence.storeElection(elect1);
+		persistence.storeElection(elect2);
+		persistence.storeElection(elect3);
+		persistence.storeElection(elect4);
+		persistence.storeElection(elect5);
+		persistence.storeElection(elect6);
+
 		//Creates candidates and puts them in a ballot for each election
 		Candidate c1 = test.createCandidate("sara", null, elect1);
 		Candidate c2 = test.createCandidate("Beth", null, elect1);
@@ -88,16 +109,31 @@ public class EvoteTester {
 		
 		//The three partisan candidates per ballot
 		Candidate c13 = test.createCandidate("Charlie",p1, elect2);
-		
 		Candidate c14 = test.createCandidate("Jack", p1, elect2);
-		
 		Candidate c15 = test.createCandidate("Katie", p2, elect2);
-		
 		Candidate c16 = test.createCandidate("Lillian", p1, elect5);
-		
 		Candidate c17 = test.createCandidate("James", p1, elect5);
-		
 		Candidate c18 = test.createCandidate("Danielle", p2, elect5);
+		//Storing candidate
+		persistence.storeCandidate(c1);
+		persistence.storeCandidate(c2);
+		persistence.storeCandidate(c3);
+		persistence.storeCandidate(c4);
+		persistence.storeCandidate(c5);
+		persistence.storeCandidate(c6);
+		persistence.storeCandidate(c7);
+		persistence.storeCandidate(c8);
+		persistence.storeCandidate(c9);
+		persistence.storeCandidate(c10);
+		persistence.storeCandidate(c11);
+		persistence.storeCandidate(c12);
+		persistence.storeCandidate(c13);
+		persistence.storeCandidate(c14);
+		persistence.storeCandidate(c15);
+		persistence.storeCandidate(c16);
+		persistence.storeCandidate(c17);
+		persistence.storeCandidate(c18);
+		
 		
 		//adds candidates to election
 		elect1.addCandidate(c1);
@@ -119,223 +155,14 @@ public class EvoteTester {
 		elect6.addCandidate(c11);
 		elect6.addCandidate(c12);
 		
-		//Create 2 elections officers
-		test.createElectionsOfficer();
-		test.createElectionsOfficer();
-		
-		//create 1 electoral district
-		ec = test.createElectoralDistrict("Fulton");
-		
-		//create voter and add to a electoral district
-		Voter voter1 = test.createVoter("Danielle", "Lee", "dlee", "dlee", "dlee@gmail.com", "123 D road", 43);
-		Voter voter2 = test.createVoter("Sammy", "Bro", "SBro", "SBro", "sammy@gmail.com", "456 Simon Street", 31);
-		persistence.storeVoter(voter1);
-		persistence.storeVoter(voter2);
-		//System.out.println("Voter 1: " + voter1.getFirstName());
-		//voter1.setElectoralDistrict(ec);
-		//voter2.setElectoralDistrict(ec);
-		
-		/*TESTING VOTER
-		persistence.storeVoter(voter1);
-		persistence.storeVoter(voter1);
-		List<Voter> x = new ArrayList<Voter>();
-		x = persistence.restoreVoter(null);
-		
-		for (int i = 0; i < x.size(); i++)
-		{
-			System.out.println(x.get(i).getFirstName());
-			System.out.println(x.get(i).getId());
-		}
-		persistence.restoreVoter(voter1);
-		persistence.deleteVoter(voter1);
-		*/
-		
-		
-		//create 2 ballots with 3 issues and 3 elections
-		java.util.Date utilDate = new java.util.Date(1111111111);
-		//java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		//Date myDate = formatter.parse(dat);
-		//System.out.println(utilDate.toString());
-		b1 = test.createBallot(utilDate, utilDate, ec);
-		b2 = test.createBallot(utilDate, utilDate, ec);
-		persistence.storeBallot(b1);
-		persistence.storeBallot(b2);
-		/*List<Ballot> x = new ArrayList<Ballot>();
-		x = persistence.restoreBallot(null);
-		
-		for (int i = 0; i < x.size(); i++)
-		{
-			System.out.println(x.get(i).getOpenDate());
-		}
-		
-		persistence.deleteBallot(b2);
-		*/
-		/*
-		//add to ballot 1
-		b1.addBallotItem(elect1);
-		b1.addBallotItem(elect2);
-		b1.addBallotItem(elect3);
-		b1.addBallotItem(i1);
-		b1.addBallotItem(i2);
-		b1.addBallotItem(i3);
-
-		
-		//add to ballot2
-		b1.addBallotItem(elect4);
-		b1.addBallotItem(elect5);
-		b1.addBallotItem(elect6);
-		b1.addBallotItem(i4);
-		b1.addBallotItem(i5);
-		b1.addBallotItem(i6);
-		
-		
-		//Creating Data- do we need this?
-		VoteRecord vr = test.createVoteRecord(b1, voter1, null);
-		VoteRecord vr2 = test.createVoteRecord(b2, voter1, null);
-		
-		VoteRecord vr3 = test.createVoteRecord(b1, voter2, null);
-		VoteRecord vr4 = test.createVoteRecord(b2, voter2, null);
-		*/
-		//Voter 1 
-		//c1-3 in elect1
-		//c4-6 in elect3
-		//c13-15 in elect 2
-		//c7-9 in elect 4
-		//c16-18 in elect 5
-		//c10-12 in elect 6
-		c1.addVote(); //election1
-		c13.addVote(); //election2
-		c6.addVote();
-		c7.addVote(); //election 4
-		c18.addVote(); //election5
-		c10.addVote(); //election 6
-		
-		i1.addYesVote();
-		i2.addYesVote();
-		i3.addNoVote();
-		i4.addNoVote();
-		i5.addYesVote();
-		i6.addNoVote();
-		
-		//voter 2
-		c3.addVote(); //election1
-		c12.addVote(); //election2
-		c6.addVote();
-		c9.addVote(); //election 4
-		c17.addVote(); //election5
-		c11.addVote(); //election 6
-		
-		i1.addYesVote();
-		i2.addNoVote();
-		i3.addYesVote();
-		i4.addYesVote();
-		i5.addYesVote();
-		i6.addYesVote();
-		
-		
-		//Store the data...
-		
-		
-		//Store candidate
-		persistence.storeCandidate(c1);
-		persistence.storeCandidate(c2);
-		persistence.storeCandidate(c3);
-		persistence.storeCandidate(c4);
-		persistence.storeCandidate(c5);
-		persistence.storeCandidate(c6);
-		persistence.storeCandidate(c7);
-		persistence.storeCandidate(c8);
-		persistence.storeCandidate(c9);
-		persistence.storeCandidate(c10);
-		persistence.storeCandidate(c11);
-		persistence.storeCandidate(c12);
-		
-		persistence.storeCandidate(c13);
-		persistence.storeCandidate(c14);
-		persistence.storeCandidate(c15);
-		persistence.storeCandidate(c16);
-		persistence.storeCandidate(c17);
-		persistence.storeCandidate(c18);
-		
-		//Store districts
-		persistence.storeElectoralDistrict(ec);
-		
-		//store political parties
-		persistence.storePoliticalParty(p1);
-		persistence.storePoliticalParty(p2);
-		
-		
-		/*Restore and Delete pp- testing purposes
-		List<PoliticalParty> x = new ArrayList<PoliticalParty>();
-		x = persistence.restorePoliticalParty(null);
-		
-		for (int i = 0; i < x.size(); i++)
-		{
-			System.out.println(x.get(i).getName());
-			System.out.println(x.get(i).getId());
-		}
-		//persistence.deletePoliticalParty(p1);
-		*/persistence.deletePoliticalParty(p2);
-		
-		
-		
-		
-		//store elections
-		persistence.storeElection(elect1);
-		persistence.storeElection(elect2);
-		persistence.storeElection(elect3);
-		persistence.storeElection(elect4);
-		persistence.storeElection(elect5);
-		persistence.storeElection(elect6);
-		/*store issues
-		persistence.storeIssue(i1);
-		persistence.storeIssue(i2);
-		persistence.storeIssue(i3);
-		persistence.storeIssue(i4);
-		persistence.storeIssue(i5);
-		persistence.storeIssue(i6);
-		*/
-		
-		
-		//Store district and voter link - WORKS
-		persistence.storeVoterBelongsToElectoralDistrict(voter1, ec);
-		persistence.storeVoterBelongsToElectoralDistrict(voter2, ec);
-		/*List<Voter> voters = new ArrayList<Voter>();
-		voters = ec.getVoters();
-		//System.out.println(cand.size());
-		//cand = persistence.restoreElectoralDistrictHasBallotBallot(ec);
-		for (int i = 0; i< voters.size(); i ++)
-		{
-			System.out.println(voters.get(i).getFirstName());
-		}
-		*/
-		//persistence.deleteVoterBelongsToElection(voter1, ec);
-		/*
-		 * 
-		//store district and ballot link
-		persistence.storeElectoralDistrictHasBallotBallot(ec, b1);
-		persistence.storeElectoralDistrictHasBallotBallot(ec, b2);
-		
-		/*
-		//store Candidate and party
+		//storing political party partisan candidates is from
 		persistence.storeCandidateIsMemberOfPoliticalParty(c13, p1);
 		persistence.storeCandidateIsMemberOfPoliticalParty(c14, p1);
 		persistence.storeCandidateIsMemberOfPoliticalParty(c15, p2);
 		persistence.storeCandidateIsMemberOfPoliticalParty(c16, p1);
 		persistence.storeCandidateIsMemberOfPoliticalParty(c17, p1);
 		persistence.storeCandidateIsMemberOfPoliticalParty(c18, p2);
-		List<Candidate> cand = new ArrayList<Candidate>();
-		cand = p1.getCandidates();
-		//cand = persistence.restoreCandidateIsMemberOfPoliticalParty(p1);
-		for (int i = 0; i< cand.size(); i ++)
-		{
-			System.out.println(cand.get(i).getName());
-		}
-		persistence.deleteCandidateIsMemberOfElection(c13, p1);
-		*/
-		
-		
-		//store candidates and election link
+		//storing candidate election association
 		persistence.storeCandidateIsCandidateInElection(c1, elect1);
 		persistence.storeCandidateIsCandidateInElection(c2, elect1);
 		persistence.storeCandidateIsCandidateInElection(c3, elect1);
@@ -354,47 +181,30 @@ public class EvoteTester {
 		persistence.storeCandidateIsCandidateInElection(c16, elect5);
 		persistence.storeCandidateIsCandidateInElection(c17, elect5);
 		persistence.storeCandidateIsCandidateInElection(c18, elect5);
-		Election temp = persistence.restoreCandidateIsCandidateInElection(c1);
-		/*System.out.println(temp.getOffice());
 		
-		List<Candidate> candidate = new ArrayList<Candidate>();
-		candidate = persistence.restoreCandidateIsCandidateInElection(elect3);
-		for (int i = 0; i< candidate.size(); i ++)
-		{
-			System.out.println(candidate.get(i).getName());
-		}
-		*/
-		//persistence.deleteCandidateIsCandidateInElection(c1, elect1);
-		
-		
-		
-		//store election and ballot link
-		persistence.storeElectoralDistrictHasBallotBallot(ec, b1);
-		persistence.storeElectoralDistrictHasBallotBallot(ec, b2);
-		//ec.s;
-		//ElectoralDistrict yes = persistence.restoreElectoralDistrictHasBallotBallot(b1);
-		//System.out.println(ec.getName());
-		/*
-		List<Ballot> cand = new ArrayList<Ballot>();
-		cand = ec.getBallots();
-		//System.out.println(cand.size());
-		//cand = persistence.restoreElectoralDistrictHasBallotBallot(ec);
-		/*for (int i = 0; i< cand.size(); i ++)
-		{
-			System.out.println(cand.get(i).getOpenDate());
-		}
-		*/
-		//persistence.deleteElectoralDistrictHasBallotBallot(ec, b2);
-		
-		/*
-		//store ballot and issue link
+		//creating issues
+		Issue i1 = test.createIssue("Would you like a new CS building?");
+		Issue i2 = test.createIssue("Should we ban knives at the MLC");
+		Issue i3 = test.createIssue("Should the drinking age be lowered?");	
+		Issue i4 = test.createIssue("Should Bolton be open later than 8?");
+		Issue i5 = test.createIssue("Should UGA enforce a dress code?");
+		Issue i6 = test.createIssue("Should teachers make attendance mandatory?");
+		//storing issues
+		persistence.storeIssue(i1);
+		persistence.storeIssue(i2);
+		persistence.storeIssue(i3);
+		persistence.storeIssue(i4);
+		persistence.storeIssue(i5);
+		persistence.storeIssue(i6);
+
+		//storing ballot and issue link
 		persistence.storeBallotIncludesBallotItem(b1, i1);
 		persistence.storeBallotIncludesBallotItem(b1, i2);
 		persistence.storeBallotIncludesBallotItem(b1, i3);
 		persistence.storeBallotIncludesBallotItem(b2, i4);
 		persistence.storeBallotIncludesBallotItem(b2, i5);
 		persistence.storeBallotIncludesBallotItem(b2, i6);
-		//store ballot and election
+		//storing ballot and election
 		persistence.storeBallotIncludesBallotItem(b1, elect1);
 		persistence.storeBallotIncludesBallotItem(b1, elect2);
 		persistence.storeBallotIncludesBallotItem(b1, elect3);
@@ -402,111 +212,72 @@ public class EvoteTester {
 		persistence.storeBallotIncludesBallotItem(b2, elect5);
 		persistence.storeBallotIncludesBallotItem(b2, elect6);
 		
-		//DELETE
-		//delete ballot and item link (issues and elections)
-		persistence.deleteBallotIncludesBallotItem(b1, elect1);
-		persistence.deleteBallotIncludesBallotItem(b1, elect2);
-		persistence.deleteBallotIncludesBallotItem(b1, elect3);
-		persistence.deleteBallotIncludesBallotItem(b2, i1);
-		persistence.deleteBallotIncludesBallotItem(b2, i2);
-		persistence.deleteBallotIncludesBallotItem(b2, i3);
-		persistence.deleteBallotIncludesBallotItem(b1, elect4);
-		persistence.deleteBallotIncludesBallotItem(b1, elect5);
-		persistence.deleteBallotIncludesBallotItem(b1, elect6);
-		persistence.deleteBallotIncludesBallotItem(b2, i4);
-		persistence.deleteBallotIncludesBallotItem(b2, i5);
-		persistence.deleteBallotIncludesBallotItem(b2, i6);
+		VoteRecord vr1 = test.createVoteRecord(b1, voter1, utilDate);
+		VoteRecord vr2 = test.createVoteRecord(b2, voter1, utilDate);
+		VoteRecord vr3 = test.createVoteRecord(b1, voter2, utilDate);
+		VoteRecord vr4 = test.createVoteRecord(b2, voter2, utilDate);
+		persistence.storeVoteRecord(vr1);
+		persistence.storeVoteRecord(vr2);
+		persistence.storeVoteRecord(vr3);
+		persistence.storeVoteRecord(vr4);
 		
-		//delete ballotdistrict link
-		persistence.deleteElectoralDistrictHasBallotBallot(ec, b1);
-		persistence.deleteElectoralDistrictHasBallotBallot(ec, b2);
 		
-		//delete voter district link
-		persistence.deleteVoterBelongsToElection(voter1, ec);
-		persistence.deleteVoterBelongsToElection(voter2, ec);
-		
-		//Need delete vote record?
-		
-		//delete ballot
-		persistence.deleteBallot(b1);
-		persistence.deleteBallot(b2);
-		
-		//delete electoral district
-		persistence.deleteElectoralDistrict(ec);
-		
-		//delete Issues
-		persistence.deleteIssue(i1);
-		persistence.deleteIssue(i2);
-		persistence.deleteIssue(i3);
-		persistence.deleteIssue(i4);
-		persistence.deleteIssue(i5);
-		persistence.deleteIssue(i6);
-		
-		//delete elections
-		persistence.deleteElection(elect1);
-		persistence.deleteElection(elect2);
-		persistence.deleteElection(elect3);
-		persistence.deleteElection(elect4);
-		persistence.deleteElection(elect5);
-		persistence.deleteElection(elect6);
-				
-		
-		//delete candidate and party llink
-		persistence.deleteCandidateIsMemberOfElection(c13, p1);
-		persistence.deleteCandidateIsMemberOfElection(c14, p1);
-		persistence.deleteCandidateIsMemberOfElection(c15, p2);
-		persistence.deleteCandidateIsMemberOfElection(c16, p1);
-		persistence.deleteCandidateIsMemberOfElection(c17, p1);
-		persistence.deleteCandidateIsMemberOfElection(c18, p2);
-		
-		//delete parties
-		persistence.deletePoliticalParty(p1);
-		persistence.deletePoliticalParty(p2);
-		
-		//delete candidate - election
-		persistence.deleteCandidateIsCandidateInElection(c1, elect1);
-		persistence.deleteCandidateIsCandidateInElection(c2, elect1);
-		persistence.deleteCandidateIsCandidateInElection(c3, elect1);
-		persistence.deleteCandidateIsCandidateInElection(c13, elect2);
-		persistence.deleteCandidateIsCandidateInElection(c14, elect2);
-		persistence.deleteCandidateIsCandidateInElection(c15, elect2);
-		persistence.deleteCandidateIsCandidateInElection(c4, elect3);
-		persistence.deleteCandidateIsCandidateInElection(c5, elect3);
-		persistence.deleteCandidateIsCandidateInElection(c6, elect3);
-		persistence.deleteCandidateIsCandidateInElection(c7, elect4);
-		persistence.deleteCandidateIsCandidateInElection(c8, elect4);
-		persistence.deleteCandidateIsCandidateInElection(c9, elect4);
-		persistence.deleteCandidateIsCandidateInElection(c16, elect5);
-		persistence.deleteCandidateIsCandidateInElection(c17, elect5);
-		persistence.deleteCandidateIsCandidateInElection(c18, elect5);
-		persistence.deleteCandidateIsCandidateInElection(c10, elect6);
-		persistence.deleteCandidateIsCandidateInElection(c11, elect6);
-		persistence.deleteCandidateIsCandidateInElection(c12, elect6);
-		
-		//Delete candidates
-		persistence.deleteCandidate(c1);
-		persistence.deleteCandidate(c2);
-		persistence.deleteCandidate(c3);
-		persistence.deleteCandidate(c4);
-		persistence.deleteCandidate(c5);
-		persistence.deleteCandidate(c6);
-		persistence.deleteCandidate(c7);
-		persistence.deleteCandidate(c8);
-		persistence.deleteCandidate(c9);
-		persistence.deleteCandidate(c10);
-		persistence.deleteCandidate(c11);
-		persistence.deleteCandidate(c12);
-		persistence.deleteCandidate(c13);
-		persistence.deleteCandidate(c14);
-		persistence.deleteCandidate(c15);
-		persistence.deleteCandidate(c16);
-		persistence.deleteCandidate(c17);
-		persistence.deleteCandidate(c18);
-		
-		//delete voter
-		persistence.deleteVoter(voter1);
-		persistence.deleteVoter(voter2);
-*/
-	}
+		if(toDelete){
+			//delete voter
+			persistence.deleteVoter(voter1);
+			persistence.deleteVoter(voter2);
+			
+			//delete parties
+			persistence.deletePoliticalParty(p1);
+			persistence.deletePoliticalParty(p2);
+			
+			//delete Issues
+			persistence.deleteIssue(i1);
+			persistence.deleteIssue(i2);
+			persistence.deleteIssue(i3);
+			persistence.deleteIssue(i4);
+			persistence.deleteIssue(i5);
+			persistence.deleteIssue(i6);
+			
+			//delete elections
+			persistence.deleteElection(elect1);
+			persistence.deleteElection(elect2);
+			persistence.deleteElection(elect3);
+			persistence.deleteElection(elect4);
+			persistence.deleteElection(elect5);
+			persistence.deleteElection(elect6);
+			
+			//delete ballot
+			persistence.deleteBallot(b1);
+			persistence.deleteBallot(b2);
+			
+			//delete electoral district
+			persistence.deleteElectoralDistrict(electoralDistrict1);
+			
+			//Delete candidates
+			persistence.deleteCandidate(c1);
+			persistence.deleteCandidate(c2);
+			persistence.deleteCandidate(c3);
+			persistence.deleteCandidate(c4);
+			persistence.deleteCandidate(c5);
+			persistence.deleteCandidate(c6);
+			persistence.deleteCandidate(c7);
+			persistence.deleteCandidate(c8);
+			persistence.deleteCandidate(c9);
+			persistence.deleteCandidate(c10);
+			persistence.deleteCandidate(c11);
+			persistence.deleteCandidate(c12);
+			persistence.deleteCandidate(c13);
+			persistence.deleteCandidate(c14);
+			persistence.deleteCandidate(c15);
+			persistence.deleteCandidate(c16);
+			persistence.deleteCandidate(c17);
+			persistence.deleteCandidate(c18);
+			
+			//delete eo
+			persistence.deleteElectionsOfficer(officer1);
+			persistence.deleteElectionsOfficer(officer2);
 
+		}
+	}
 }
