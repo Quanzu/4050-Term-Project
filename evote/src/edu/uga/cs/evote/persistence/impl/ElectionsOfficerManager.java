@@ -129,7 +129,7 @@ class ElectionsOfficerManager
         
         if( modelOfficer != null ) {
             if( modelOfficer.getId() >= 0 ) // id is unique, so it is sufficient to get a person
-                query.append( " and id = " + modelOfficer.getId() );
+                query.append( " and id = '" + modelOfficer.getId() );
             else if( modelOfficer.getUserName() != null ) // userName is unique, so it is sufficient to get a person
                 query.append( " and userName = '" + modelOfficer.getUserName() + "'" );
             else {
@@ -138,22 +138,22 @@ class ElectionsOfficerManager
                 }
 
                 if( modelOfficer.getLastName() != null ) {
-                    condition.append( " and" );
+                    condition.append( " and " );
                     condition.append( " lname = '" + modelOfficer.getLastName() + "'" );
                 }
             	
                 if( modelOfficer.getPassword() != null ){
-                    condition.append( " and" );
+                    condition.append( " and " );
                     condition.append( " password = '" + modelOfficer.getPassword() + "'" );
                 }
                     
                 if( modelOfficer.getEmailAddress() != null ) {
-                    condition.append( " and" );
+                    condition.append( " and " );
                     condition.append( " email = '" + modelOfficer.getEmailAddress() + "'" );
                 }
 
                 if( modelOfficer.getAddress() != null ) {
-                    condition.append( " and" );
+                    condition.append( " and " );
                     condition.append( " address = '" + modelOfficer.getAddress() + "'" );
                 }
 
