@@ -40,7 +40,6 @@ CREATE TABLE Issue (
  issueId INT NOT NULL AUTO_INCREMENT,
  question CHAR(100),
  yesCount INT,
- noCount INT,
  PRIMARY KEY (issueId)
 );
 
@@ -58,14 +57,11 @@ CREATE TABLE Party (
  PRIMARY KEY (partyId)
 );
 
-select * FROM Voter;
-
-
 CREATE TABLE User (
  userId INT NOT NULL AUTO_INCREMENT,
  fname CHAR(20),
  lname CHAR(20),
- userName CHAR(20),
+ userName CHAR(20) NOT NULL UNIQUE,
  password CHAR(50),
  email CHAR(25),
  address CHAR(50),
@@ -127,35 +123,35 @@ CREATE TABLE ElectionsOfficer (
 ALTER TABLE ElectionsOfficer ADD CONSTRAINT PK_ElectionsOfficer PRIMARY KEY (userId);
 
 
-ALTER TABLE ElectionBallot ADD CONSTRAINT FK_ElectionBallot_0 FOREIGN KEY (electionId) REFERENCES Election (electionId);
-ALTER TABLE ElectionBallot ADD CONSTRAINT FK_ElectionBallot_1 FOREIGN KEY (ballotId) REFERENCES Ballot (ballotId);
+ALTER TABLE ElectionBallot ADD CONSTRAINT FK_ElectionBallot_0 FOREIGN KEY (electionId) REFERENCES Election (electionId) ON DELETE CASCADE;
+ALTER TABLE ElectionBallot ADD CONSTRAINT FK_ElectionBallot_1 FOREIGN KEY (ballotId) REFERENCES Ballot (ballotId) ON DELETE CASCADE;
 
 
-ALTER TABLE IssueBallot ADD CONSTRAINT FK_IssueBallot_0 FOREIGN KEY (issueId) REFERENCES Issue (issueId);
-ALTER TABLE IssueBallot ADD CONSTRAINT FK_IssueBallot_1 FOREIGN KEY (ballotId) REFERENCES Ballot (ballotId);
+ALTER TABLE IssueBallot ADD CONSTRAINT FK_IssueBallot_0 FOREIGN KEY (issueId) REFERENCES Issue (issueId) ON DELETE CASCADE;
+ALTER TABLE IssueBallot ADD CONSTRAINT FK_IssueBallot_1 FOREIGN KEY (ballotId) REFERENCES Ballot (ballotId) ON DELETE CASCADE;
 
 
-ALTER TABLE Voter ADD CONSTRAINT FK_Voter_0 FOREIGN KEY (userId) REFERENCES User (userId);
+ALTER TABLE Voter ADD CONSTRAINT FK_Voter_0 FOREIGN KEY (userId) REFERENCES User (userId) ON DELETE CASCADE;
 
 
-ALTER TABLE VoterDistrict ADD CONSTRAINT FK_VoterDistrict_0 FOREIGN KEY (districtId) REFERENCES ElectoralDistrict (districtId);
-ALTER TABLE VoterDistrict ADD CONSTRAINT FK_VoterDistrict_1 FOREIGN KEY (voterId) REFERENCES Voter (voterId);
+ALTER TABLE VoterDistrict ADD CONSTRAINT FK_VoterDistrict_0 FOREIGN KEY (districtId) REFERENCES ElectoralDistrict (districtId) ON DELETE CASCADE;
+ALTER TABLE VoterDistrict ADD CONSTRAINT FK_VoterDistrict_1 FOREIGN KEY (voterId) REFERENCES Voter (voterId) ON DELETE CASCADE;
 
 
-ALTER TABLE VoteRecord ADD CONSTRAINT FK_VoteRecord_0 FOREIGN KEY (ballotId) REFERENCES Ballot (ballotId);
-ALTER TABLE VoteRecord ADD CONSTRAINT FK_VoteRecord_1 FOREIGN KEY (voterId) REFERENCES Voter (voterId);
+ALTER TABLE VoteRecord ADD CONSTRAINT FK_VoteRecord_0 FOREIGN KEY (ballotId) REFERENCES Ballot (ballotId) ON DELETE CASCADE;
+ALTER TABLE VoteRecord ADD CONSTRAINT FK_VoteRecord_1 FOREIGN KEY (voterId) REFERENCES Voter (voterId) ON DELETE CASCADE;
 
 
-ALTER TABLE BallotDistrict ADD CONSTRAINT FK_BallotDistrict_0 FOREIGN KEY (districtId) REFERENCES ElectoralDistrict (districtId);
-ALTER TABLE BallotDistrict ADD CONSTRAINT FK_BallotDistrict_1 FOREIGN KEY (ballotId) REFERENCES Ballot (ballotId);
+ALTER TABLE BallotDistrict ADD CONSTRAINT FK_BallotDistrict_0 FOREIGN KEY (districtId) REFERENCES ElectoralDistrict (districtId) ON DELETE CASCADE;
+ALTER TABLE BallotDistrict ADD CONSTRAINT FK_BallotDistrict_1 FOREIGN KEY (ballotId) REFERENCES Ballot (ballotId) ON DELETE CASCADE;
 
 
-ALTER TABLE CandidateElection ADD CONSTRAINT FK_CandidateElection_0 FOREIGN KEY (electionId) REFERENCES Election (electionId);
-ALTER TABLE CandidateElection ADD CONSTRAINT FK_CandidateElection_1 FOREIGN KEY (candidateId) REFERENCES Candidate (candidateId);
+ALTER TABLE CandidateElection ADD CONSTRAINT FK_CandidateElection_0 FOREIGN KEY (electionId) REFERENCES Election (electionId) ON DELETE CASCADE;
+ALTER TABLE CandidateElection ADD CONSTRAINT FK_CandidateElection_1 FOREIGN KEY (candidateId) REFERENCES Candidate (candidateId) ON DELETE CASCADE;
 
 
-ALTER TABLE CandidateParty ADD CONSTRAINT FK_CandidateParty_0 FOREIGN KEY (candidateId) REFERENCES Candidate (candidateId);
-ALTER TABLE CandidateParty ADD CONSTRAINT FK_CandidateParty_1 FOREIGN KEY (partyId) REFERENCES Party (partyId);
+ALTER TABLE CandidateParty ADD CONSTRAINT FK_CandidateParty_0 FOREIGN KEY (candidateId) REFERENCES Candidate (candidateId) ON DELETE CASCADE;
+ALTER TABLE CandidateParty ADD CONSTRAINT FK_CandidateParty_1 FOREIGN KEY (partyId) REFERENCES Party (partyId) ON DELETE CASCADE;
 
 
-ALTER TABLE ElectionsOfficer ADD CONSTRAINT FK_ElectionsOfficer_0 FOREIGN KEY (userId) REFERENCES User (userId);
+ALTER TABLE ElectionsOfficer ADD CONSTRAINT FK_ElectionsOfficer_0 FOREIGN KEY (userId) REFERENCES User (userId) ON DELETE CASCADE;
