@@ -501,68 +501,70 @@ public class BallotManager {
             throw new EVException( "BallotManager.ElectoralDistrictHasBallotBallot: Could not restore persistent elec object; Root cause: " + e );
         }
     }
-public void delete(Ballot ballot) throws EVException {
-    	String deleteBallotSql = "delete t1 from ballot as t1 "
-				   + "where t1.ballotId = ?";         
-PreparedStatement    stmt = null;
-int                  inscnt;
-
-// form the query based on the given Person object instance
-if( !ballot.isPersistent() ) // is the Person object persistent?  If not, nothing to actually delete
-return;
-
-try {
-stmt = (PreparedStatement) conn.prepareStatement( deleteBallotSql );
-
-stmt.setLong( 1, ballot.getId() );
-
-inscnt = stmt.executeUpdate();
-
-if( inscnt == 0 ) {
-throw new EVException( "BallotManager.delete: failed to delete this ballot" );
-}
-}
-catch( SQLException e ) {
-throw new EVException( "BallotManager.delete: failed to delete this ballot: " + e.getMessage() );
-}
-}
+	
     
+    public void delete(Ballot ballot) throws EVException {
+	    String deleteBallotSql = "delete t1 from ballot as t1 "
+					   		   + "where t1.ballotId = ?";         
+	    PreparedStatement    stmt = null;
+	    int inscnt;
+	
+		// form the query based on the given Person object instance
+		if( !ballot.isPersistent() ) // is the Person object persistent?  If not, nothing to actually delete
+			return;
+	
+		try {
+			stmt = (PreparedStatement) conn.prepareStatement( deleteBallotSql );
+		
+			stmt.setLong( 1, ballot.getId() );
+		
+			inscnt = stmt.executeUpdate();
+		
+			if( inscnt == 0 ) {
+				throw new EVException( "BallotManager.delete: failed to delete this ballot" );
+			}
+		}
+		catch( SQLException e ) {
+			throw new EVException( "BallotManager.delete: failed to delete this ballot: " + e.getMessage() );
+		}
+	}
+
     
     public void deleteBallotIncludesBallotItem( Ballot ballot, BallotItem ballotItem ) throws EVException{
     	if(ballotItem instanceof Issue){
-       String         deleteIssueBallotSql = "delete t1 from IssueBallot as t1 "
-				   + "where ballotId = ? and issueId = ?";              
-    	PreparedStatement    stmt = null;
-    	int                  inscnt;
-// form the query based on the given Person object instance
-    	if( !ballot.isPersistent() ) // is the Person object persistent?  If not, nothing to actually delete
-    		return;
-    	if (!ballotItem.isPersistent())
-    		return;
-    	try {
-    		stmt = (PreparedStatement) conn.prepareStatement( deleteIssueBallotSql );
-    		stmt.setLong( 1, ballotItem.getId() );
-    		stmt.setLong( 2, ballot.getId());
-    		inscnt = stmt.executeUpdate();
-    		if( inscnt == 0 ) {
-    			throw new EVException( "BallotManager.delete: failed to delete this IssueBallot" );
+    		String         deleteIssueBallotSql = "delete t1 from IssueBallot as t1 "
+    											+ "where ballotId = ? and issueId = ?";              
+    		PreparedStatement    stmt = null;
+    		int                  inscnt;
+    		//form the query based on the given object instance
+    		if( !ballot.isPersistent() ) // is the Person object persistent?  If not, nothing to actually delete
+    			return;
+    		if (!ballotItem.isPersistent())
+    			return;
+    		try {
+    			stmt = (PreparedStatement) conn.prepareStatement( deleteIssueBallotSql );
+    			stmt.setLong( 1, ballotItem.getId() );
+    			stmt.setLong( 2, ballot.getId());
+    			inscnt = stmt.executeUpdate();
+    			if( inscnt == 0 ) {
+    				throw new EVException( "BallotManager.delete: failed to delete this IssueBallot" );
+    			}
     		}
-    	}
-    	catch( SQLException e ) {
-    		throw new EVException( "BallotManager.delete: failed to delete this IssueBallot: " + e.getMessage() );
-    	} 
+    		catch( SQLException e ) {
+    			throw new EVException( "BallotManager.delete: failed to delete this IssueBallot: " + e.getMessage() );
+    		} 
       }
       else if(ballotItem instanceof Election){
-       String         deleteElectionBallotSql = "delete t1 from ElectionBallot as t1 "
-				   + "where electionId = ? and issueId = ?";              
-    	PreparedStatement    stmt = null;
-    	int                  inscnt;
-// form the query based on the given Person object instance
-    	if( !ballot.isPersistent() ) // is the Person object persistent?  If not, nothing to actually delete
-    		return;
-    	if (!ballotItem.isPersistent())
-    		return;
-    	try {
+    	  String         deleteElectionBallotSql = "delete t1 from ElectionBallot as t1 "
+				   								 + "where electionId = ? and issueId = ?";              
+    	  PreparedStatement    stmt = null;
+    	  int                  inscnt;
+    	  // form the query based on the given Person object instance
+    	  if( !ballot.isPersistent() ) // is the Person object persistent?  If not, nothing to actually delete
+    		  return;
+    	  if (!ballotItem.isPersistent())
+    		  return;
+    	  try {
     		stmt = (PreparedStatement) conn.prepareStatement( deleteElectionBallotSql );
     		stmt.setLong( 1, ballotItem.getId() );
     		stmt.setLong( 2, ballot.getId());
@@ -570,10 +572,10 @@ throw new EVException( "BallotManager.delete: failed to delete this ballot: " + 
     		if( inscnt == 0 ) {
     			throw new EVException( "BallotManager.delete: failed to delete this Electionallot" );
     		}
-    	}
-    	catch( SQLException e ) {
+    	  }
+    	  catch( SQLException e ) {
     		throw new EVException( "BallotManager.delete: failed to delete this ElectionBallot: " + e.getMessage() );
-    	} 
+    	  } 
       }
     }
-      }
+}

@@ -38,7 +38,7 @@ public class PersistenceLayerImpl implements PersistenceLayer {
 	public PersistenceLayerImpl( Connection conn, ObjectLayer objectLayer )
     {
 		ballotDistrictManager 		= new BallotDistrictManager(conn, objectLayer);
-		//ballotManager				= new BallotManager(conn, objectLayer);
+		ballotManager				= new BallotManager(conn, objectLayer);
 		candidateElectionManager	= new CandidateElectionManager(conn, objectLayer);
 		candidateManager			= new CandidateManager(conn, objectLayer);
 		candidatePartyManager		= new CandidatePartyManager(conn,objectLayer);
@@ -85,20 +85,17 @@ public class PersistenceLayerImpl implements PersistenceLayer {
 
 	@Override
 	public List<Ballot> restoreBallot(Ballot modelBallot) throws EVException {
-		// TODO Auto-generated method stub
-		return null;
+		return ballotManager.restore(modelBallot);
 	}
 
 	@Override
 	public void storeBallot(Ballot ballot) throws EVException {
-		// TODO Auto-generated method stub
-
+		ballotManager.store(ballot);
 	}
 
 	@Override
 	public void deleteBallot(Ballot ballot) throws EVException {
-		// TODO Auto-generated method stub
-
+		ballotManager.delete(ballot);
 	}
 
 	@Override
