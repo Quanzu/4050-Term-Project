@@ -38,7 +38,7 @@ public class PersistenceLayerImpl implements PersistenceLayer {
 	public PersistenceLayerImpl( Connection conn, ObjectLayer objectLayer )
     {
 		ballotDistrictManager 		= new BallotDistrictManager(conn, objectLayer);
-		ballotManager				= new BallotManager(conn, objectLayer);
+		//ballotManager				= new BallotManager(conn, objectLayer);
 		candidateElectionManager	= new CandidateElectionManager(conn, objectLayer);
 		candidateManager			= new CandidateManager(conn, objectLayer);
 		candidatePartyManager		= new CandidatePartyManager(conn,objectLayer);

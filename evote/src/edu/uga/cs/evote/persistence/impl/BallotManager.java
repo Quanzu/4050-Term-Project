@@ -30,6 +30,10 @@ public class BallotManager {
         this.objectLayer = objectLayer;
     }
 	
+	public void store(Ballot ballot){
+		//TODO
+	}
+	
     public void storeBallotIncludesBallotItem( Ballot ballot, BallotItem ballotItem ) throws EVException{
     	//TODO
       //Check if Issue or Election and then store in the IssueBallot or ElectionBallot, instanceOf(classname)
@@ -91,6 +95,11 @@ public class BallotManager {
             throw new EVException( "Ballot.save: failed to ElectionBallot: " + e );
         }
       }   
+    }
+    
+    public List<Ballot> restore(Ballot modelBallot){
+    	//TODO
+    	return null;
     }
     
     public Ballot restoreBallotIncludesBallotItem( BallotItem ballotItem ) throws EVException{
@@ -388,6 +397,9 @@ public class BallotManager {
         }
     }
 
+    public void delete(Ballot ballot){
+    	//TODO
+    }
     
     public void deleteBallotIncludesBallotItem( Ballot ballot, BallotItem ballotItem ) throws EVException{
     	if(ballotItem instanceOf IssueBallot){
