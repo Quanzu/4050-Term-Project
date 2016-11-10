@@ -34,12 +34,12 @@ public class CandidateElectionManager {
             stmt = (PreparedStatement) conn.prepareStatement( insertCandidateElectionSql );          
             
             if(election.isPersistent() )
-                stmt.setLong( 1, election.getId());
+                stmt.setLong( 1, candidate.getId());
             else
                 throw new EVException( "CandidateElectionMananger.save: election is not persistent" );
             
             if(candidate.isPersistent() )
-                stmt.setLong( 2, candidate.getId());
+                stmt.setLong( 2, election.getId());
             else
             	throw new EVException( "CandidateElectionMananger.save: candidate is not persistent" );
 

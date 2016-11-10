@@ -189,9 +189,9 @@ public class ElectionManager {
 	//Return Candidates running in a given Election.
     public List<Candidate> restoreCandidateIsCandidateInElection( Election election ) throws EVException{
     	
-    	String       selectCandidateSql = "c.candidateId, c.name, c.voteCount, c.isAlternate " 
-    									+ "from Election e, Candidate c, CandidateElection ce " 
-    									+ "where e.electionId = ce.electionId and c.candidateId = ce.candidateId";              
+    	String       selectCandidateSql = "select c.candidateId, c.name, c.voteCount, c.isAlternate " 
+    									+ "from Candidate c, Election e, CandidateElection ce " 
+    									+ "where e.electionId = ce.electionId and c.candidateId = ce.candidateId ";              
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         StringBuffer condition = new StringBuffer( 100 );
@@ -205,14 +205,13 @@ public class ElectionManager {
         
         condition.setLength( 0 );
         
-        query.append( selectCandidateSql);
         if(election != null ) {
             if(election.isPersistent() ) // id is unique, so it is sufficient to get an election
-                query.append( " and electionId = " + election.getId() );
+                query.append( " and e.electionId = " + election.getId() );
             else {
 
                 if(election.getOffice() != null ) {
-                    condition.append( " and e.name = " + election.getOffice()); 
+                    condition.append( " and e.name = '" + election.getOffice() + "'"); 
                 }
 
                 if( election.getIsPartisan())
@@ -227,13 +226,14 @@ public class ElectionManager {
                     condition.append( " and e.alternateAllowed = 0 ");
                 
                 if (election.getVoteCount() >= 0)
-                	condition.append(" and e.voteCount = '" + election.getVoteCount());
+                	condition.append(" and e.voteCount = " + election.getVoteCount());
 
                 if( condition.length() > 0 )
                     query.append( condition );
             }
         }
 
+        System.out.println(query);
         try {
             stmt = conn.createStatement();
 

@@ -178,7 +178,7 @@ class CandidateManager
         
         if( candidate != null ) {
             if( candidate.getId() >= 0 ) // id is unique, so it is sufficient to get a person
-                query.append( " where c.id = " + candidate.getId() );
+                query.append( " and c.candidateId = " + candidate.getId() );
             else {
             	return null;  
             }
@@ -241,7 +241,7 @@ class CandidateManager
         
         if( candidate != null ) {
             if( candidate.getId() >= 0 ) // id is unique, so it is sufficient to get a person
-                query.append( " where c.id = " + candidate.getId() );
+                query.append( " and c.candidateId = " + candidate.getId() );
             else {
             	return null;  
             }
