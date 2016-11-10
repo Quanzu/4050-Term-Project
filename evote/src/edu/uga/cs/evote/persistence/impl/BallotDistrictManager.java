@@ -23,7 +23,6 @@ public class BallotDistrictManager {
     }
 
     public void storeElectoralDistrictHasBallotBallot( ElectoralDistrict electoralDistrict, Ballot ballot ) throws EVException{
-    	//TODO
     	String               insertBallotDistrictSql = "insert into BallotDistrict (districtId, ballotId ) values ( ?, ?)";              
 
         PreparedStatement    stmt = null;

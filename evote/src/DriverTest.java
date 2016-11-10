@@ -8,25 +8,17 @@ import edu.uga.cs.evote.persistence.PersistenceLayer;
 import edu.uga.cs.evote.persistence.impl.DbUtils;
 import edu.uga.cs.evote.persistence.impl.PersistenceLayerImpl;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 public class DriverTest {
 
+	
 	public static void main(String[] args) throws EVException {
 		
 		Connection conn = null;
 		PersistenceLayer persistence;
-		Properties prop = new Properties();
-		prop.setProperty("user", "root");
-		prop.setProperty("password", "abcd1234");
-		prop.setProperty("useSSL", "false");
-		prop.setProperty("autoReconnect", "true");
+
 		try{
-			conn = DriverManager.getConnection(  
-					"jdbc:mysql://localhost:3306/eVote", prop);
-					//"jdbc:mysql://localhost:3306/evote","root","sdafsd");
-					//DbUtils.connect();
+			conn =	DbUtils.connect();
 		}
 		catch(Exception seq){
 			System.err.println("DeleteTest: Unable to obtain a database connection");
@@ -44,6 +36,10 @@ public class DriverTest {
 		java.util.Date utilDate = new java.util.Date(1478649600);
 
 		
+		boolean toCreateAndStore = false;
+		boolean toDelete = true;
+		
+
 		//creating elections officer
 		ElectionsOfficer officer1 = test.createElectionsOfficer("Phi", "Nguyen", "pnguyen", "abcd1234", "philong@uga.edu", "123 Main St");
 		ElectionsOfficer officer2 = test.createElectionsOfficer("John", "Smith", "jsmith", "1234abcd", "jsmith@uga.edu", "321 Main St");
@@ -80,8 +76,8 @@ public class DriverTest {
 		//storing ballots and storing district ballot associations
 		test.storeBallot(b1);
 		test.storeBallot(b2);
-		test.getPersistence().deleteElectoralDistrictHasBallotBallot(electoralDistrict1, b1);
-		test.getPersistence().deleteElectoralDistrictHasBallotBallot(electoralDistrict1, b2);
+		test.getPersistence().storeElectoralDistrictHasBallotBallot(electoralDistrict1, b1);
+		test.getPersistence().storeElectoralDistrictHasBallotBallot(electoralDistrict1, b2);
 
 		//creating elections
 		Election elect1 = test.createElection("Judge1", false);
@@ -119,13 +115,26 @@ public class DriverTest {
 		Candidate c16 = test.createCandidate("Lillian", p1, elect5);
 		Candidate c17 = test.createCandidate("James", p1, elect5);
 		Candidate c18 = test.createCandidate("Danielle", p2, elect5);
-		//storing political party partisan candidates is from
-		persistence.storeCandidateIsMemberOfPoliticalParty(c13, p1);
-		persistence.storeCandidateIsMemberOfPoliticalParty(c14, p1);
-		persistence.storeCandidateIsMemberOfPoliticalParty(c15, p2);
-		persistence.storeCandidateIsMemberOfPoliticalParty(c16, p1);
-		persistence.storeCandidateIsMemberOfPoliticalParty(c17, p1);
-		persistence.storeCandidateIsMemberOfPoliticalParty(c18, p2);
+		//Storing candidate
+		persistence.storeCandidate(c1);
+		persistence.storeCandidate(c2);
+		persistence.storeCandidate(c3);
+		persistence.storeCandidate(c4);
+		persistence.storeCandidate(c5);
+		persistence.storeCandidate(c6);
+		persistence.storeCandidate(c7);
+		persistence.storeCandidate(c8);
+		persistence.storeCandidate(c9);
+		persistence.storeCandidate(c10);
+		persistence.storeCandidate(c11);
+		persistence.storeCandidate(c12);
+		persistence.storeCandidate(c13);
+		persistence.storeCandidate(c14);
+		persistence.storeCandidate(c15);
+		persistence.storeCandidate(c16);
+		persistence.storeCandidate(c17);
+		persistence.storeCandidate(c18);
+		
 		
 		//adds candidates to election
 		elect1.addCandidate(c1);
@@ -146,6 +155,14 @@ public class DriverTest {
 		elect6.addCandidate(c10);
 		elect6.addCandidate(c11);
 		elect6.addCandidate(c12);
+		
+		//storing political party partisan candidates is from
+		persistence.storeCandidateIsMemberOfPoliticalParty(c13, p1);
+		persistence.storeCandidateIsMemberOfPoliticalParty(c14, p1);
+		persistence.storeCandidateIsMemberOfPoliticalParty(c15, p2);
+		persistence.storeCandidateIsMemberOfPoliticalParty(c16, p1);
+		persistence.storeCandidateIsMemberOfPoliticalParty(c17, p1);
+		persistence.storeCandidateIsMemberOfPoliticalParty(c18, p2);
 		//storing candidate election association
 		persistence.storeCandidateIsCandidateInElection(c1, elect1);
 		persistence.storeCandidateIsCandidateInElection(c2, elect1);
@@ -204,8 +221,64 @@ public class DriverTest {
 		persistence.storeVoteRecord(vr2);
 		persistence.storeVoteRecord(vr3);
 		persistence.storeVoteRecord(vr4);
+		
+		
+		if(toDelete){
+			//delete voter
+			persistence.deleteVoter(voter1);
+			persistence.deleteVoter(voter2);
+			
+			//delete parties
+			persistence.deletePoliticalParty(p1);
+			persistence.deletePoliticalParty(p2);
+			
+			//delete Issues
+			persistence.deleteIssue(i1);
+			persistence.deleteIssue(i2);
+			persistence.deleteIssue(i3);
+			persistence.deleteIssue(i4);
+			persistence.deleteIssue(i5);
+			persistence.deleteIssue(i6);
+			
+			//delete elections
+			persistence.deleteElection(elect1);
+			persistence.deleteElection(elect2);
+			persistence.deleteElection(elect3);
+			persistence.deleteElection(elect4);
+			persistence.deleteElection(elect5);
+			persistence.deleteElection(elect6);
+			
+			//delete ballot
+			persistence.deleteBallot(b1);
+			persistence.deleteBallot(b2);
+			
+			//delete electoral district
+			persistence.deleteElectoralDistrict(electoralDistrict1);
+			
+			//Delete candidates
+			persistence.deleteCandidate(c1);
+			persistence.deleteCandidate(c2);
+			persistence.deleteCandidate(c3);
+			persistence.deleteCandidate(c4);
+			persistence.deleteCandidate(c5);
+			persistence.deleteCandidate(c6);
+			persistence.deleteCandidate(c7);
+			persistence.deleteCandidate(c8);
+			persistence.deleteCandidate(c9);
+			persistence.deleteCandidate(c10);
+			persistence.deleteCandidate(c11);
+			persistence.deleteCandidate(c12);
+			persistence.deleteCandidate(c13);
+			persistence.deleteCandidate(c14);
+			persistence.deleteCandidate(c15);
+			persistence.deleteCandidate(c16);
+			persistence.deleteCandidate(c17);
+			persistence.deleteCandidate(c18);
+			
+			//delete eo
+			persistence.deleteElectionsOfficer(officer1);
+			persistence.deleteElectionsOfficer(officer2);
 
-		
-		
+		}
 	}
 }

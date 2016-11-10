@@ -3,6 +3,8 @@ package edu.uga.cs.evote.persistence.impl;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
+
 import edu.uga.cs.evote.EVException;;
 
 /**
@@ -83,6 +85,7 @@ public class DbUtils {
     public static Connection connect() 
             throws EVException 
     {
+    	/*
     	try {
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 		} catch (SQLException e) {
@@ -96,10 +99,15 @@ public class DbUtils {
             // log.error( "DbUtils.connect:  unable to find JDBC Driver", ex );
             throw new EVException( "DbUtils.connect: Unable to find Driver" );
         }
+        */
         try {
+    		Properties prop = new Properties();
+    		prop.setProperty("user", DbAccessConfig.DB_CONNECTION_USERNAME);
+    		prop.setProperty("password", DbAccessConfig.DB_CONNECTION_PWD);
+    		prop.setProperty("useSSL", "false");
+    		prop.setProperty("autoReconnect", "true");
             return DriverManager.getConnection( DbAccessConfig.DB_CONNECTION_URL,
-                                                DbAccessConfig.DB_CONNECTION_USERNAME,
-                                                DbAccessConfig.DB_CONNECTION_PWD );
+                                                prop );
         } 
         catch (SQLException ex) {
             // log.error( "DbUtils.connect: Unable to connect to database", ex );

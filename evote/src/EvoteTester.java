@@ -342,7 +342,7 @@ public class EvoteTester {
 		persistence.storeCandidateIsCandidateInElection(c4, elect3);
 		persistence.storeCandidateIsCandidateInElection(c5, elect3);
 		persistence.storeCandidateIsCandidateInElection(c6, elect3);
-		//persistence.storeCandidateIsCandidateInElection(c7, elect4);
+		persistence.storeCandidateIsCandidateInElection(c7, elect4);
 		persistence.storeCandidateIsCandidateInElection(c8, elect4);
 		persistence.storeCandidateIsCandidateInElection(c9, elect4);
 		persistence.storeCandidateIsCandidateInElection(c10, elect6);

@@ -63,7 +63,7 @@ public class VoteRecordManager {
             	stmt.setNull(1, java.sql.Types.DATE);  //THERE IS NO DATE
             
         	stmt.setLong( 2, voteRecord.getBallot().getId() );
-            stmt.setLong( 3, voteRecord.getVoter().getId() );
+            stmt.setLong( 3, voteRecord.getVoter().getVoterId() );
             inscnt = stmt.executeUpdate();
         
             if(!voteRecord.isPersistent()){
@@ -180,8 +180,7 @@ public class VoteRecordManager {
 	//Delete a given VoteRecord object from the persistent data store.
 	public void deleteVoteRecord(VoteRecord voteRecord) throws EVException
 	{
-		//TODO
-		String         deleteVoteRecordSql = "delete t1 from VoteRecord as t1 "
+		String         deleteVoteRecordSql = "delete from VoteRecord "
 				   						   + "where voteRecordId = ?";              
 		PreparedStatement    stmt = null;
 		int                  inscnt;

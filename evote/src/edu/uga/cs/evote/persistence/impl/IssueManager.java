@@ -163,8 +163,8 @@ public class IssueManager {
 }	
 	 public void delete( Issue issue ) throws EVException
 	    {
-	        String               deleteIssueSql = "delete t1 from Issue as t1" 
-	        				+ "where issueId = ?";              
+	        String               deleteIssueSql = "delete from Issue " 
+	        									+ "where issueId = ?";              
 	        PreparedStatement    stmt = null;
 	        int                  inscnt;
 	        
