@@ -85,7 +85,7 @@ public class IssueManager {
     }
 	
 	public List<Issue> restore (Issue modelIssue) throws EVException{
-		String       selectIssueSql = "select Issue issueId, question, yesCount, noCount from Issue";
+		String       selectIssueSql = "select Issue issueId, question, yesCount from Issue";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         
