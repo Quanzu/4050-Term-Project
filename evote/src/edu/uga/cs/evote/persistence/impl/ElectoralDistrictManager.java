@@ -262,10 +262,8 @@ class ElectoralDistrictManager
     public void delete( ElectoralDistrict electoralDistrict ) 
             throws EVException
     {
-        String               deleteDistrictSql = "delete t1, t2, t3 from ElectoralDistrict as t1 "
-        									   + "inner join BallotDistrict as t2 on t1.districtId = t2.districtId "
-        									   + "inner join VoterDistrict as t3 on t1.districtId = t3.districtId "
-        									   + "where districtId = ?";              
+        String               deleteDistrictSql = "delete t1 from ElectoralDistrict as t1 "
+        					+ "where districtId = ?";              
         PreparedStatement    stmt = null;
         int                  inscnt;
         
