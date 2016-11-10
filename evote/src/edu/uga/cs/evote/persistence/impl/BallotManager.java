@@ -30,8 +30,64 @@ public class BallotManager {
         this.objectLayer = objectLayer;
     }
 	
-	public void store(Ballot ballot){
-		//TODO
+	public void store(Ballot ballot)
+		throws EVException
+	{
+		String               insertBallotSql = "insert into Ballot ( openDate , closeDate ) values ( ?, ?)";              
+        String               updateBallotSql = "update Ballot set  openDate = ?, closeDate = ? where ballotId = ?";
+        PreparedStatement    stmt;
+        int                  inscnt;
+        long                 ballotId;
+        
+        try {
+            
+            if( !ballot.isPersistent() )
+                stmt = (PreparedStatement) conn.prepareStatement( insertBallotSql );
+            else
+                stmt = (PreparedStatement) conn.prepareStatement( updateBallotSql );
+            
+            
+            if( ballot.getOpenDate() != null )
+                stmt.setDate( 1, ballot.getOpenDate() );
+            else 
+                throw new EVException( "BallotManager.save: can't save a Ballot: name undefined" );
+
+            if( ballot.getCloseDate())
+                stmt.setDate( 2, ballot.getCloseDate() );
+            else 
+            	throw new EVException( "BallotManager.save: can't save a Ballot: name undefined" );
+            	
+            if( ballot.isPersistent() )
+                stmt.setLong( 3, ballot.getId() );
+
+            inscnt = stmt.executeUpdate();
+            if( !ballot.isPersistent() ) {
+                // in case this this object is stored for the first time,
+                // we need to establish its persistent identifier (primary key)
+                if( inscnt == 1 ) {
+                    String sql = "select last_insert_id()";
+                    if( stmt.execute( sql ) ) { // statement returned a result
+                        // retrieve the result
+                        ResultSet r = stmt.getResultSet();
+                        // we will use only the first row!
+                        while( r.next() ) {
+                            // retrieve the last insert auto_increment value
+                            ballotId = r.getLong( 1 );
+                            if( ballotId > 0 )
+                                ballot.setId( ballotId ); // set this person's db id (proxy object)
+                        }
+                    }
+                }
+            }
+            else {
+                if( inscnt < 1 )
+                    throw new EVException( "BallotManager.save: failed to save a ballot" ); 
+            }
+        }
+        catch( SQLException e ) {
+            e.printStackTrace();
+            throw new EVException( "BallotManager.save: failed to save a ballot: " + e );
+        }	
 	}
 	
     public void storeBallotIncludesBallotItem( Ballot ballot, BallotItem ballotItem ) throws EVException{
@@ -97,9 +153,55 @@ public class BallotManager {
       }   
     }
     
-    public List<Ballot> restore(Ballot modelBallot){
-    	//TODO
-    	return null;
+    public List<Ballot> restore(Ballot modelBallot) throws EVException{
+    	String       selectBallotSql = "select ballotId, openDate, closeDate from Ballot";
+        Statement    stmt = null;
+        StringBuffer query = new StringBuffer( 100 );
+        List<Ballot> ballots = new ArrayList<Ballot>();
+        
+      	query.append( selectBallotSql );
+        
+        if( modelBallot != null ) {
+            if( modelBallot.getId() >= 0 ) 
+                query.append( " where ballotId = " + modelBallot.getId() );
+            else if( modelBallot.getOpenDate() != null ) 
+                query.append( " where openDate = '" + modelBallot.getOpenDate() + "'" );
+            else if( modelBallot.getCloseDate() != null ) 
+                query.append( " where closeDate = '" + modelBallot.getCloseDate() + "'" );
+        }
+        
+        try {
+            stmt = conn.createStatement();
+
+            // retrieve the persistent Person objects
+            //
+            if( stmt.execute( query.toString() ) ) { // statement returned a result
+                ResultSet rs = stmt.getResultSet();
+                long   id;
+                Date	openDate;
+                Date	closeDate;
+                
+                while( rs.next() ) {
+
+                    id = rs.getLong( 1 );
+                    openDate = rs.getDate( 2 );
+                    closeDate = rs.getDate( 3 );
+
+                    Ballot ballot = objectLayer.createBallot( openDate,closeDate );
+                    ballot.setId( id );
+
+                    ballots.add( ballot );
+                }
+                return ballots;
+            }
+        }
+        catch( Exception e ) {      // just in case...
+            throw new EVException( "BallotManager.restore: Could not restore persistent ballot object; Root cause: " + e );
+        }
+        
+        // if we get to this point, it's an error
+        throw new EVException( "ElectoralDistrictManager.restore: Could not restore persistent district objects" );
+    	
     }
     
     public Ballot restoreBallotIncludesBallotItem( BallotItem ballotItem ) throws EVException{
@@ -118,9 +220,9 @@ public class BallotManager {
         //Should it be like this ? or change to issueBallot instead of ballotItem
         if( ballotItem != null ) {
             if( ballotItem.getId() >= 0 ) // id is unique, so it is sufficient to get a person
-                query.append( " and i.id = " + ballotItem.getId() );
+                query.append( " and ib.id = " + ballotItem.getId() );
             else if( ballotItem.getVoteCount() != null ) // userName is unique, so it is sufficient to get a person
-                query.append( " and i.voteCount = '" + ballotItem.getVoteCount() + "'" );
+                query.append( " and ib.voteCount = '" + ballotItem.getVoteCount() + "'" );
             else {
 
                 if( condition.length() > 0 ) {
@@ -177,11 +279,10 @@ public class BallotManager {
         if( ballotItem != null ) {
             if( ballotItem.getId() >= 0 ) // id is unique, so it is sufficient to get a person
                 query.append( " and i.id = " + ballotItem.getId() );
-<<<<<<< Updated upstream
+
             else if( ballotItem.getVoteCount() != null ) // userName is unique, so it is sufficient to get a person
-=======
+
             else if( ballotItem.getVoteCount() >= 0 ) // userName is unique, so it is sufficient to get a person
->>>>>>> Stashed changes
                 query.append( " and i.voteCount = '" + ballotItem.getVoteCount() + "'" );
             else {
 
@@ -396,13 +497,39 @@ public class BallotManager {
             throw new EVException( "BallotManager.ElectoralDistrictHasBallotBallot: Could not restore persistent elec object; Root cause: " + e );
         }
     }
+public void delete(Ballot ballot) throws EVException {
+    	String deleteBallotSql = "delete t1, t2, t3, t4, t5 from ballot as t1 "
+				   + "inner join VoteRecord as t2 on t1.ballotId = t2.ballotId "
+				   + "inner join BallotDistrict as t3 on t1.ballotId = t3.ballotId "
+				   + "inner join ElectionBallot as t4 on t1.ballotId = t4.ballotId "
+				   + "inner join IssueBallot as t5 on t1.ballotId = t5.ballotId "
+				   + "where t1.ballotId = ?";         
+PreparedStatement    stmt = null;
+int                  inscnt;
 
-    public void delete(Ballot ballot){
-    	//TODO
-    }
+// form the query based on the given Person object instance
+if( !ballot.isPersistent() ) // is the Person object persistent?  If not, nothing to actually delete
+return;
+
+try {
+stmt = (PreparedStatement) conn.prepareStatement( deleteBallotSql );
+
+stmt.setLong( 1, ballot.getId() );
+
+inscnt = stmt.executeUpdate();
+
+if( inscnt == 0 ) {
+throw new EVException( "BallotManager.delete: failed to delete this ballot" );
+}
+}
+catch( SQLException e ) {
+throw new EVException( "BallotManager.delete: failed to delete this ballot: " + e.getMessage() );
+}
+}
+    
     
     public void deleteBallotIncludesBallotItem( Ballot ballot, BallotItem ballotItem ) throws EVException{
-    	if(ballotItem instanceOf IssueBallot){
+    	if(ballotItem instanceof IssueBallot){
        String         deleteIssueBallotSql = "delete t1 from IssueBallot as t1 "
 				   + "where ballotId = ? and issueId = ?";              
     	PreparedStatement    stmt = null;
@@ -425,7 +552,7 @@ public class BallotManager {
     		throw new EVException( "BallotManager.delete: failed to delete this IssueBallot: " + e.getMessage() );
     	} 
       }
-      else if(ballotItem instanceOf ElectionBallot){
+      else if(ballotItem instanceof ElectionBallot){
        String         deleteElectionBallotSql = "delete t1 from ElectionBallot as t1 "
 				   + "where electionId = ? and issueId = ?";              
     	PreparedStatement    stmt = null;
@@ -449,6 +576,4 @@ public class BallotManager {
     	} 
       }
     }
-    }
-
-}
+      }
