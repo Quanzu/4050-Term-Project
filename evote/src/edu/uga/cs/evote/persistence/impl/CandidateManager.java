@@ -282,9 +282,7 @@ class CandidateManager
     public void delete( Candidate candidate ) 
             throws EVException
     {
-        String               deleteCandidateSql = "delete t1, t2, t3 from Candidate as t1 "
-        										+ "inner join CandidateElection as t2 on t1.candidateId = t2.candidateId "
-        										+ "inner join CandidateParty as t3 on t1.candidateId = t3.candidateId "
+        String               deleteCandidateSql = "delete t1 from Candidate as t1 "
         										+ "where t1.candidateId = ?";              
         PreparedStatement    stmt = null;
         int                  inscnt;

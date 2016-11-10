@@ -39,8 +39,7 @@ public class VoteRecordManager {
                 
         PreparedStatement    stmt;
         int                  inscnt;
-        long                 ballotId;
-        long				 voteRecordId;
+        long                 voteRecordId;
         
         if(voteRecord.getBallot() == null || voteRecord.getVoter() == null )
         	throw new EVException( "VoteReocrdManager.save: Attempting to save a Vote Record with no ballot or voter defined" );
@@ -54,40 +53,35 @@ public class VoteRecordManager {
                  stmt = (PreparedStatement) conn.prepareStatement( updateVoteRecordSql );
             
         	 
-        	stmt.setLong( 1, voteRecord.getBallot().getId() );
-            stmt.setLong( 2, voteRecord.getVoter().getId() );
-        	 
             if( voteRecord.getDate() != null )
             {
                     java.util.Date jDate = voteRecord.getDate();
                     java.sql.Date sDate = new java.sql.Date( jDate.getTime() );
-                    stmt.setDate( 3, sDate );
+                    stmt.setDate( 1, sDate );
             }
-                else
-                    stmt.setNull(3, java.sql.Types.DATE);  //THERE IS NO DATE
+            else
+            	stmt.setNull(1, java.sql.Types.DATE);  //THERE IS NO DATE
             
-
+        	stmt.setLong( 2, voteRecord.getBallot().getId() );
+            stmt.setLong( 3, voteRecord.getVoter().getId() );
             inscnt = stmt.executeUpdate();
-
-            
-            //Do we need this part?
-            if( inscnt >= 1 ) {
-                String sql = "select last_insert_id()";
-                if( stmt.execute( sql ) ) { // statement returned a result
-
-                    // retrieve the result
-                    ResultSet r = stmt.getResultSet();
-
-                    // we will use only the first row!
-                    //
-                    while( r.next() ) {
-
-                        // retrieve the last insert auto_increment value
-                        voteRecordId = r.getLong( 1 );
-                        if(voteRecordId > 0 )
-                            voteRecord.setId(voteRecordId); // set this vote Record's db id (proxy object)
-                    }
-                }
+        
+            if(!voteRecord.isPersistent()){
+            	if( inscnt >= 1 ) {
+	                String sql = "select last_insert_id()";
+	                if( stmt.execute( sql ) ) { // statement returned a result	
+	                    // retrieve the result
+	                    ResultSet r = stmt.getResultSet();
+	                    // we will use only the first row!
+	                    //
+	                    while( r.next() ) {
+	                        // retrieve the last insert auto_increment value
+	                        voteRecordId = r.getLong( 1 );
+	                        if(voteRecordId > 0 )
+	                            voteRecord.setId(voteRecordId); // set this vote Record's db id (proxy object)
+	                    }
+	                }
+	            }
             }
             else
                 throw new EVException( "VoteRecordManager.save: failed to save a Vote Record" );
@@ -95,7 +89,7 @@ public class VoteRecordManager {
         }
         catch( SQLException e ) {
             e.printStackTrace();
-            throw new EVException( "VoteRecordManager.save: failed to save an Officer: " + e );
+            throw new EVException( "VoteRecordManager.save: failed to save a vote record: " + e );
         }
 
 	}
