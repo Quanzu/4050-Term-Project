@@ -110,16 +110,16 @@ public class VoteRecordManager {
         
         if(modelVoteRecord != null ) {
             if( modelVoteRecord.isPersistent() ) // id is unique, so it is sufficient to get a membership
-                query.append( " where voteRecordId = " + modelVoteRecord.getId() );
+                query.append( " where voteRecordId = '" + modelVoteRecord.getId() );
             else {
                 if(modelVoteRecord.getBallot() != null && modelVoteRecord.getBallot().isPersistent()) {
-                    condition.append( " ballotId = " + modelVoteRecord.getBallot().getId() ); 
+                    condition.append( " ballotId = '" + modelVoteRecord.getBallot().getId() ); 
                 }
 
                 if(modelVoteRecord.getVoter() != null && modelVoteRecord.getVoter().isPersistent()) {
                     if( condition.length() > 0 )
                     	condition.append(" and ");
-                	condition.append( " voterId = " + modelVoteRecord.getVoter().getId() ); 
+                	condition.append( " voterId = '" + modelVoteRecord.getVoter().getId() ); 
                 }
                 
                 if(modelVoteRecord.getDate() != null ) {
