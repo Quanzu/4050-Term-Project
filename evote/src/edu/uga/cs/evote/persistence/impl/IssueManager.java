@@ -120,7 +120,7 @@ public class IssueManager {
                     query.append( condition );
                 }*/
             }
-        }
+        
         try {
 
             stmt = conn.createStatement();
@@ -156,14 +156,14 @@ public class IssueManager {
         catch( Exception e ) {      // just in case...
             throw new EVException( "IssueManager.restore: Could not restore persistent voter object; Root cause: " + e );
         }
-        
+
         // if we get to this point, it's an error
         throw new EVException( "IssueManager.restore: Could not restore persistent voter objects" );
-    }
-	
+    
+}	
 	 public void delete( Issue issue ) throws EVException
 	    {
-	        String               deleteIssueSql = "delete t1 from Issue as t1 
+	        String               deleteIssueSql = "delete t1 from Issue as t1" 
 	        				+ "where issueId = ?";              
 	        PreparedStatement    stmt = null;
 	        int                  inscnt;
