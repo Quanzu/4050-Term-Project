@@ -58,14 +58,18 @@ public class ElectionManager {
             	stmt.setInt(3, 0);
             	
             if( election.getVoteCount() >= 0 )
-                stmt.setLong( 2, election.getVoteCount() );
+                stmt.setLong( 4, election.getVoteCount() );
             else 
                 throw new EVException( "ElectionManager.save: can't save an Election: voteCount undefined" );
             
             if( election.isPersistent() )
                 stmt.setLong( 5, election.getId() );
 
+
             inscnt = stmt.executeUpdate();
+            
+          
+            
             if( !election.isPersistent() ) {
                 // in case this this object is stored for the first time,
                 // we need to establish its persistent identifier (primary key)
@@ -281,9 +285,7 @@ public class ElectionManager {
     public void delete( Election election ) 
             throws EVException
     {
-        String               deleteElectionSql = "delete t1, t2, t3 from Election as t1 "
-        										+ "inner join CandidateElection as t2 on t1.electionId = t2.electionId "
-        										+ "inner join ElectionBallot as t3 on t1.electionId = t3.electionId "
+        String               deleteElectionSql = "delete t1 from Election as t1 "
         										+ "where t1.electionId = ?";              
         PreparedStatement    stmt = null;
         int                  inscnt;
