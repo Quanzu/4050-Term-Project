@@ -134,7 +134,7 @@ class PoliticalPartyManager
     }
     
     public List<Candidate> restoreCandidateIsMemberOfPoliticalParty( PoliticalParty politicalParty ) throws EVException{
-    	 String       selectPartySql = "select partyName from Party";
+    	 String       selectPartySql = "select partyId, partyName from Party";
          Statement    stmt = null;
          StringBuffer query = new StringBuffer( 100 );
          List<Candidate> candidates = new ArrayList<Candidate>();
