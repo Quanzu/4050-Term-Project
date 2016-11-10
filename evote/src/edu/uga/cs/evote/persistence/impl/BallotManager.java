@@ -311,7 +311,7 @@ public class BallotManager {
     	String       selectIssueBallotSql = "select i.issueId, i.question, i.yesCount from Issue as i, Ballot b, issueBallot ib "
 					   + "where i.issueId = ib.issueId and b.ballotId = ib.ballotId";
     	String		 selectElectionBallotSql = "select e.electionId, e.office, e.isPartisan, e.alternateAllowed, e.voteCount from Election as e, Ballot b, electionBallot eb "
-				   + "where e.issueId = eb.issueId and b.ballotId = eb.ballotId";
+				   + "where e.electionId = eb.electionId and b.ballotId = eb.ballotId";
         Statement    stmt = null;
         Statement    stmt2 = null;
         StringBuffer query = new StringBuffer( 100 );
@@ -420,7 +420,7 @@ public class BallotManager {
   
     //returns electoral district
     public ElectoralDistrict restoreElectoralDistrictHasBallotBallot( Ballot ballot ) throws EVException{
-    	String       selectDistrictSql = "select e.districtId, e.districtName from electoralDistrict as e, ballot as b, ballotDistrict bd"
+    	String       selectDistrictSql = "select e.districtId, e.districtName from electoralDistrict as e, ballot as b, ballotDistrict bd "
           							   + "where bd.districtId = e.districtId and bd.ballotId = b.ballotId";              
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
@@ -433,7 +433,7 @@ public class BallotManager {
         
         if( ballot != null ) {
             if( ballot.getId() >= 0 ) // id is unique, so it is sufficient to get a person
-                query.append( " and b.id = " + ballot.getId() );
+                query.append( " and b.ballotId = " + ballot.getId() );
             else if( ballot.getOpenDate() != null ) // userName is unique, so it is sufficient to get a person
                 query.append( " and b.openDate = '" + ballot.getOpenDate() + "'" );
             else if( ballot.getCloseDate() != null )
