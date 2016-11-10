@@ -495,11 +495,7 @@ public class BallotManager {
         }
     }
 public void delete(Ballot ballot) throws EVException {
-    	String deleteBallotSql = "delete t1, t2, t3, t4, t5 from ballot as t1 "
-				   + "inner join VoteRecord as t2 on t1.ballotId = t2.ballotId "
-				   + "inner join BallotDistrict as t3 on t1.ballotId = t3.ballotId "
-				   + "inner join ElectionBallot as t4 on t1.ballotId = t4.ballotId "
-				   + "inner join IssueBallot as t5 on t1.ballotId = t5.ballotId "
+    	String deleteBallotSql = "delete t1 from ballot as t1 "
 				   + "where t1.ballotId = ?";         
 PreparedStatement    stmt = null;
 int                  inscnt;
