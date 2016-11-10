@@ -31,14 +31,16 @@ public class VoterDistrictManager {
             stmt = (PreparedStatement) conn.prepareStatement( insertVoterDistrictSql );          
             
             if(voter.isPersistent() )
-                stmt.setLong( 1, voter.getId());
+                stmt.setLong( 1, voter.getVoterId());
             else
                 throw new EVException( "VoterDistrictMananger.save: voter is not persistent" );
+            
             
             if(electoralDistrict.isPersistent() )
                 stmt.setLong( 2, electoralDistrict.getId());
             else
             	throw new EVException( "VoterDistrictMananger.save: electoral district is not persistent" );
+            	
 
             inscnt = stmt.executeUpdate();
             if( inscnt < 1 )
@@ -65,7 +67,7 @@ public class VoterDistrictManager {
 
  	try {
  		stmt = (PreparedStatement) conn.prepareStatement( deleteVoterDistrictSql );
- 		stmt.setLong( 1, voter.getId() );
+ 		stmt.setLong( 1, voter.getVoterId() );
  		stmt.setLong( 2, electoralDistrict.getId());
 
  		inscnt = stmt.executeUpdate();

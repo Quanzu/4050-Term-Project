@@ -35,7 +35,7 @@ class VoterManager
         
         PreparedStatement    stmt;
         int                  inscnt;
-        long                 userId;
+        long                 userId, voterId;
         
         try {
             
@@ -98,6 +98,21 @@ class VoterManager
                                 stmt.setLong(1,userId);
                                 stmt.setInt(2, voter.getAge());
                                 inscnt = stmt.executeUpdate();
+                                if( inscnt == 1 ) {
+                                    sql = "select last_insert_id()";
+                                    if( stmt.execute( sql ) ) { // statement returned a result
+                                        // retrieve the result
+                                        ResultSet r2 = stmt.getResultSet();
+                                        // we will use only the first row!
+                                        while( r2.next() ) {
+                                            // retrieve the last insert auto_increment value
+                                            voterId = r2.getLong( 1 );
+                                            if( voterId > 0 ){
+                                                voter.setVoterId( voterId ); // set this person's db id (proxy object)                                               
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

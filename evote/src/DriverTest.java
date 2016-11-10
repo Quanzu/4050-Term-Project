@@ -15,7 +15,6 @@ public class DriverTest {
 
 	public static void main(String[] args) throws EVException {
 		
-		System.out.println("HI");
 		Connection conn = null;
 		PersistenceLayer persistence;
 		Properties prop = new Properties();
