@@ -221,99 +221,88 @@ public class BallotManager {
     
     public Ballot restoreBallotIncludesBallotItem( BallotItem ballotItem ) throws EVException{  	
        if(ballotItem instanceof Issue){
-      	String       selectIssueBallotSql = "select b.ballotId, b.openDate, b.closeDate from Ballot as b, Issue i, issueBallot ib "
-      								   + "where b.ballotId = ib.ballotId and i.issueId = ib.issueId";              
-        Statement    stmt = null;
-        StringBuffer query = new StringBuffer( 100 );
-
-        // form the query based on the given Ballot object instance
-        query.append( selectIssueBallotSql );
-        //Should it be like this ? or change to issueBallot instead of ballotItem
-        if( ballotItem != null ) {
-            if( ballotItem.getId() >= 0 ) // id is unique, so it is sufficient to get a person
-                query.append( " and i.id = " + ballotItem.getId() );
-            else {
-            	return null;
-            }
-        }
-        
-        try {
-
-            stmt = conn.createStatement();
-
-            // retrieve the persistent Ballot object
-            if( stmt.execute( query.toString() ) ) { // statement returned a result
-                ResultSet rs = stmt.getResultSet();
-                
-                long   id;
-                Date   openDate;
-              	Date   closeDate;
-                Ballot ballot = null;
-                
-                while( rs.next() ) {
-
-                    id = rs.getLong( 1 );
-                    openDate = rs.getDate( 2 );
-                  	closeDate = rs.getDate( 3 );
-
-                    ballot = objectLayer.createBallot(openDate,closeDate, null);
-                    ballot.setId( id );
-                }
-                
-                return ballot;
-            }
-        }
-        catch( Exception e ) {      // just in case...
-            throw new EVException( "BallotManager.restoreBallotIncludesBallotItem: Could not restore persistent elec object; Root cause: " + e );
-        }
+	      	String       selectIssueBallotSql = "select b.ballotId, b.openDate, b.closeDate from Ballot as b, Issue i, issueBallot ib "
+	      								      + "where b.ballotId = ib.ballotId and i.issueId = ib.issueId";              
+	        Statement    stmt = null;
+	        StringBuffer query = new StringBuffer( 100 );
+	
+	        // form the query based on the given Ballot object instance
+	        query.append( selectIssueBallotSql );
+	        //Should it be like this ? or change to issueBallot instead of ballotItem
+	        if( ballotItem != null ) {
+	            if( ballotItem.getId() >= 0 ) // id is unique, so it is sufficient to get a person
+	                query.append( " and i.issueId = " + ballotItem.getId() );
+	        }
+	        
+	        try {
+	            stmt = conn.createStatement();
+	            // retrieve the persistent Ballot object
+	            if( stmt.execute( query.toString() ) ) { // statement returned a result
+	                ResultSet rs = stmt.getResultSet();
+	                
+	                long   id;
+	                Date   openDate;
+	              	Date   closeDate;
+	                Ballot ballot = null;
+	                
+	                while( rs.next() ) {
+	
+	                    id = rs.getLong( 1 );
+	                    openDate = rs.getDate( 2 );
+	                  	closeDate = rs.getDate( 3 );
+	
+	                    ballot = objectLayer.createBallot(openDate,closeDate, null);
+	                    ballot.setId( id );
+	                }
+	                
+	                return ballot;
+	            }
+	        }
+	        catch( Exception e ) {      // just in case...
+	            throw new EVException( "BallotManager.restoreBallotIncludesBallotItem: Could not restore persistent elec object; Root cause: " + e );
+	        }
        }
        if(ballotItem instanceof Election){
-    	   String       selectElectionBallotSql = "select b.ballotId, b.openDate, b.closeDate from Ballot as b, Election e, electionBallot eb "
-					   + "where b.ballotId = eb.ballotId and e.electionId = eb.electionId";                
-        Statement    stmt = null;
-        StringBuffer query = new StringBuffer( 100 );
-        
-        // form the query based on the given Ballot object instance
-        query.append( selectElectionBallotSql );
-        
-        if( ballotItem != null ) {
-            if( ballotItem.getId() >= 0 ) // id is unique, so it is sufficient to get a person
-                query.append( " and e.id = " + ballotItem.getId() );
-            else {
-            	return null;
-            }
-        }
-                
-        try {
-
-            stmt = conn.createStatement();
-
-            // retrieve the persistent ElectoralDistrict object
-            //
-            if( stmt.execute( query.toString() ) ) { // statement returned a result
-                ResultSet rs = stmt.getResultSet();
-                
-                long   id;
-                Date   openDate;
-              	Date   closeDate;
-                Ballot ballot = null;
-                
-                while( rs.next() ) {
-
-                    id = rs.getLong( 1 );
-                    openDate = rs.getDate( 2 );
-                  	closeDate = rs.getDate( 3 );
-
-                    ballot = objectLayer.createBallot(openDate,closeDate, null);
-                    ballot.setId( id );
-                }
-                
-                return ballot;
-            }
-        }
-        catch( Exception e ) {      // just in case...
-            throw new EVException( "BallotManager.restoreBallotIncludesBallotItem: Could not restore persistent elec object; Root cause: " + e );
-        }
+	    	String       selectElectionBallotSql = "select b.ballotId, b.openDate, b.closeDate from Ballot as b, Election e, electionBallot eb "
+						   + "where b.ballotId = eb.ballotId and e.electionId = eb.electionId";                
+	        Statement    stmt = null;
+	        StringBuffer query = new StringBuffer( 100 );
+	        
+	        // form the query based on the given Ballot object instance
+	        query.append( selectElectionBallotSql );
+	        
+	        if( ballotItem != null ) {
+	            if( ballotItem.getId() >= 0 ) // id is unique, so it is sufficient to get a person
+	                query.append( " and e.electionId = " + ballotItem.getId() );
+	        }              
+	        try {
+	            stmt = conn.createStatement();
+	            // retrieve the persistent ElectoralDistrict object
+	            //
+	            if( stmt.execute( query.toString() ) ) { // statement returned a result
+	                ResultSet rs = stmt.getResultSet();
+	                
+	                long   id;
+	                Date   openDate;
+	              	Date   closeDate;
+	                Ballot ballot = null;
+	                
+	                while( rs.next() ) {
+	
+	                    id = rs.getLong( 1 );
+	                    openDate = rs.getDate( 2 );
+	                  	closeDate = rs.getDate( 3 );
+	
+	                    ballot = objectLayer.createBallot(openDate,closeDate, null);
+	                    ballot.setId( id );
+	                }
+	                
+	                return ballot;
+	            }
+	        }
+	        catch( Exception e ) {      // just in case...
+	            throw new EVException( "BallotManager.restoreBallotIncludesBallotItem: Could not restore persistent elec object; Root cause: " + e );
+	        }
        }
        return null;
     }

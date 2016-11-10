@@ -35,7 +35,7 @@ public abstract class Persistent implements Persistable {
         return persistenceLayer;
     }
 
-    public static void setPersistencaLayer(PersistenceLayer pLayer) {
+    public static void setPersistenceLayer(PersistenceLayer pLayer) {
         persistenceLayer = pLayer;
     }
 
