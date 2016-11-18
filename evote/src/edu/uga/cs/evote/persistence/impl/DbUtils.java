@@ -91,15 +91,15 @@ public class DbUtils {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		*/
         try {
             Class.forName(DbAccessConfig.DB_DRIVE_NAME);
         } 
         catch (ClassNotFoundException ex) {
             // log.error( "DbUtils.connect:  unable to find JDBC Driver", ex );
-            throw new EVException( "DbUtils.connect: Unable to find Driver" );
+            throw new EVException( "DbUtils.connect: Unable to find Driver " + ex.getMessage() );
         }
-        */
+        
         try {
     		Properties prop = new Properties();
     		prop.setProperty("user", DbAccessConfig.DB_CONNECTION_USERNAME);
