@@ -29,12 +29,11 @@ public class EOController {
 		System.out.println("Your user name is " + username);          
 	      System.out.println("Your password is " + password);
 	      
-	      try{
+	    try{
 	  		conn =	DbUtils.connect();
 	  	}
 	  	catch(Exception seq){
 	  		System.err.println("DeleteTest: Unable to obtain a database connection " + seq);
-	  		
 	  	}
 	  	if (conn == null)
 	  	{
