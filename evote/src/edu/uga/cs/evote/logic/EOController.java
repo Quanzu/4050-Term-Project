@@ -2,8 +2,9 @@ package edu.uga.cs.evote.logic;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-
+import edu.uga.cs.evote.entity.*;
 import edu.uga.cs.evote.entity.ElectionsOfficer;
+import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.entity.impl.ElectionsOfficerImpl;
 import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.object.impl.ObjectLayerImpl;
@@ -34,6 +35,7 @@ public class EOController {
 	  	}
 	  	catch(Exception seq){
 	  		System.err.println("DeleteTest: Unable to obtain a database connection " + seq);
+	  		
 	  	}
 	  	if (conn == null)
 	  	{
@@ -53,7 +55,7 @@ public class EOController {
            System.out.println("Sorry, you are not a registered user! Please sign up first");
         } 
 	        
-        //if user exists set the isValid variable to true
+        
         else if (eo.isPersistent()) 
         {
            String firstName = eo.getFirstName();
@@ -66,6 +68,13 @@ public class EOController {
       
 	  	
 	  	return eo;
+	}
+	
+	//need createED method
+	public static ElectoralDistrict createED(ElectoralDistrict ed){
+		
+		//gonna need to actually create the ED by using obj to call the method?
+		return ed;
 	}
 	
 }
