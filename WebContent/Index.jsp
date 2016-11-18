@@ -138,8 +138,7 @@
 		<input type = "hidden" name = "option" value = "addClient">
 	</form>
 	
-	<% out.println(request.getAttribute("message") + "</br>");%>
-	<% out.println(request.getAttribute("uname"));%>
+	
 	-->
 </body>
 </html>
