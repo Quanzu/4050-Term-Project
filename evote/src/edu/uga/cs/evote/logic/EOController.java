@@ -2,6 +2,9 @@ package edu.uga.cs.evote.logic;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.List;
+
+import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.*;
 import edu.uga.cs.evote.entity.ElectionsOfficer;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
@@ -22,13 +25,13 @@ public class EOController {
 		
 	}
 	
-	public static ElectionsOfficerImpl login(ElectionsOfficerImpl eo){
+	public static ElectionsOfficerImpl login(ElectionsOfficerImpl eo) throws EVException{
 		String username = eo.getUserName();
 		String password = eo.getPassword();
 		
 		//testing purposes
 		System.out.println("Your user name is " + username);          
-	      System.out.println("Your password is " + password);
+	    System.out.println("Your password is " + password);
 	      
 	    try{
 	  		conn =	DbUtils.connect();
@@ -48,7 +51,7 @@ public class EOController {
 	  	ObjectLayer test = new ObjectLayerImpl();
 	  	persistence = new PersistenceLayerImpl(conn, test);
 	  	test.setPersistence(persistence);
-	  	
+	  	/*
 	 // if user does not exist set the isValid variable to false
         if (!eo.isPersistent()) 
         {
@@ -65,8 +68,12 @@ public class EOController {
            eo.setFirstName(firstName);
            eo.setLastName(lastName);
         }
-      
+      	*/
 	  	
+	  	List<ElectionsOfficer> officer = test.findElectionsOfficer(eo);
+	  	if(officer.size() > 0){
+	  		System.out.println(officer.get(0).getAddress());
+	  	}
 	  	return eo;
 	}
 	

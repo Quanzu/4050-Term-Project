@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.ElectionsOfficer;
 import edu.uga.cs.evote.entity.impl.ElectionsOfficerImpl;
 import edu.uga.cs.evote.logic.EOController;
@@ -69,7 +70,9 @@ public class Login extends HttpServlet {
     		request.setAttribute("uname", uname);
     		rd.forward(request, response);
     		*/
-    	} finally
+    	} catch (EVException e) {
+			e.printStackTrace();
+		} finally
     	{
     		out.close();
     	}
