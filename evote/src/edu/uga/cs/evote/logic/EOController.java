@@ -14,7 +14,7 @@ import edu.uga.cs.evote.persistence.impl.PersistenceLayerImpl;
 
 public class EOController {
 
-	 static Connection conn = null;
+	static Connection conn = null;
 	static PersistenceLayer persistence;
 	
 	
