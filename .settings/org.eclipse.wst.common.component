@@ -2,6 +2,9 @@
     <wb-module deploy-name="4050-Term-Project">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/evote/src"/>
+        <dependent-module archiveName="mysql-connector-java-5.1.40-bin.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/4050-Term-Project/evote/lib/mysql-connector-java-5.1.40-bin.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="4050-Term-Project"/>
         <property name="java-output-path" value="/4050-Term-Project/clubs/classes"/>
     </wb-module>

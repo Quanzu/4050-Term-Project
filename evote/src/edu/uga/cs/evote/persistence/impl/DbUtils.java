@@ -13,7 +13,6 @@ import edu.uga.cs.evote.EVException;;
 public class DbUtils {
 
     // private static Logger log = SessionManager.getLog();
-    
 
     /**
      * Disables the auto commit for the current connection  
