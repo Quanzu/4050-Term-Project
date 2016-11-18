@@ -38,12 +38,13 @@
           <h1 class="modal-title text-center">Officer</h1>
         </div>
         <div class="modal-body">
-          <form class="form-signin">
+          <form class="form-signin" action = "Login">
             <h3 class="form-signin-heading">Sign In</h3>
             <label for="username" class="sr-only">UserName</label>
-            <input type="text" id="username" class="form-control" placeholder="UserName" required=true autofocus=true>
+            <input type="text" id="uname" class="form-control" placeholder="UserName" required=true autofocus=true>
             <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" class="form-control" placeholder="Password" required=true>
+            <input type="password" id="pword" class="form-control" placeholder="Password" required=true>
+              <input type = "hidden" name = "option" value = "addClient">
             <div class="modal-footer">
               <button type="button" class="btn btn-lg btn-primary" type="submit">Sign in</button>
               <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
