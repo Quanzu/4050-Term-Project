@@ -43,9 +43,9 @@
           <form class="form-signin" action = "EOLogin" method = "post"> 
             <h3 class="form-signin-heading">Sign In</h3> 
             <label for="username" class="sr-only">UserName</label> 
-            <input type="text" id="uname" class="form-control" placeholder="UserName" required=true autofocus=true> 
+            <input type="text" name="username" class="form-control" placeholder="UserName" required=true autofocus=true> 
             <label for="password" class="sr-only">Password</label> 
-            <input type="password" id="pword" class="form-control" placeholder="Password" required=true> 
+            <input type="password" name="password" class="form-control" placeholder="Password" required=true> 
             <div class="modal-footer"> 
               <button class="btn btn-lg btn-primary" type="submit">Sign in</button> 
               <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button> 

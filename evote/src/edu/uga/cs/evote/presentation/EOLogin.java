@@ -3,7 +3,6 @@ package edu.uga.cs.evote.presentation;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,67 +42,59 @@ public class EOLogin extends HttpServlet {
 		
 		response.setContentType("text/html");
     	PrintWriter out = response.getWriter();
-    	try{
     		
-    		HttpSession httpSession = null;
-    		String username;
-    		String password;
-    		String ssid = null;
-    		Session session = null;
-    		LogicLayer logicLayer = null;
+    	HttpSession httpSession = null;
+    	String username;
+    	String password;
+   		String ssid = null;
+   		Session session = null;
+   		LogicLayer logicLayer = null;
     		
-    		httpSession = request.getSession();
-    		ssid = (String)httpSession.getAttribute("ssid");
-            if( ssid != null ) {
-                System.out.println( "Already have ssid: " + ssid );
-                session = SessionManager.getSessionById( ssid );
-                System.out.println( "Connection: " + session.getConnection() );
+    	httpSession = request.getSession();
+    	ssid = (String)httpSession.getAttribute("ssid");
+        if( ssid != null ) {
+        	System.out.println( "Already have ssid: " + ssid );
+            session = SessionManager.getSessionById( ssid );
+            System.out.println( "Connection: " + session.getConnection() );
+        }
+        else
+            System.out.println( "ssid is null" );
+          
+            
+        if( session == null ) {
+        	try {
+        		session = SessionManager.createSession();
             }
-            else
-                System.out.println( "ssid is null" );
-            
-            
-            if( session == null ) {
-                try {
-                    session = SessionManager.createSession();
-                }
-                catch ( Exception e ) {
-                    throw new EVException(e.getMessage());
-                }
-            }
-            
-            logicLayer = session.getLogicLayer();
-            
-            username = request.getParameter( "username" );
-            password = request.getParameter( "password" );
-
-            if( username == null || password == null ) {
-                throw new EVException("Missing user name or password");
-            }
-            
-            try {          
-                ssid = logicLayer.eoLogin( session, username, password );
-                System.out.println( "Obtained ssid: " + ssid );
-                httpSession.setAttribute( "ssid", ssid );
-                System.out.println( "Connection: " + session.getConnection() );
-            } 
             catch ( Exception e ) {
-                throw new EVException(e.getMessage());
+                //EVException.error(e.getMessage());
             }
+        }
+            
+        logicLayer = session.getLogicLayer();
+            
+        username = request.getParameter( "username" );
+        password = request.getParameter( "password" );
+            
+        if( username == null || password == null ) {
+            //throw new EVException("Missing user name or password");
+        }
+            
+        try {          
+            ssid = logicLayer.eoLogin( session, username, password );
+            System.out.println( "Obtained ssid: " + ssid );
+            httpSession.setAttribute( "ssid", ssid );
+            System.out.println( "Connection: " + session.getConnection() );
+        } 
+        catch ( Exception e ) {
+
+        }
             
             
-    		if (ssid!=null)
-    			response.sendRedirect("eoHomepage.jsp");
-    		else
-    			response.sendRedirect("invalidLogin.jsp");
+        if (ssid!=null)
+        	response.sendRedirect("eoHomepage.jsp");
+    	else
+    		response.sendRedirect("invalidLogin.jsp");
     		
-    		
-    	} catch (EVException e) {
-			e.printStackTrace();
-		} finally
-    	{
-    		out.close();
-    	}
 	}
 
 	/**
