@@ -43,7 +43,7 @@ public class Register extends HttpServlet {
     	String email;
     	String address;
    		String ssid = null;
-   		long ssid2;
+   		long ssid2 = 0;
    		Session session = null;
    		LogicLayer logicLayer = null;
    		
@@ -94,6 +94,11 @@ public class Register extends HttpServlet {
         catch ( Exception e ) {
         	e.printStackTrace();
         }
+        
+        if(ssid2 > 0)
+        	response.sendRedirect("voterHomepage.jsp");
+        else
+        	response.sendRedirect("invalidLogin.jsp");
 	}
 
 

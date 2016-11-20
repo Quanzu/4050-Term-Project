@@ -12,8 +12,8 @@
 			<input type=hidden name="option" value="addVoter" />
 			First Name <input type="text" name="fname" value="John"><br>
 			Last Name <input type="text" name="lname" value="Kim"><br>
-			Username <input type="text" name="uname" value="jk"><br>
-			Password <input type="text" name="pword" value="yu"><br>
+			Username <input type="text" name="username" value="jk"><br>
+			Password <input type="text" name="password" value="yu"><br>
 			Retype Password <input type="text" name="retype" value="yu"><br>
 			Email Address <input type="text" name="email" value="hello@world.org"><br>
 			Age <input type="text" name="age" value="83"><br>
