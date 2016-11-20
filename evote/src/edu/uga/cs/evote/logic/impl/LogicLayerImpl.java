@@ -48,7 +48,7 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
-	public long addVoter(Session session, String fname, String lname, String uname, String pword, String email,
+	public String addVoter(Session session, String fname, String lname, String uname, String pword, String email,
 			String address, int age) throws EVException {
 		VoterRegCtrl ctrlVerifyVoter = new VoterRegCtrl(objectLayer);
 		return ctrlVerifyVoter.addVoter(session, fname, lname, uname, pword, email, address, age);

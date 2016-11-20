@@ -1,7 +1,6 @@
 package edu.uga.cs.evote.presentation;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,12 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import edu.uga.cs.evote.EVException;
-import edu.uga.cs.evote.entity.impl.ElectionsOfficerImpl;
-import edu.uga.cs.evote.entity.impl.VoterImpl;
 import edu.uga.cs.evote.logic.LogicLayer;
-import edu.uga.cs.evote.logic.impl.EOLoginCtrl;
-import edu.uga.cs.evote.logic.impl.VoterRegCtrl;
 import edu.uga.cs.evote.session.Session;
 import edu.uga.cs.evote.session.SessionManager;
 
@@ -24,14 +18,8 @@ public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 
-    public Register() {
-        super();
-       
-    }
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
-    	PrintWriter out = response.getWriter();
     	
     	HttpSession httpSession = null;
     	int age;
@@ -42,7 +30,7 @@ public class Register extends HttpServlet {
     	String email;
     	String address;
    		String ssid = null;
-   		long ssid2 = 0;
+   		String ssid2 = null;
    		Session session = null;
    		LogicLayer logicLayer = null;
    		
@@ -94,15 +82,10 @@ public class Register extends HttpServlet {
         	e.printStackTrace();
         }
         
-        if(ssid2 > 0)
+        if(ssid2 != null)
         	response.sendRedirect("voterHomepage.jsp");
         else
         	response.sendRedirect("invalidLogin.jsp");
-	}
-
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
 	}
 
 }

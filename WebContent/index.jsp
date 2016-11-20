@@ -91,19 +91,19 @@
                   <fieldset> 
                     <legend>General Information:</legend> 
                     <label for="fname" class="sr-only">First Name</label> 
-                    <input type="text" id="fname" class="form-control" placeholder="First Name" required autofocus> 
+                    <input type="text" name="fname" class="form-control" placeholder="First Name" required autofocus> 
                     <label for="lname" class="sr-only">Last Name</label> 
-                    <input type="text" id="lname" class="form-control" placeholder="Last Name" required> 
+                    <input type="text" name="lname" class="form-control" placeholder="Last Name" required> 
                     <label for="username" class="sr-only">UserName</label> 
-                    <input type="text" id="username" class="form-control" placeholder="Username" required> 
+                    <input type="text" name="username" class="form-control" placeholder="Username" required> 
                     <label for="password" class="sr-only">Password</label> 
-                    <input type="password" id="password" class="form-control" placeholder="Password" required> 
-                    <label for="passwordRetype" class="sr-only">Retype Password</label> 
+                    <input type="password" name="password" class="form-control" placeholder="Password" required> 
+<!--                    <label for="passwordRetype" class="sr-only">Retype Password</label> -->
 <!--   				<input type="password" id="passwordRetype" class="form-control" placeholder="Retype Password" required>-->
                     <label for="email" class="sr-only">Email</label> 
-                    <input type="email" id="email" class="form-control" placeholder="Email" required> 
+                    <input type="email" name="email" class="form-control" placeholder="Email" required> 
                     <label for="age" class="sr-only">Age</label> 
-                    <input type="number" id="age" class="form-control" placeholder="Age: Must be a number" required> 
+                    <input type="number" name="age" class="form-control" placeholder="Age: Must be a number" required> 
                   </fieldset> 
                   <br> 
                   <fieldset> 
