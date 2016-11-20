@@ -37,40 +37,41 @@ public class Register extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
     	PrintWriter out = response.getWriter();
+    	String word, copy;
     	try{
-    		int age = Integer.parseInt(request.getParameter("age"));
+    		word = request.getParameter("password");
+    		copy = request.getParameter("passwordRetype");
+    		if(word.equals(copy)){
+    			int age = Integer.parseInt(request.getParameter("age"));
     		
-    		VoterImpl voter = new VoterImpl();
-    		voter.setFirstName(request.getParameter("fname"));
-    		voter.setLastName(request.getParameter("lname"));
-    		voter.setUserName(request.getParameter("username"));
-    		voter.setPassword(request.getParameter("password"));
-    		voter.setEmailAddress(request.getParameter("email"));
-    		voter.setAge(age);
-    		voter.setAddress(request.getParameter("street") + " " + request.getParameter("city") + " "
-    				+ request.getParameter("state") + " " + request.getParameter("zip"));
-    		String option = request.getParameter("option");
+    			VoterImpl voter = new VoterImpl();
+    			voter.setFirstName(request.getParameter("fname"));
+    			voter.setLastName(request.getParameter("lname"));
+    			voter.setUserName(request.getParameter("username"));
+    			voter.setPassword(request.getParameter("password"));
+    			voter.setEmailAddress(request.getParameter("email"));
+    			voter.setAge(age);
+    			voter.setAddress(request.getParameter("street") + " " + request.getParameter("city") + " "
+    					+ request.getParameter("state") + " " + request.getParameter("zip"));
+    			String option = request.getParameter("option");
     		
     		
-    		//calling method login in voter controller?
-    		VoterController.add(voter);
+    			//calling method login in voter controller?
+    			VoterController.add(voter);
     		
-    		if (voter.isPersistent()){
-    			HttpSession session = request.getSession(true);
-    			session.setAttribute("currentSessionUser", voter);
-    			//need to creat homepage for voter
-    			response.sendRedirect("voterHomepage.jsp");
+    			if (voter.isPersistent()){
+    				HttpSession session = request.getSession(true);
+    				session.setAttribute("currentSessionUser", voter);
+    				//need to creat homepage for voter
+    				response.sendRedirect("voterHomepage.jsp");
+    			}
+    			else
+    				//create invalid login page.
+    				response.sendRedirect("invalidLogin.jsp");
     		}
-    		else
-    			//create invalid login page.
-    			response.sendRedirect("invalidLogin.jsp");
-    		
-    		/*
-    		RequestDispatcher rd = request.getRequestDispatcher("/Index.jsp");
-    		request.setAttribute("message", "Thank You!");
-    		request.setAttribute("uname", uname);
-    		rd.forward(request, response);
-    		*/
+    		else{
+    			response.sendRedirect("index.jsp");
+    		}
     	} 
     	catch (EVException e) {
 			e.printStackTrace();
