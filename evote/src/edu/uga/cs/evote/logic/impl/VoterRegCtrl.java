@@ -15,16 +15,53 @@ import edu.uga.cs.evote.object.impl.ObjectLayerImpl;
 import edu.uga.cs.evote.persistence.PersistenceLayer;
 import edu.uga.cs.evote.persistence.impl.DbUtils;
 import edu.uga.cs.evote.persistence.impl.PersistenceLayerImpl;
+import edu.uga.cs.evote.session.Session;
 
 public class VoterRegCtrl {
+
+	private ObjectLayer objectLayer = null;
+    
+    public VoterRegCtrl( ObjectLayer objectModel )
+    {
+        this.objectLayer = objectModel;
+    }
 	
-	static Connection conn = null;
-	static PersistenceLayer persist;
 	
-	public static void add(VoterImpl voter) throws EVException{
+    public long addVoter( Session session, String fname, String lname, String uname, String pword, 
+    		String email, String address, int age ) throws EVException{
+    	
+    		String ssid = null;
+	        Voter voter = null;
+	        Voter modelVoter = null;
+	        List<Voter> voters = null;
+
+	        // check if the uname already exists
+	        modelVoter = objectLayer.createVoter();
+	        modelVoter.setUserName(uname);
+	        voters = objectLayer.findVoter( modelVoter );
+	        if( voters.size() > 0 )
+	            voter = voters.get( 0 );
+	        
+	        // check if the person actually exists, and if so, throw an exception
+	        if( voter != null )
+	            throw new EVException( "A person with this user name already exists" );
+	        
+	        voter = objectLayer.createVoter( fname, lname, uname, pword, email, address, age);
+	        objectLayer.storeVoter( voter );
+
+	        return voter.getId();
+	    }
 		
 		
-		try{
+		
+		
+		
+		
+		
+		
+		
+		
+/*		try{
 			conn = DbUtils.connect();
 		}
 		catch(Exception seq){
@@ -36,4 +73,5 @@ public class VoterRegCtrl {
 				voter.getPassword(), voter.getEmailAddress(), voter.getAddress(), voter.getAge());
 		test.storeVoter(asdf);
 	}
+	*/
 }

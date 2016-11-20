@@ -99,7 +99,7 @@
                     <label for="password" class="sr-only">Password</label> 
                     <input type="password" id="password" class="form-control" placeholder="Password" required> 
                     <label for="passwordRetype" class="sr-only">Retype Password</label> 
-                    <input type="password" id="passwordRetype" class="form-control" placeholder="Retype Password" required> 
+<!--   				<input type="password" id="passwordRetype" class="form-control" placeholder="Retype Password" required>-->
                     <label for="email" class="sr-only">Email</label> 
                     <input type="email" id="email" class="form-control" placeholder="Email" required> 
                     <label for="age" class="sr-only">Age</label> 

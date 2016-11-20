@@ -10,17 +10,17 @@
 		<h1>Voter Registration</h1>
 		<form action="Register" method="POST">
 			<input type=hidden name="option" value="addVoter" />
-			First Name <input type="text" name="fname" value=""><br>
-			Last Name <input type="text" name="lname" value=""><br>
-			Username <input type="text" name="uname" value=""><br>
-			Password <input type="text" name="pword" value=""><br>
-			Retype Password <input type="text" name="retype" value=""><br>
-			Email Address <input type="text" name="email" value=""><br>
-			Age <input type="text" name="age" value=""><br>
-			Street <input type="text" name="street" value=""><br>
-			City <input type="text" name="city" value=""><br>
-			State <input type="text" name="state" value=""><br>
-			Zip Code <input type="text" name="zip" value=""><br>
+			First Name <input type="text" name="fname" value="John"><br>
+			Last Name <input type="text" name="lname" value="Kim"><br>
+			Username <input type="text" name="uname" value="jk"><br>
+			Password <input type="text" name="pword" value="yu"><br>
+			Retype Password <input type="text" name="retype" value="yu"><br>
+			Email Address <input type="text" name="email" value="hello@world.org"><br>
+			Age <input type="text" name="age" value="83"><br>
+			Street <input type="text" name="street" value="9182 Future Lane"><br>
+			City <input type="text" name="city" value="Over"><br>
+			State <input type="text" name="state" value="Georgia"><br>
+			Zip Code <input type="text" name="zip" value="92834"><br>
 			<input type="submit" value="register" name="register" />
 		
 		

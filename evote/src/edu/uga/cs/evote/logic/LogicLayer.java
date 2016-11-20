@@ -6,5 +6,7 @@ import edu.uga.cs.evote.session.Session;
 public interface LogicLayer {
 	public String eoLogin(Session session, String userName, String password) throws EVException;
 	public String voterLogin(Session session, String userName, String password) throws EVException;
+	public long addVoter(Session session, String fname, String lname, String uname, String pword, 
+		String email, String address, int age ) throws EVException;
 
 }
