@@ -1,4 +1,4 @@
-package edu.uga.cs.evote.formhandler;
+package edu.uga.cs.evote.presentation;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,21 +12,23 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import edu.uga.cs.evote.EVException;
-import edu.uga.cs.evote.entity.Voter;
-import edu.uga.cs.evote.entity.impl.VoterImpl;
-import edu.uga.cs.evote.logic.VoterController;
+import edu.uga.cs.evote.entity.ElectionsOfficer;
+import edu.uga.cs.evote.entity.impl.ElectionsOfficerImpl;
+import edu.uga.cs.evote.logic.impl.EOController;
+
+
 
 /**
- * Servlet implementation class LoginVoter
+ * Servlet implementation class Login
  */
-@WebServlet("/LoginVoter")
-public class LoginVoter extends HttpServlet {
+@WebServlet("/Login")
+public class LoginEO extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginVoter() {
+    public LoginEO() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,44 +37,52 @@ public class LoginVoter extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
 		response.setContentType("text/html");
     	PrintWriter out = response.getWriter();
     	try{
-    		VoterImpl vo = new VoterImpl();
-    		vo.setUserName(request.getParameter("uname"));
-    		vo.setPassword(request.getParameter("pword"));
-    		//Necessary for Voter?
+    		ElectionsOfficerImpl eo = new ElectionsOfficerImpl();
+    		eo.setUserName(request.getParameter("uname"));
+    		eo.setPassword(request.getParameter("pword"));
+    		//String uname = request.getParameter("uname");
+    		//String pword = request.getParameter("pword");
     		String option = request.getParameter("option");
     		
     		
-    		//calling method login in VO controller?
-    		vo = VoterController.login(vo);
+    		//calling method login in EO controller?
+    		eo = EOController.login(eo);
     		
-    		if (vo.isPersistent())
+    		if (eo.isPersistent())
     		{
     			HttpSession session = request.getSession(true);
-    			session.setAttribute("currentSessionUser", vo);
-    			//What should the voter be sent to?
-    			response.sendRedirect("voHomepage.jsp");
+    			session.setAttribute("currentSessionUser", eo);
+    			//need to creat homepage for EO
+    			response.sendRedirect("eoHomepage.jsp");
     		}
     		else
     			//create invalid login page.
     			response.sendRedirect("invalidLogin.jsp");
     		
-    		
+    		/*
+    		RequestDispatcher rd = request.getRequestDispatcher("/Index.jsp");
+    		request.setAttribute("message", "Thank You!");
+    		request.setAttribute("uname", uname);
+    		rd.forward(request, response);
+    		*/
     	} catch (EVException e) {
 			e.printStackTrace();
 		} finally
     	{
     		out.close();
     	}
-		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

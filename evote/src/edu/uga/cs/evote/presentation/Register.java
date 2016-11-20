@@ -1,4 +1,4 @@
-package edu.uga.cs.evote.formhandler;
+package edu.uga.cs.evote.presentation;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,8 +13,8 @@ import javax.servlet.http.HttpSession;
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.impl.ElectionsOfficerImpl;
 import edu.uga.cs.evote.entity.impl.VoterImpl;
-import edu.uga.cs.evote.logic.EOController;
-import edu.uga.cs.evote.logic.VoterController;
+import edu.uga.cs.evote.logic.impl.EOController;
+import edu.uga.cs.evote.logic.impl.VoterController;
 
 /**
  * Servlet implementation class Register

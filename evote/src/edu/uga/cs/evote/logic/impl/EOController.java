@@ -1,4 +1,4 @@
-package edu.uga.cs.evote.logic;
+package edu.uga.cs.evote.logic.impl;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
