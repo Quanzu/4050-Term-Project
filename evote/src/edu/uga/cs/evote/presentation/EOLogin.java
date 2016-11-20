@@ -47,6 +47,7 @@ public class EOLogin extends HttpServlet {
     	String username;
     	String password;
    		String ssid = null;
+   		String ssid2 = null;
    		Session session = null;
    		LogicLayer logicLayer = null;
     		
@@ -55,7 +56,7 @@ public class EOLogin extends HttpServlet {
         if( ssid != null ) {
         	System.out.println( "Already have ssid: " + ssid );
             session = SessionManager.getSessionById( ssid );
-            System.out.println( "Connection: " + session.getConnection() );
+            //System.out.println( "Connection: " + session.getConnection() );
         }
         else
             System.out.println( "ssid is null" );
@@ -66,7 +67,7 @@ public class EOLogin extends HttpServlet {
         		session = SessionManager.createSession();
             }
             catch ( Exception e ) {
-                //EVException.error(e.getMessage());
+                e.printStackTrace();
             }
         }
             
@@ -76,21 +77,22 @@ public class EOLogin extends HttpServlet {
         password = request.getParameter( "password" );
             
         if( username == null || password == null ) {
-            //throw new EVException("Missing user name or password");
+        	System.out.println("Username or password null");
+        	return;
         }
             
         try {          
-            ssid = logicLayer.eoLogin( session, username, password );
+            ssid2 = logicLayer.eoLogin( session, username, password );
             System.out.println( "Obtained ssid: " + ssid );
             httpSession.setAttribute( "ssid", ssid );
             System.out.println( "Connection: " + session.getConnection() );
         } 
         catch ( Exception e ) {
-
+        	e.printStackTrace();
         }
             
             
-        if (ssid!=null)
+        if (ssid2!=null)
         	response.sendRedirect("eoHomepage.jsp");
     	else
     		response.sendRedirect("invalidLogin.jsp");

@@ -130,12 +130,12 @@ class ElectionsOfficerManager
         if( modelOfficer != null ) {
             if( modelOfficer.getId() >= 0 ) // id is unique, so it is sufficient to get a person
                 query.append( " and id = '" + modelOfficer.getId() );
-            else if( modelOfficer.getUserName() != null ) // userName is unique, so it is sufficient to get a person
+            if( modelOfficer.getUserName() != null ) // userName is unique, so it is sufficient to get a person
                 query.append( " and userName = '" + modelOfficer.getUserName() + "'" );
-            else {
-                if( modelOfficer.getFirstName() != null ) {
-                    condition.append( " fname = '" + modelOfficer.getFirstName() + "'" );
-                }
+            if( modelOfficer.getFirstName() != null ) {
+                condition.append( " and " );
+                condition.append( " fname = '" + modelOfficer.getFirstName() + "'" );
+            }
 
                 if( modelOfficer.getLastName() != null ) {
                     condition.append( " and " );
@@ -159,10 +159,10 @@ class ElectionsOfficerManager
 
 
                 if( condition.length() > 0 ) {
-                    query.append(  " and " );
+                    //query.append(  " and " );
                     query.append( condition );
                 }
-            }
+            
         }
         
         try {

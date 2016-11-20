@@ -7,6 +7,7 @@ import java.util.Date;
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.User;
 import edu.uga.cs.evote.logic.LogicLayer;
+import edu.uga.cs.evote.logic.impl.LogicLayerImpl;
 import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.object.impl.ObjectLayerImpl;
 import edu.uga.cs.evote.persistence.PersistenceLayer;
@@ -31,7 +32,7 @@ public class Session extends Thread {
         objectLayer = new ObjectLayerImpl();
         PersistenceLayer persistence = new PersistenceLayerImpl( conn, objectLayer ); 
         objectLayer.setPersistence( persistence ); 
-        //logicLayer = new LogicLayerImpl( objectLayer );
+        logicLayer = new LogicLayerImpl( objectLayer );
         extendExpiration();
     }
     
