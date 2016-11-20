@@ -83,8 +83,8 @@ public class EOLogin extends HttpServlet {
             
         try {          
             ssid2 = logicLayer.eoLogin( session, username, password );
-            System.out.println( "Obtained ssid: " + ssid );
-            httpSession.setAttribute( "ssid", ssid );
+            System.out.println( "Obtained ssid: " + ssid2 );
+            httpSession.setAttribute( "ssid", ssid2 );
             System.out.println( "Connection: " + session.getConnection() );
         } 
         catch ( Exception e ) {

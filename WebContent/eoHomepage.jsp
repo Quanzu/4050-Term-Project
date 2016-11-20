@@ -48,6 +48,9 @@
   <div class="jumbotron">
     <h1 class="text-center">eVote</h1>
     <p>Welcome Officer!</p>
+    <form action = "Logout">
+    	<input type="submit" value="Logout">
+    </form>
   </div>
 </div>
 
