@@ -146,12 +146,13 @@ class VoterManager
         if( modelVoter != null ) {
             if( modelVoter.getId() >= 0 ) // id is unique, so it is sufficient to get a person
                 query.append( " and User.userId = '" + modelVoter.getId() );
-            else if( modelVoter.getUserName() != null ) // userName is unique, so it is sufficient to get a person
+            if( modelVoter.getUserName() != null ) // userName is unique, so it is sufficient to get a person
                 query.append( " and userName = '" + modelVoter.getUserName() + "'" );
-            else {            	
-                if( modelVoter.getFirstName() != null ) {
-                    condition.append( " fname = '" + modelVoter.getFirstName() + "'" );
-                }
+                
+            if( modelVoter.getFirstName() != null ) {
+            	condition.append(" and ");
+                condition.append( " fname = '" + modelVoter.getFirstName() + "'" );
+            }
 
                 if( modelVoter.getLastName() != null ) {
                     condition.append( " and " );
@@ -175,10 +176,9 @@ class VoterManager
 
 
                 if( condition.length() > 0 ) {
-                    query.append(  " and " );
                     query.append( condition );
                 }
-            }
+            
         }
         
         try {

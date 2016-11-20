@@ -74,7 +74,7 @@
  
           <div class="tab-content"> 
               <div class="tab-pane active" id="voterSignIn"> 
-                <form class="form-signin"> 
+                <form class="form-signin" method="post" action="VoterLogin"> 
                   <label for="username" class="sr-only">UserName</label> 
                   <input type="text" id="username" class="form-control" placeholder="UserName" required autofocus> 
                   <label for="password" class="sr-only">Password</label> 
