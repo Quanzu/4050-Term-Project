@@ -1,7 +1,6 @@
 package edu.uga.cs.evote.presentation;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,11 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import edu.uga.cs.evote.EVException;
-import edu.uga.cs.evote.entity.ElectionsOfficer;
-import edu.uga.cs.evote.entity.impl.ElectionsOfficerImpl;
+
 import edu.uga.cs.evote.logic.LogicLayer;
-import edu.uga.cs.evote.logic.impl.EOLoginCtrl;
 import edu.uga.cs.evote.session.Session;
 import edu.uga.cs.evote.session.SessionManager;
 
@@ -27,21 +23,13 @@ import edu.uga.cs.evote.session.SessionManager;
 public class EOLogin extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public EOLogin() {
-        super();
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//doGet(request, response);
 		response.setContentType("text/html");
-    	PrintWriter out = response.getWriter();
     		
     	HttpSession httpSession = null;
     	String username;
@@ -96,15 +84,7 @@ public class EOLogin extends HttpServlet {
         	response.sendRedirect("eoHomepage.jsp");
     	else
     		response.sendRedirect("invalidLogin.jsp");
-    		
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+    
 	}
 
 }

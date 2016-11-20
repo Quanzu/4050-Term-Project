@@ -10,6 +10,7 @@ import edu.uga.cs.evote.object.impl.ObjectLayerImpl;
 import edu.uga.cs.evote.persistence.PersistenceLayer;
 import edu.uga.cs.evote.persistence.impl.PersistenceLayerImpl;
 import edu.uga.cs.evote.session.Session;
+import edu.uga.cs.evote.session.SessionManager;
 
 public class LogicLayerImpl implements LogicLayer{
 
@@ -40,6 +41,11 @@ public class LogicLayerImpl implements LogicLayer{
 		VoterLoginCtrl ctrlVerifyVoter = new VoterLoginCtrl(objectLayer);
 		return ctrlVerifyVoter.login(session, userName, password);
 	}
+	
+	@Override
+	public void logout(String ssid) throws EVException {
+		SessionManager.logout(ssid);
+	}
 
 	@Override
 	public long addVoter(Session session, String fname, String lname, String uname, String pword, String email,
@@ -47,5 +53,7 @@ public class LogicLayerImpl implements LogicLayer{
 		VoterRegCtrl ctrlVerifyVoter = new VoterRegCtrl(objectLayer);
 		return ctrlVerifyVoter.addVoter(session, fname, lname, uname, pword, email, address, age);
 	}
+
+
 
 }
