@@ -39,21 +39,24 @@ public class Register extends HttpServlet {
     	PrintWriter out = response.getWriter();
     	try{
     		VoterImpl voter = new VoterImpl();
-    		voter.setUserName(request.getParameter("uname"));
-    		voter.setPassword(request.getParameter("pword"));
-    		//String uname = request.getParameter("uname");
-    		//String pword = request.getParameter("pword");
+    		voter.setFirstName(request.getParameter("fname"));
+    		voter.setLastName(request.getParameter("lname"));
+    		voter.setUserName(request.getParameter("username"));
+    		voter.setPassword(request.getParameter("password"));
+    		voter.setEmailAddress(request.getParameter("email"));
+    		voter.setAddress(request.getParameter("street") + " " + request.getParameter("city") + " "
+    				+ request.getParameter("state") + " " + request.getParameter("zip"));
     		String option = request.getParameter("option");
     		
     		
-    		//calling method login in EO controller?
-    		voter = VoterController.add(voter);
+    		//calling method login in voter controller?
+    		VoterController.add(voter);
     		
     		if (voter.isPersistent()){
     			HttpSession session = request.getSession(true);
     			session.setAttribute("currentSessionUser", voter);
-    			//need to creat homepage for EO
-    			response.sendRedirect("eoHomepage.jsp");
+    			//need to creat homepage for voter
+    			response.sendRedirect("voterHomepage.jsp");
     		}
     		else
     			//create invalid login page.
