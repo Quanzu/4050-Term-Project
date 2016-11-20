@@ -31,7 +31,7 @@
   </div>
 
   <!-- officer modal -->
-< <div id="officerModal" class="modal fade" role="dialog">
+  <div id="officerModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
       <div class="modal-content">
@@ -40,13 +40,12 @@
           <h1 class="modal-title text-center">Officer</h1>
         </div>
         <div class="modal-body">
-          <form class="form-signin" action = "Login" method = "post">
+          <form class="form-signin" action = "EOLogin" method = "post">
             <h3 class="form-signin-heading">Sign In</h3>
             <label for="username" class="sr-only">UserName</label>
             <input type="text" id="uname" class="form-control" placeholder="UserName" required=true autofocus=true>
             <label for="password" class="sr-only">Password</label>
             <input type="password" id="pword" class="form-control" placeholder="Password" required=true>
-              <input type = "hidden" name = "option" value = "addClient">
             <div class="modal-footer">
               <button class="btn btn-lg btn-primary" type="submit">Sign in</button>
               <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
@@ -132,15 +131,5 @@
   </div>
 
 </div>
-<!-- 
-	<form method = "post" action = "Login">
-		User name <input type = "text" name = "uname" value = ""/><br>
-		Password <input type = "text" name = "pword" value = ""/><br>
-		<input type = "submit" name = "submit" value = "submit">
-		<input type = "hidden" name = "option" value = "addClient">
-	</form>
-	
-	
-	-->
 </body>
 </html>
