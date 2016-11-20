@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Voter;
 import edu.uga.cs.evote.entity.impl.VoterImpl;
-import edu.uga.cs.evote.logic.impl.VoterController;
+import edu.uga.cs.evote.logic.impl.VoterRegCtrl;
 
 /**
  * Servlet implementation class LoginVoter
@@ -46,7 +46,7 @@ public class LoginVoter extends HttpServlet {
     		
     		
     		//calling method login in VO controller?
-    		vo = VoterController.login(vo);
+    		vo = VoterRegCtrl.login(vo);
     		
     		if (vo.isPersistent())
     		{

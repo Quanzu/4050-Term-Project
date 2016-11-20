@@ -31,7 +31,7 @@
   </div>
 
   <!-- officer modal -->
-  <div id="officerModal" class="modal fade" role="dialog">
+< <div id="officerModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
       <div class="modal-content">
@@ -88,7 +88,7 @@
               </div>
 
               <div class="tab-pane" id="register">
-                <form class="form-signin">
+                <form class="form-signin" action="Register" method="post">
                   <fieldset>
                     <legend>General Information:</legend>
                     <label for="fname" class="sr-only">First Name</label>

@@ -16,7 +16,7 @@ import edu.uga.cs.evote.persistence.PersistenceLayer;
 import edu.uga.cs.evote.persistence.impl.DbUtils;
 import edu.uga.cs.evote.persistence.impl.PersistenceLayerImpl;
 
-public class VoterController {
+public class VoterRegCtrl {
 	
 	static Connection conn = null;
 	static PersistenceLayer persist;
@@ -32,8 +32,8 @@ public class VoterController {
 		}
 		
 		ObjectLayer test = new ObjectLayerImpl();
-		test.createVoter(voter.getFirstName(), voter.getLastName(), voter.getUserName(), 
+		Voter asdf = test.createVoter(voter.getFirstName(), voter.getLastName(), voter.getUserName(), 
 				voter.getPassword(), voter.getEmailAddress(), voter.getAddress(), voter.getAge());
-		
+		test.storeVoter(asdf);
 	}
 }

@@ -14,7 +14,7 @@ import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.impl.ElectionsOfficerImpl;
 import edu.uga.cs.evote.entity.impl.VoterImpl;
 import edu.uga.cs.evote.logic.impl.EOLoginCtrl;
-import edu.uga.cs.evote.logic.impl.VoterController;
+import edu.uga.cs.evote.logic.impl.VoterRegCtrl;
 
 /**
  * Servlet implementation class Register
@@ -37,41 +37,33 @@ public class Register extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
     	PrintWriter out = response.getWriter();
-    	String word, copy;
     	try{
-    		word = request.getParameter("password");
-    		copy = request.getParameter("passwordRetype");
-    		if(word.equals(copy)){
-    			int age = Integer.parseInt(request.getParameter("age"));
+    		int age = Integer.parseInt(request.getParameter("age"));
     		
-    			VoterImpl voter = new VoterImpl();
-    			voter.setFirstName(request.getParameter("fname"));
-    			voter.setLastName(request.getParameter("lname"));
-    			voter.setUserName(request.getParameter("username"));
-    			voter.setPassword(request.getParameter("password"));
-    			voter.setEmailAddress(request.getParameter("email"));
-    			voter.setAge(age);
-    			voter.setAddress(request.getParameter("street") + " " + request.getParameter("city") + " "
-    					+ request.getParameter("state") + " " + request.getParameter("zip"));
-    			String option = request.getParameter("option");
+    		VoterImpl voter = new VoterImpl();
+    		voter.setFirstName(request.getParameter("fname"));
+    		voter.setLastName(request.getParameter("lname"));
+    		voter.setUserName(request.getParameter("uname"));
+    		voter.setPassword(request.getParameter("pword"));
+    		voter.setEmailAddress(request.getParameter("email"));
+    		voter.setAge(age);
+    		voter.setAddress(request.getParameter("street") + " " + request.getParameter("city") + " "
+    				+ request.getParameter("state") + " " + request.getParameter("zip"));
+    		String option = request.getParameter("option");
     		
     		
-    			//calling method login in voter controller?
-    			VoterController.add(voter);
-    		
-    			if (voter.isPersistent()){
-    				HttpSession session = request.getSession(true);
-    				session.setAttribute("currentSessionUser", voter);
-    				//need to creat homepage for voter
-    				response.sendRedirect("voterHomepage.jsp");
-    			}
-    			else
-    				//create invalid login page.
-    				response.sendRedirect("invalidLogin.jsp");
+    		//calling method add in voter controller?
+    		VoterRegCtrl.add(voter);
+    	
+    		if (voter.isPersistent()){
+    			HttpSession session = request.getSession(true);
+    			session.setAttribute("currentSessionUser", voter);
+    			//need to creat homepage for voter
+    			response.sendRedirect("voterHomepage.jsp");
     		}
-    		else{
-    			response.sendRedirect("index.jsp");
-    		}
+    		else
+    			//create invalid login page.
+    			response.sendRedirect("invalidLogin.jsp");
     	} 
     	catch (EVException e) {
 			e.printStackTrace();
