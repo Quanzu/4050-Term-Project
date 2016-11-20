@@ -103,6 +103,8 @@
                     <input type="password" id="passwordRetype" class="form-control" placeholder="Retype Password" required>
                     <label for="email" class="sr-only">Email</label>
                     <input type="email" id="email" class="form-control" placeholder="Email" required>
+                    <label for="age" class="sr-only">Age</label>
+                    <input type="number" id="age" class="form-control" placeholder="Age" required>
                   </fieldset>
                   <br>
                   <fieldset>

@@ -38,12 +38,15 @@ public class Register extends HttpServlet {
 		response.setContentType("text/html");
     	PrintWriter out = response.getWriter();
     	try{
+    		int age = Integer.parseInt(request.getParameter("age"));
+    		
     		VoterImpl voter = new VoterImpl();
     		voter.setFirstName(request.getParameter("fname"));
     		voter.setLastName(request.getParameter("lname"));
     		voter.setUserName(request.getParameter("username"));
     		voter.setPassword(request.getParameter("password"));
     		voter.setEmailAddress(request.getParameter("email"));
+    		voter.setAge(age);
     		voter.setAddress(request.getParameter("street") + " " + request.getParameter("city") + " "
     				+ request.getParameter("state") + " " + request.getParameter("zip"));
     		String option = request.getParameter("option");

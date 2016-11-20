@@ -31,5 +31,9 @@ public class VoterController {
 			System.err.println("Fail to connect to database");
 		}
 		
+		ObjectLayer test = new ObjectLayerImpl();
+		test.createVoter(voter.getFirstName(), voter.getLastName(), voter.getUserName(), 
+				voter.getPassword(), voter.getEmailAddress(), voter.getAddress(), voter.getAge());
+		
 	}
 }
