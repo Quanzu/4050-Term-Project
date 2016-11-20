@@ -3,6 +3,7 @@ package edu.uga.cs.evote.presentation;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,10 @@ import edu.uga.cs.evote.logic.LogicLayer;
 import edu.uga.cs.evote.session.Session;
 import edu.uga.cs.evote.session.SessionManager;
 
+/**
+ * Servlet implementation class Login
+ */
+@WebServlet("/Logout")
 public class Logout extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -42,6 +47,7 @@ public class Logout extends HttpServlet {
 	            catch( EVException e ) {
 	                e.printStackTrace();
 	            }
+	        	response.sendRedirect("logout.jsp");
 	        }
 	        else
 	            System.out.println( "ssid is null" );
