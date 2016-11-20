@@ -96,7 +96,7 @@
                     <label for="lname" class="sr-only">Last Name</label>
                     <input type="text" id="lname" class="form-control" placeholder="Last Name" required>
                     <label for="username" class="sr-only">UserName</label>
-                    <input type="text" id="username" class="form-control" placeholder="UserName" required>
+                    <input type="text" id="username" class="form-control" placeholder="Username" required>
                     <label for="password" class="sr-only">Password</label>
                     <input type="password" id="password" class="form-control" placeholder="Password" required>
                     <label for="passwordRetype" class="sr-only">Retype Password</label>
@@ -104,7 +104,7 @@
                     <label for="email" class="sr-only">Email</label>
                     <input type="email" id="email" class="form-control" placeholder="Email" required>
                     <label for="age" class="sr-only">Age</label>
-                    <input type="number" id="age" class="form-control" placeholder="Age" required>
+                    <input type="number" id="age" class="form-control" placeholder="Age: Must be a number" required>
                   </fieldset>
                   <br>
                   <fieldset>
@@ -116,7 +116,7 @@
                     <label for="state" class="sr-only"></label>
                     <input type="text" id="state" class="form-control" placeholder="State" required>
                     <label for="zip" class="sr-only"></label>
-                    <input type="number" id="zip" class="form-control" placeholder="Zip Code" required>
+                    <input type="number" id="zip" class="form-control" placeholder="Zip Code: Must be a number" required>
                   </fieldset>
                 </form>
                 <div class="modal-footer">
