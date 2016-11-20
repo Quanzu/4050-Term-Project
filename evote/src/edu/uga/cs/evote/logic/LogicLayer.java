@@ -1,5 +1,5 @@
 package edu.uga.cs.evote.logic;
 
-public class LogicLayer {
+public interface LogicLayer {
 
 }

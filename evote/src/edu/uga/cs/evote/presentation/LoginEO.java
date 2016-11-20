@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.ElectionsOfficer;
 import edu.uga.cs.evote.entity.impl.ElectionsOfficerImpl;
-import edu.uga.cs.evote.logic.impl.EOController;
+import edu.uga.cs.evote.logic.impl.EOLoginCtrl;
 
 
 
@@ -51,7 +51,7 @@ public class LoginEO extends HttpServlet {
     		
     		
     		//calling method login in EO controller?
-    		eo = EOController.login(eo);
+    		eo = EOLoginCtrl.login(eo);
     		
     		if (eo.isPersistent())
     		{
