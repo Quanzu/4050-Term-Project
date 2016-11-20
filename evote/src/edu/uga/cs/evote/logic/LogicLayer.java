@@ -9,6 +9,6 @@ public interface LogicLayer {
 	public void logout(String ssid) throws EVException;
 	public String addVoter(Session session, String fname, String lname, String uname, String pword, 
 		String email, String address, int age ) throws EVException;
-	
+	public long createED(String districtName) throws EVException;
 
 }

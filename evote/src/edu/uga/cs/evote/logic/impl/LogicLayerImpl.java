@@ -54,6 +54,12 @@ public class LogicLayerImpl implements LogicLayer{
 		return ctrlVerifyVoter.addVoter(session, fname, lname, uname, pword, email, address, age);
 	}
 
+	@Override
+	public long createED(String districtName) throws EVException{
+		CreateEDCtrl ctrlCreateED = new CreateEDCtrl(objectLayer);
+		return ctrlCreateED.createED(districtName);
+	}
+
 
 
 }
