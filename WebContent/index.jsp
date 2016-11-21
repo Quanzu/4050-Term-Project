@@ -81,7 +81,7 @@
                   <input type="password" name="password" class="form-control" placeholder="Password" required> 
                 
 	                <div class="modal-footer"> 
-	                  <button type="button" class="btn btn-lg btn-primary" type="submit">Sign in</button> 
+	                  <button class="btn btn-lg btn-primary" type="submit">Sign in</button> 
 	                  <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button> 
 	                </div> 
                 </form> 
@@ -120,7 +120,7 @@
                   </fieldset> 
                  
                 <div class="modal-footer"> 
-                  <button type="button" class="btn btn-lg btn-primary" type="submit">Register</button> 
+                  <button class="btn btn-lg btn-primary" type="submit">Register</button> 
                   <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button> 
                 </div> 
                 </form>
