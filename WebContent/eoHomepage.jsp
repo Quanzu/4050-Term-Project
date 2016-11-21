@@ -157,7 +157,7 @@
       <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#createED">Create District</button>
     </div>
     <div class="btn-group" role=group>
-      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#voterModal">Update</button>
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#updateED">Update</button>
     </div>
   </div>
       
@@ -170,10 +170,10 @@
           <h1 class="modal-title text-center">Create District</h1>
         </div>
         <div class="modal-body">
-          <form class="form-signin">
+          <form class="form-signin" method = "post" action = "CreateED">
             <h3 class="form-signin-heading">Name for District</h3>
             <label for="districtName" class="sr-only">District Name</label>
-            <input type="text" id="districtName" class="form-control" placeholder="District Name" required=true autofocus=true>
+            <input name = "districtName" type="text" id="districtName" class="form-control" placeholder="District Name" required=true autofocus=true>
             
             
             <div class="modal-footer">
@@ -183,6 +183,37 @@
           </form>
         </div>
       </div>
+
+ <div id="updateED" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Update District</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" action = "UpdateED" method = "post">
+            <h3 class="form-signin-heading">Name of District</h3>
+            <label for="districtName" class="sr-only">District Name</label>
+            <input type="text" id="districtName" class="form-control" placeholder="District Name" required=true autofocus=true>
+            
+            
+            <h3 class="form-signin-heading">Name of District</h3>
+            <label for="newDistrictName" class="sr-only">New District Name</label>
+            <input type="text" id="newDistrictName" class="form-control" placeholder="New District Name" required=true autofocus=true>
+            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-lg btn-primary" type="submit" data-dismiss="modal">Update</button>
+              <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 
     </div>
   </div>
