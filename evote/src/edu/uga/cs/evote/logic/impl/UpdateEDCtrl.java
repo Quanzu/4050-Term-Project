@@ -1,5 +1,7 @@
 package edu.uga.cs.evote.logic.impl;
 
+//import java.util.List;
+
 import java.util.List;
 
 import edu.uga.cs.evote.EVException;
@@ -14,9 +16,10 @@ private ObjectLayer objectLayer = null;
 		this.objectLayer = objectLayer;
 	}
 	
-	public long updateED(String districtName)
+	public long updateED(String districtName, String newName)
 			throws EVException
 	{
+		
 		ElectoralDistrict district = null;
         ElectoralDistrict modelDistrict = null;
         List<ElectoralDistrict> districts = null;
@@ -30,9 +33,12 @@ private ObjectLayer objectLayer = null;
         
         // check if the person actually exists, and if so, throw an exception
         if( district != null )
-            throw new EVException( "A district with this name already exists" );
+        {
+        	district.setName(newName);
+        }
+            //throw new EVException( "A district with this name already exists" );
         
-        district = objectLayer.createElectoralDistrict(districtName);
+        //district = objectLayer.createElectoralDistrict(districtName);
         objectLayer.storeElectoralDistrict( district );
 		
 		return district.getId();

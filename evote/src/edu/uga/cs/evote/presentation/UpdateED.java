@@ -77,6 +77,7 @@ response.setContentType("text/html");
         
         
 		districtName = request.getParameter("districtName");
+		newDistrictName = request.getParameter("newDistrictName");
 		
 		if(districtName == null){
 			System.out.println("District Name null");
@@ -84,7 +85,7 @@ response.setContentType("text/html");
 		}
 			
 		try {          
-            districtId = logicLayer.createED(districtName );
+            districtId = logicLayer.updateED(districtName, newDistrictName );
         } 
         catch ( Exception e ) {
         	e.printStackTrace();
