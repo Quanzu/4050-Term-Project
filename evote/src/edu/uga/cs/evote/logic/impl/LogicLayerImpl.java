@@ -68,6 +68,12 @@ public class LogicLayerImpl implements LogicLayer{
 		return ctrlFindAllElectoralDistrict.findAllElectoralDistrict();
 	}
 
+	@Override
+	public long updateED(String districtName, String newName) throws EVException {
+		UpdateEDCtrl ctrlUpdateEDCtrl = new UpdateEDCtrl(objectLayer);
+		return ctrlUpdateEDCtrl.updateED(districtName, newName);
+	}
+
 	
 
 }

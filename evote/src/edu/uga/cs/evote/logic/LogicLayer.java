@@ -14,5 +14,6 @@ public interface LogicLayer {
 		String email, String address, int age ) throws EVException;
 	public long createED(String districtName) throws EVException;
 	public List<ElectoralDistrict> findAllElectoralDistrict() throws EVException;
+	public long updateED(String districtName, String newName) throws EVException;
 
 }
