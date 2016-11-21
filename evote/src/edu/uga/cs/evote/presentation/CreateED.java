@@ -68,6 +68,7 @@ public class CreateED extends HttpServlet {
 			
 		try {  
             districtId = logicLayer.createED(districtName);
+            response.sendRedirect("eoHomepage.jsp");
         } 
         catch ( Exception e ) {
         	e.printStackTrace();

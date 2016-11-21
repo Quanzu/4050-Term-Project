@@ -23,10 +23,7 @@ public class UpdateED extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateED() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+   
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -86,7 +83,8 @@ response.setContentType("text/html");
 			
 		try {          
             districtId = logicLayer.updateED(districtName, newDistrictName );
-        } 
+            response.sendRedirect("eoHomepage.jsp");
+		} 
         catch ( Exception e ) {
         	e.printStackTrace();
         }
