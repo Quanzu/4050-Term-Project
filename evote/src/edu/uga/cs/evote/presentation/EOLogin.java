@@ -78,7 +78,7 @@ public class EOLogin extends HttpServlet {
         	e.printStackTrace();
         }
             
-        PrintWriter out = response.getWriter();
+        PrintWriter outter = response.getWriter();
             
         if (ssid2!=null)
         	response.sendRedirect("eoHomepage.jsp");
