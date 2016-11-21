@@ -76,14 +76,15 @@
               <div class="tab-pane active" id="voterSignIn"> 
                 <form class="form-signin" method="post" action="VoterLogin"> 
                   <label for="username" class="sr-only">UserName</label> 
-                  <input type="text" id="username" class="form-control" placeholder="UserName" required autofocus> 
+                  <input type="text" name="username" class="form-control" placeholder="UserName" required autofocus> 
                   <label for="password" class="sr-only">Password</label> 
-                  <input type="password" id="password" class="form-control" placeholder="Password" required> 
+                  <input type="password" name="password" class="form-control" placeholder="Password" required> 
+                
+	                <div class="modal-footer"> 
+	                  <button type="button" class="btn btn-lg btn-primary" type="submit">Sign in</button> 
+	                  <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button> 
+	                </div> 
                 </form> 
-                <div class="modal-footer"> 
-                  <button type="button" class="btn btn-lg btn-primary" type="submit">Sign in</button> 
-                  <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button> 
-                </div> 
               </div> 
  
               <div class="tab-pane" id="register"> 
@@ -117,11 +118,12 @@
                     <label for="zip" class="sr-only"></label> 
                     <input type="number" id="zip" class="form-control" placeholder="Zip Code: Must be a number" required> 
                   </fieldset> 
-                </form> 
+                 
                 <div class="modal-footer"> 
                   <button type="button" class="btn btn-lg btn-primary" type="submit">Register</button> 
                   <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button> 
                 </div> 
+                </form>
               </div> 
           </div> 
         </div> 

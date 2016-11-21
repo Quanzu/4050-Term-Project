@@ -78,7 +78,7 @@ public class EOLogin extends HttpServlet {
         	e.printStackTrace();
         }
             
-        PrintWriter outter = response.getWriter();
+        PrintWriter out = response.getWriter();
             
         if (ssid2!=null)
         	response.sendRedirect("eoHomepage.jsp");
@@ -151,8 +151,6 @@ public class EOLogin extends HttpServlet {
   
   outter.println("</div></body></html>");
     	}
-    		
-    		
 	}
 
 }
