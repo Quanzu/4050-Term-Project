@@ -168,7 +168,7 @@
     </div>
   </div>
       
-      <div id="createED" class="modal fade" role="dialog">
+  <div id="createED" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
       <div class="modal-content">
@@ -180,17 +180,20 @@
           <form class="form-signin" method = "post" action = "CreateED">
             <h3 class="form-signin-heading">Name for District</h3>
             <label for="districtName" class="sr-only">District Name</label>
-            <input name = "districtName" type="text" id="districtName" class="form-control" placeholder="District Name" required=true autofocus=true>
+            <input name = "districtName" type="text" class="form-control" placeholder="District Name" required=true autofocus=true>
             
             
             <div class="modal-footer">
-              <button type="button" class="btn btn-lg btn-primary" type="submit" data-dismiss="modal">Create</button>
-              <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+              <button class="btn btn-lg btn-primary" type="submit" data-dismiss="modal">Create</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
             </div>
           </form>
         </div>
       </div>
-
+	</div>
+</div>
+	
+	
  <div id="updateED" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -211,19 +214,15 @@
             <input type="text" id="newDistrictName" class="form-control" placeholder="New District Name" required=true autofocus=true>
             
             <div class="modal-footer">
-              <button type="button" class="btn btn-lg btn-primary" type="submit" data-dismiss="modal">Update</button>
-              <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+              <button class="btn btn-lg btn-primary" type="submit" data-dismiss="modal">Update</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
             </div>
           </form>
         </div>
       </div>
 
     </div>
-  </div>
-
-
-    </div>
-  </div>
+  </div>    
       <%
 		String ssid = (String)session.getAttribute("ssid");
         Session hpSession = SessionManager.getSessionById(ssid);
@@ -248,6 +247,7 @@
       </tbody>
     </table>
   </div>
+
 
 
   <!-- Party -->
