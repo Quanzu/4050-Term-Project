@@ -186,7 +186,9 @@
 
     </div>
   </div>
-      
+      <%
+		String ssid = (String)session.getAttribute("ssid");
+      %>
       <table class="table table-hover">
       <thead>
         <tr>
