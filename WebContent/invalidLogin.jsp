@@ -8,6 +8,7 @@
 </head>
 <body>
 
-<p>You entered the wrong login</p>
+<p>User name already in use. please chose different one</p>
+<a href = "index.jsp">home</a>
 </body>
 </html>
