@@ -1,6 +1,9 @@
 package edu.uga.cs.evote.logic;
 
+import java.util.List;
+
 import edu.uga.cs.evote.EVException;
+import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.session.Session;
 
 public interface LogicLayer {
@@ -10,5 +13,6 @@ public interface LogicLayer {
 	public String addVoter(Session session, String fname, String lname, String uname, String pword, 
 		String email, String address, int age ) throws EVException;
 	public long createED(String districtName) throws EVException;
+	public List<ElectoralDistrict> findAllElectoralDistrict() throws EVException;
 
 }

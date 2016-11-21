@@ -2,8 +2,10 @@ package edu.uga.cs.evote.logic.impl;
 
 
 import java.sql.Connection;
+import java.util.List;
 
 import edu.uga.cs.evote.EVException;
+import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.logic.LogicLayer;
 import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.object.impl.ObjectLayerImpl;
@@ -60,6 +62,12 @@ public class LogicLayerImpl implements LogicLayer{
 		return ctrlCreateED.createED(districtName);
 	}
 
+	@Override
+	public List<ElectoralDistrict> findAllElectoralDistrict() throws EVException {
+		FindAllElectoralDistrictCtrl ctrlFindAllElectoralDistrict = new FindAllElectoralDistrictCtrl(objectLayer);
+		return ctrlFindAllElectoralDistrict.findAllElectoralDistrict();
+	}
 
+	
 
 }

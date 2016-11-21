@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="edu.uga.cs.evote.session.Session" %>
+    <%@ page import="edu.uga.cs.evote.session.SessionManager" %>
+    <%@ page import="edu.uga.cs.evote.logic.LogicLayer" %>
+    <%@ page import="java.util.List" %>
+    <%@ page import="edu.uga.cs.evote.entity.ElectoralDistrict" %>
+    
+    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -219,6 +226,10 @@
   </div>
       <%
 		String ssid = (String)session.getAttribute("ssid");
+        Session hpSession = SessionManager.getSessionById(ssid);
+        LogicLayer logicLayer = hpSession.getLogicLayer();
+        List<ElectoralDistrict> districts = logicLayer.findAllElectoralDistrict();
+        int i=0;
       %>
       <table class="table table-hover">
       <thead>
@@ -228,10 +239,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr data-toggle="modal" data-target="#tableElement">
-          <td>1</td>
-          <td>District 9</td>
-        </tr>
+      <% while(i < districts.size()) {%>
+      	<tr data-toggle="modal" data-target="#tableElement">
+          	<td><%= districts.get(i).getId() %></td>
+          	<td><%= districts.get(i++).getName() %></td>
+        </tr>    
+      <%} %>
       </tbody>
     </table>
   </div>
