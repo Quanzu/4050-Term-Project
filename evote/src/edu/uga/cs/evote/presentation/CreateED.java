@@ -26,6 +26,7 @@ public class CreateED extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		System.out.println("Creating.....");
 		response.setContentType("text/html");
 		
         LogicLayer     logicLayer = null;

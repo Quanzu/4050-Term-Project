@@ -5,8 +5,8 @@
     <%@ page import="edu.uga.cs.evote.logic.LogicLayer" %>
     <%@ page import="java.util.List" %>
     <%@ page import="edu.uga.cs.evote.entity.ElectoralDistrict" %>
-    
-    
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -158,7 +158,7 @@
   <!-- District -->
   <div id="District" class="container">
     <h3>District</h3>
-      
+
       <div class="btn-group btn-group-justified" role="group">
     <div class="btn-group" role=group>
       <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#createED">Create District</button>
@@ -167,7 +167,7 @@
       <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#updateED">Update</button>
     </div>
   </div>
-      
+
   <div id="createED" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -177,14 +177,14 @@
           <h1 class="modal-title text-center">Create District</h1>
         </div>
         <div class="modal-body">
-          <form class="form-signin" method = "post" action = "CreateED">
+          <form class="form-signin" method ="post" action ="CreateED">
             <h3 class="form-signin-heading">Name for District</h3>
             <label for="districtName" class="sr-only">District Name</label>
-            <input name = "districtName" type="text" class="form-control" placeholder="District Name" required=true autofocus=true>
-            
-            
+            <input name ="districtName" type="text" class="form-control" placeholder="District Name" required=true autofocus=true>
+
+
             <div class="modal-footer">
-              <button class="btn btn-lg btn-primary" type="submit" data-dismiss="modal">Create</button>
+              <button class="btn btn-lg btn-primary" type="submit">Create</button>
               <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
             </div>
           </form>
@@ -192,8 +192,8 @@
       </div>
 	</div>
 </div>
-	
-	
+
+
  <div id="updateED" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -206,15 +206,15 @@
           <form class="form-signin" action = "UpdateED" method = "post">
             <h3 class="form-signin-heading">Name of District</h3>
             <label for="districtName" class="sr-only">District Name</label>
-            <input type="text" id="districtName" class="form-control" placeholder="District Name" required=true autofocus=true>
-            
-            
-            <h3 class="form-signin-heading">Name of District</h3>
+            <input type="text" name="districtName" class="form-control" placeholder="District Name" required=true autofocus=true>
+
+
+            <h3 class="form-signin-heading">New Name of District</h3>
             <label for="newDistrictName" class="sr-only">New District Name</label>
-            <input type="text" id="newDistrictName" class="form-control" placeholder="New District Name" required=true autofocus=true>
-            
+            <input type="text" name="newDistrictName" class="form-control" placeholder="New District Name" required=true autofocus=true>
+
             <div class="modal-footer">
-              <button class="btn btn-lg btn-primary" type="submit" data-dismiss="modal">Update</button>
+              <button class="btn btn-lg btn-primary" type="submit">Update</button>
               <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
             </div>
           </form>
@@ -222,7 +222,7 @@
       </div>
 
     </div>
-  </div>    
+  </div>
       <%
 		String ssid = (String)session.getAttribute("ssid");
         Session hpSession = SessionManager.getSessionById(ssid);
@@ -242,7 +242,7 @@
       	<tr data-toggle="modal" data-target="#tableElement">
           	<td><%= districts.get(i).getId() %></td>
           	<td><%= districts.get(i++).getName() %></td>
-        </tr>    
+        </tr>
       <%} %>
       </tbody>
     </table>
