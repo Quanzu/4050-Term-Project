@@ -21,4 +21,5 @@
  
 <div class="container"> 
 	<p>You have successfully logged out, please come back next time.</p>
+	<a href = "index.jsp">Home</a>
 </div>
