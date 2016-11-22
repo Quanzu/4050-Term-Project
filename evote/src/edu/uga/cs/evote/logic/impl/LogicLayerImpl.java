@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
+import edu.uga.cs.evote.entity.PoliticalParty;
 import edu.uga.cs.evote.logic.LogicLayer;
 import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.object.impl.ObjectLayerImpl;
@@ -57,21 +58,39 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
+	public List<ElectoralDistrict> findAllElectoralDistrict() throws EVException {
+		FindAllElectoralDistrictCtrl ctrlFindAllElectoralDistrict = new FindAllElectoralDistrictCtrl(objectLayer);
+		return ctrlFindAllElectoralDistrict.findAllElectoralDistrict();
+	}
+	
+	@Override
 	public long createED(String districtName) throws EVException{
 		CreateEDCtrl ctrlCreateED = new CreateEDCtrl(objectLayer);
 		return ctrlCreateED.createED(districtName);
 	}
 
 	@Override
-	public List<ElectoralDistrict> findAllElectoralDistrict() throws EVException {
-		FindAllElectoralDistrictCtrl ctrlFindAllElectoralDistrict = new FindAllElectoralDistrictCtrl(objectLayer);
-		return ctrlFindAllElectoralDistrict.findAllElectoralDistrict();
-	}
-
-	@Override
 	public long updateED(String districtName, String newName) throws EVException {
 		UpdateEDCtrl ctrlUpdateEDCtrl = new UpdateEDCtrl(objectLayer);
 		return ctrlUpdateEDCtrl.updateED(districtName, newName);
+	}
+
+	@Override
+	public List<PoliticalParty> findAllPoliticalParty() throws EVException {
+		FindAllPoliticalPartyCtrl ctrlFindAllPoliticalParty = new FindAllPoliticalPartyCtrl(objectLayer);
+		return ctrlFindAllPoliticalParty.findAllPoliticalParty();
+	}
+
+	@Override
+	public long createPP(String partyName) throws EVException {
+		CreatePPCtrl ctrlCreatePP = new CreatePPCtrl(objectLayer);
+		return ctrlCreatePP.createPP(partyName);
+	}
+
+	@Override
+	public long updatePP(String partyName, String newName) throws EVException {
+		UpdatePPCtrl ctrlUpdatePPCtrl = new UpdatePPCtrl(objectLayer);
+		return ctrlUpdatePPCtrl.updatePP(partyName, newName);
 	}
 
 	

@@ -16,8 +16,8 @@ import edu.uga.cs.evote.session.SessionManager;
 /**
  * Servlet implementation class CreateED
  */
-@WebServlet("/CreateED")
-public class CreateED extends HttpServlet {
+@WebServlet("/CreatePP")
+public class CreatePP extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 
@@ -31,8 +31,8 @@ public class CreateED extends HttpServlet {
         HttpSession    httpSession = null;
         Session        session = null;
         String         ssid = null;
-        long		   districtId = -1;
-        String		   districtName = null;
+        long		   partyId = -1;
+        String		   partyName = null;
         
         httpSession = request.getSession();
         if( httpSession == null ) {       // assume not logged in!
@@ -58,15 +58,15 @@ public class CreateED extends HttpServlet {
             return; 
         }       
         
-		districtName = request.getParameter("districtName");
-		if(districtName == null){
-			System.out.println("District Name null");
+		partyName = request.getParameter("politicalPartyName");
+		if(partyName == null){
+			System.out.println("Political Party Name null");
         	return;
 		}
 		
 		try {  
-            districtId = logicLayer.createED(districtName);
-        	response.sendRedirect("eoHomepage.jsp#District");
+            partyId = logicLayer.createPP(partyName);
+        	response.sendRedirect("eoHomepage.jsp#Party");
         } 
         catch ( Exception e ) {
         	e.printStackTrace();

@@ -1,7 +1,5 @@
 package edu.uga.cs.evote.logic.impl;
 
-//import java.util.List;
-
 import java.util.List;
 
 import edu.uga.cs.evote.EVException;
@@ -10,7 +8,7 @@ import edu.uga.cs.evote.object.ObjectLayer;
 
 public class UpdateEDCtrl {
 
-private ObjectLayer objectLayer = null;
+	private ObjectLayer objectLayer = null;
 	
 	public UpdateEDCtrl(ObjectLayer objectLayer){
 		this.objectLayer = objectLayer;
@@ -36,9 +34,7 @@ private ObjectLayer objectLayer = null;
         {
         	district.setName(newName);
         }
-            //throw new EVException( "A district with this name already exists" );
         
-        //district = objectLayer.createElectoralDistrict(districtName);
         objectLayer.storeElectoralDistrict( district );
 		
 		return district.getId();

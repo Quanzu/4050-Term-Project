@@ -4,9 +4,16 @@
     <%@ page import="edu.uga.cs.evote.session.SessionManager" %>
     <%@ page import="edu.uga.cs.evote.logic.LogicLayer" %>
     <%@ page import="java.util.List" %>
-    <%@ page import="edu.uga.cs.evote.entity.ElectoralDistrict" %>
+    <%@ page import="edu.uga.cs.evote.entity.*" %>
+    
 
-
+ <%
+	String ssid = (String)session.getAttribute("ssid");
+    Session hpSession = SessionManager.getSessionById(ssid);
+    LogicLayer logicLayer = hpSession.getLogicLayer();
+    int i;
+ %>
+ 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -159,93 +166,29 @@
   <div id="District" class="container">
     <h3>District</h3>
 
-      <div class="btn-group btn-group-justified" role="group">
-    <div class="btn-group" role=group>
-      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#createED">Create District</button>
-    </div>
-    <div class="btn-group" role=group>
-      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#updateED">Update</button>
-    </div>
-  </div>
-
-  <div id="createED" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h1 class="modal-title text-center">Create District</h1>
-        </div>
-        <div class="modal-body">
-          <form class="form-signin" method ="post" action ="CreateED">
-            <h3 class="form-signin-heading">Name for District</h3>
-            <label for="districtName" class="sr-only">District Name</label>
-            <input name ="districtName" type="text" class="form-control" placeholder="District Name" required=true autofocus=true>
-
-
-            <div class="modal-footer">
-              <button class="btn btn-lg btn-primary" type="submit">Create</button>
-              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
-            </div>
-          </form>
-        </div>
-      </div>
-	</div>
-</div>
-
-
- <div id="updateED" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h1 class="modal-title text-center">Update District</h1>
-        </div>
-        <div class="modal-body">
-          <form class="form-signin" action = "UpdateED" method = "post">
-            <h3 class="form-signin-heading">Name of District</h3>
-            <label for="districtName" class="sr-only">District Name</label>
-            <input type="text" name="districtName" class="form-control" placeholder="District Name" required=true autofocus=true>
-
-
-            <h3 class="form-signin-heading">New Name of District</h3>
-            <label for="newDistrictName" class="sr-only">New District Name</label>
-            <input type="text" name="newDistrictName" class="form-control" placeholder="New District Name" required=true autofocus=true>
-
-            <div class="modal-footer">
-              <button class="btn btn-lg btn-primary" type="submit">Update</button>
-              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-    </div>
-  </div>
       <%
-		String ssid = (String)session.getAttribute("ssid");
-        Session hpSession = SessionManager.getSessionById(ssid);
-        LogicLayer logicLayer = hpSession.getLogicLayer();
         List<ElectoralDistrict> districts = logicLayer.findAllElectoralDistrict();
-        int i=0;
+        i=0;
       %>
       <table class="table table-hover">
       <thead>
         <tr>
-          <th>Id</th>
           <th>Name</th>
         </tr>
       </thead>
       <tbody>
       <% while(i < districts.size()) {%>
-      	<tr data-toggle="modal" data-target="#tableElement">
-          	<td><%= districts.get(i).getId() %></td>
+      	<tr id=ed<%=i%>>
           	<td><%= districts.get(i++).getName() %></td>
         </tr>
       <%} %>
       </tbody>
     </table>
+    
+    <div class="pull-right">
+    	<span class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#createED"></span>
+    	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateED"></span>
+    </div>
   </div>
 
 
@@ -253,20 +196,29 @@
   <!-- Party -->
   <div id="Party" class="container">
     <h3>Party</h3>
+      <%
+        List<PoliticalParty> parties = logicLayer.findAllPoliticalParty();
+        i=0;
+      %>
       <table class="table table-hover">
       <thead>
         <tr>
-          <th>Id</th>
           <th>Name</th>
         </tr>
       </thead>
       <tbody>
-        <tr data-toggle="modal" data-target="#tableElement">
-          <td>1</td>
-          <td>Democrat</td>
+      <% while(i < parties.size()) {%>
+      	<tr id=ed<%=i%>>
+          	<td><%= parties.get(i++).getName() %></td>
         </tr>
+      <%} %>
       </tbody>
     </table>
+    
+    <div class="pull-right">
+    	<span class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#createPP"></span>
+    	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updatePP"></span>
+    </div>
   </div>
 
 
@@ -284,20 +236,109 @@
       </div>
     </div>
   </div>
-
-  <div id="tableElement" class="modal fade" role="dialog">
+  
+  
+<div id="createED" class="modal fade" role="dialog">
     <div class="modal-dialog">
+
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h1 class="modal-title text-center">Table Element</h1>
+          <h1 class="modal-title text-center">Create District</h1>
         </div>
         <div class="modal-body">
-          Details Here
+          <form class="form-signin" method ="post" action ="CreateED">
+            <label for="districtName" class="sr-only">District Name</label>
+            <input name ="districtName" type="text" class="form-control" placeholder="District Name" required=true autofocus=true>
+
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Create</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+	</div>
+</div>
+
+ <div id="updateED" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Update District</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" action = "UpdateED" method = "post">
+            <label for="districtName" class="sr-only">District Name</label>
+            <input type="text" name="districtName" class="form-control" placeholder="District Name" required=true autofocus=true>
+
+            <label for="newDistrictName" class="sr-only">New District Name</label>
+            <input type="text" name="newDistrictName" class="form-control" placeholder="New District Name" required=true autofocus=true>
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Update</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  </div>
+</div>
+
+<div id="createPP" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Create Political Party</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" method ="post" action ="CreatePP">
+            <label for="politicalPartyName" class="sr-only">Political Party Name</label>
+            <input name ="politicalPartyName" type="text" class="form-control" placeholder="Political Party Name" required=true autofocus=true>
+
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Create</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+	</div>
+</div>
+
+
+ <div id="updatePP" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Update Political Party</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" action = "UpdateED" method = "post">
+            <label for="politicalPartyName" class="sr-only">Political Party Name</label>
+            <input type="text" name="politicalPartyName" class="form-control" placeholder="Political Party Name" required=true autofocus=true>
+
+            <label for="newPoliticalPartyName" class="sr-only">New Political Party Name</label>
+            <input type="text" name="newPoliticalPartyName" class="form-control" placeholder="New Political Party Name" required=true autofocus=true>
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Update</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
 
 </body>
 </html>
