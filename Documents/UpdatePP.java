@@ -14,25 +14,39 @@ import edu.uga.cs.evote.session.Session;
 import edu.uga.cs.evote.session.SessionManager;
 
 /**
- * Servlet implementation class CreateED
+ * Servlet implementation class UpdateED
  */
-@WebServlet("/CreateED")
-public class CreateED extends HttpServlet {
+@WebServlet("/UpdatePP")
+public class UpdatePP extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+   
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
+		// TODO Auto-generated method stub
+		
+response.setContentType("text/html");
 		
         LogicLayer     logicLayer = null;
         HttpSession    httpSession = null;
         Session        session = null;
         String         ssid = null;
-        long		   districtId = -1;
-        String		   districtName = null;
+        long		   partyId = -1;
+        String		   partyName = null;
+        String 			newPartyName = null;
         
         httpSession = request.getSession();
         if( httpSession == null ) {       // assume not logged in!
@@ -56,21 +70,24 @@ public class CreateED extends HttpServlet {
         if( logicLayer == null ) {
             System.out.println("Session expired or illegal; please log in" );
             return; 
-        }       
+        }        
         
-		districtName = request.getParameter("districtName");
-		if(districtName == null){
-			System.out.println("District Name null");
+        
+		partyName = request.getParameter("partyName");
+		newPartyName = request.getParameter("newPartyName");
+		
+		if(partyName == null){
+			System.out.println("Party Name null");
         	return;
 		}
-		
-		try {  
-            districtId = logicLayer.createED(districtName);
-        	response.sendRedirect("eoHomepage.jsp#District");
-        } 
+			
+		try {          
+            partyId = logicLayer.updatePP(partyName, newPartyName );
+            response.sendRedirect("eoHomepage.jsp");
+		} 
         catch ( Exception e ) {
         	e.printStackTrace();
         }
-		
 	}
+
 }

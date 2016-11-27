@@ -58,40 +58,46 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
-	public List<ElectoralDistrict> findAllElectoralDistrict() throws EVException {
-		FindAllElectoralDistrictCtrl ctrlFindAllElectoralDistrict = new FindAllElectoralDistrictCtrl(objectLayer);
-		return ctrlFindAllElectoralDistrict.findAllElectoralDistrict();
-	}
-	
-	@Override
+
 	public long createED(String districtName) throws EVException{
-		CreateEDCtrl ctrlCreateED = new CreateEDCtrl(objectLayer);
+		ElectoralDistrictCtrl ctrlCreateED = new ElectoralDistrictCtrl(objectLayer);
 		return ctrlCreateED.createED(districtName);
 	}
 
 	@Override
+	public List<ElectoralDistrict> findAllElectoralDistrict() throws EVException {
+		ElectoralDistrictCtrl ctrlFindAllElectoralDistrict = new ElectoralDistrictCtrl(objectLayer);
+		return ctrlFindAllElectoralDistrict.findAllElectoralDistrict();
+	}
+	
+
+	@Override
 	public long updateED(String districtName, String newName) throws EVException {
-		UpdateEDCtrl ctrlUpdateEDCtrl = new UpdateEDCtrl(objectLayer);
+		ElectoralDistrictCtrl ctrlUpdateEDCtrl = new ElectoralDistrictCtrl(objectLayer);
 		return ctrlUpdateEDCtrl.updateED(districtName, newName);
 	}
 
 	@Override
-	public List<PoliticalParty> findAllPoliticalParty() throws EVException {
-		FindAllPoliticalPartyCtrl ctrlFindAllPoliticalParty = new FindAllPoliticalPartyCtrl(objectLayer);
-		return ctrlFindAllPoliticalParty.findAllPoliticalParty();
-	}
 
-	@Override
 	public long createPP(String partyName) throws EVException {
-		CreatePPCtrl ctrlCreatePP = new CreatePPCtrl(objectLayer);
+		PoliticalPartyCtrl ctrlCreatePP = new PoliticalPartyCtrl(objectLayer);
 		return ctrlCreatePP.createPP(partyName);
 	}
 
 	@Override
-	public long updatePP(String partyName, String newName) throws EVException {
-		UpdatePPCtrl ctrlUpdatePPCtrl = new UpdatePPCtrl(objectLayer);
+	public List<PoliticalParty> findAllPoliticalParty() throws EVException {
+		PoliticalPartyCtrl ctrlFindAllPoliticalParty = new PoliticalPartyCtrl(objectLayer);
+		return ctrlFindAllPoliticalParty.findAllPoliticalParty();
+	}
+
+	@Override
+	public long updatePP(String partyName, String newName)
+			throws EVException {
+		PoliticalPartyCtrl ctrlUpdatePPCtrl = new PoliticalPartyCtrl(objectLayer);
 		return ctrlUpdatePPCtrl.updatePP(partyName, newName);
 	}
+
+	
 
 	
 
