@@ -188,6 +188,8 @@
     <div class="pull-right">
     	<span class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#createED"></span>
     	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateED"></span>
+   	    <span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteED"></span>
+   	
     </div>
   </div>
 
@@ -218,6 +220,7 @@
     <div class="pull-right">
     	<span class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#createPP"></span>
     	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updatePP"></span>
+    	<span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deletePP"></span>
     </div>
   </div>
 
@@ -290,6 +293,33 @@
     </div>
 </div>
 
+<div id="deleteED" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Delete Electoral District</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" action = "ElectoralDistrict" method = "post">
+            <label for="districtName" class="sr-only">Electoral District Name</label>
+            <input type="text" name="districtName" class="form-control" placeholder="Electoral District Name" required=true autofocus=true>
+
+          
+			<input type = "hidden" name = "todo" value = "delete">
+
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Update</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
 <div id="createPP" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -343,6 +373,32 @@
     </div>
 </div>
 
+<div id="deletePP" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Delete Political Party</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" action = "PoliticalParty" method = "post">
+            <label for="politicalPartyName" class="sr-only">Political Party Name</label>
+            <input type="text" name="politicalPartyName" class="form-control" placeholder="Political Party Name" required=true autofocus=true>
+
+          
+			<input type = "hidden" name = "todo" value = "delete">
+
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Update</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
 
 </body>
 </html>

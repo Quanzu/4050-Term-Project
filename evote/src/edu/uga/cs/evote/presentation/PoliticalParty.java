@@ -93,6 +93,15 @@ response.setContentType("text/html");
 	        	e.printStackTrace();
 	        }
 		}
+		else if (option.equals("delete")){
+			try {  
+	            partyId = logicLayer.deletePP(partyName);
+	            response.sendRedirect("eoHomepage.jsp#Party");
+	        } 
+	        catch ( Exception e ) {
+	        	e.printStackTrace();
+	        }
+		}
 		else
 		{
 			newPartyName = request.getParameter("newPoliticalPartyName");

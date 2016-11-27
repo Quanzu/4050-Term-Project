@@ -93,6 +93,16 @@ response.setContentType("text/html");
 	        	e.printStackTrace();
 	        }
 		}
+		else if (option.equals("delete")){
+			try {  
+	            districtId = logicLayer.deleteED(districtName);
+	            response.sendRedirect("eoHomepage.jsp#District");
+	        } 
+	        catch ( Exception e ) {
+	        	e.printStackTrace();
+	        }
+		}
+		
 		else
 		{
 			newDistrictName = request.getParameter("newDistrictName");

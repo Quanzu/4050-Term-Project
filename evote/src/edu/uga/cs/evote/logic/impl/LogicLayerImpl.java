@@ -78,6 +78,13 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
+	public long deleteED(String districtName) throws EVException {
+		ElectoralDistrictCtrl ctrlUpdateEDCtrl = new ElectoralDistrictCtrl(objectLayer);
+		return ctrlUpdateEDCtrl.deleteED(districtName);
+	}
+	
+	
+	@Override
 
 	public long createPP(String partyName) throws EVException {
 		PoliticalPartyCtrl ctrlCreatePP = new PoliticalPartyCtrl(objectLayer);
@@ -96,6 +103,14 @@ public class LogicLayerImpl implements LogicLayer{
 		PoliticalPartyCtrl ctrlUpdatePPCtrl = new PoliticalPartyCtrl(objectLayer);
 		return ctrlUpdatePPCtrl.updatePP(partyName, newName);
 	}
+
+	@Override
+	public long deletePP(String partyName) throws EVException {
+		PoliticalPartyCtrl ctrlUpdatePPCtrl = new PoliticalPartyCtrl(objectLayer);
+		return ctrlUpdatePPCtrl.deletePP(partyName);
+	}
+
+
 
 	
 

@@ -76,4 +76,26 @@ private ObjectLayer objectLayer = null;
 		politicalParties = objectLayer.findPoliticalParty(null);
 		return politicalParties;
 	}
+	
+	public long deletePP(String partyName) throws EVException
+	{
+		PoliticalParty party = null;
+		PoliticalParty modelParty = null;
+        List<PoliticalParty> parties = null;
+
+        // check if the name already exists
+        modelParty = objectLayer.createPoliticalParty();
+        modelParty.setName(partyName);
+        parties = objectLayer.findPoliticalParty(modelParty);
+        if( parties.size() > 0 )
+            party = parties.get(0);
+        
+        // check if the party actually exists, and if so, throw an exception
+        if( party != null )
+        {
+            objectLayer.deletePoliticalParty( party );
+        }
+        
+		return party.getId();
+	}
 }
