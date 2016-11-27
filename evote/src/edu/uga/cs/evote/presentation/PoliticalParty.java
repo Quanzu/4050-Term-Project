@@ -76,7 +76,7 @@ response.setContentType("text/html");
         
         option = request.getParameter("todo");
         
-		partyName = request.getParameter("partyName");
+		partyName = request.getParameter("politicalPartyName");
 		
 		if(partyName == null){
 			System.out.println("Party Name null");
@@ -87,7 +87,7 @@ response.setContentType("text/html");
 		{
 			try {  
 	            partyId = logicLayer.createPP(partyName);
-	            response.sendRedirect("eoHomepage.jsp");
+	            response.sendRedirect("eoHomepage.jsp#Party");
 	        } 
 	        catch ( Exception e ) {
 	        	e.printStackTrace();
@@ -95,7 +95,7 @@ response.setContentType("text/html");
 		}
 		else
 		{
-			newPartyName = request.getParameter("newPartyName");
+			newPartyName = request.getParameter("newPoliticalPartyName");
 			if(newPartyName == null){
 				System.out.println("New Party Name null");
 				return;
@@ -105,7 +105,7 @@ response.setContentType("text/html");
 			
 			try {          
 	            partyId = logicLayer.updatePP(partyName, newPartyName );
-	            response.sendRedirect("eoHomepage.jsp");
+	            response.sendRedirect("eoHomepage.jsp#Party");
 			} 
 	        catch ( Exception e ) {
 	        	e.printStackTrace();

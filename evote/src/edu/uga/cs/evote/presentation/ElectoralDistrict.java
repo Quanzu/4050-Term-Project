@@ -87,7 +87,7 @@ response.setContentType("text/html");
 		{
 			try {  
 	            districtId = logicLayer.createED(districtName);
-	            response.sendRedirect("eoHomepage.jsp");
+	            response.sendRedirect("eoHomepage.jsp#District");
 	        } 
 	        catch ( Exception e ) {
 	        	e.printStackTrace();
@@ -105,7 +105,7 @@ response.setContentType("text/html");
 			
 			try {          
 	            districtId = logicLayer.updateED(districtName, newDistrictName );
-	            response.sendRedirect("eoHomepage.jsp");
+	            response.sendRedirect("eoHomepage.jsp#District");
 			} 
 	        catch ( Exception e ) {
 	        	e.printStackTrace();

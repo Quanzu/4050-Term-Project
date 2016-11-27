@@ -247,10 +247,10 @@
           <h1 class="modal-title text-center">Create District</h1>
         </div>
         <div class="modal-body">
-          <form class="form-signin" method ="post" action ="CreateED">
+          <form class="form-signin" method ="post" action ="ElectoralDistrict">
             <label for="districtName" class="sr-only">District Name</label>
             <input name ="districtName" type="text" class="form-control" placeholder="District Name" required=true autofocus=true>
-
+			<input type = "hidden" name = "todo" value = "create">
 
             <div class="modal-footer">
               <button class="btn btn-lg btn-primary" type="submit">Create</button>
@@ -271,12 +271,14 @@
           <h1 class="modal-title text-center">Update District</h1>
         </div>
         <div class="modal-body">
-          <form class="form-signin" action = "UpdateED" method = "post">
+          <form class="form-signin" action = "ElectoralDistrict" method = "post">
             <label for="districtName" class="sr-only">District Name</label>
             <input type="text" name="districtName" class="form-control" placeholder="District Name" required=true autofocus=true>
 
             <label for="newDistrictName" class="sr-only">New District Name</label>
             <input type="text" name="newDistrictName" class="form-control" placeholder="New District Name" required=true autofocus=true>
+			<input type = "hidden" name = "todo" value = "update">
+
 
             <div class="modal-footer">
               <button class="btn btn-lg btn-primary" type="submit">Update</button>
@@ -297,10 +299,10 @@
           <h1 class="modal-title text-center">Create Political Party</h1>
         </div>
         <div class="modal-body">
-          <form class="form-signin" method ="post" action ="CreatePP">
+          <form class="form-signin" method ="post" action ="PoliticalParty">
             <label for="politicalPartyName" class="sr-only">Political Party Name</label>
             <input name ="politicalPartyName" type="text" class="form-control" placeholder="Political Party Name" required=true autofocus=true>
-
+			<input type = "hidden" name = "todo" value = "create">
 
             <div class="modal-footer">
               <button class="btn btn-lg btn-primary" type="submit">Create</button>
@@ -322,12 +324,14 @@
           <h1 class="modal-title text-center">Update Political Party</h1>
         </div>
         <div class="modal-body">
-          <form class="form-signin" action = "UpdateED" method = "post">
+          <form class="form-signin" action = "PoliticalParty" method = "post">
             <label for="politicalPartyName" class="sr-only">Political Party Name</label>
             <input type="text" name="politicalPartyName" class="form-control" placeholder="Political Party Name" required=true autofocus=true>
 
             <label for="newPoliticalPartyName" class="sr-only">New Political Party Name</label>
             <input type="text" name="newPoliticalPartyName" class="form-control" placeholder="New Political Party Name" required=true autofocus=true>
+			<input type = "hidden" name = "todo" value = "update">
+
 
             <div class="modal-footer">
               <button class="btn btn-lg btn-primary" type="submit">Update</button>
