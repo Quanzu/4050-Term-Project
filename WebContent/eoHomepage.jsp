@@ -86,6 +86,7 @@
           <li><a href="#Issue">Issue</a></li>
           <li><a href="#District">District</a></li>
           <li><a href="#Party">Party</a></li>
+          <li><a href="#Candidate">Candidate</a></li>
 
           <li><a href="#" data-toggle="modal" data-target="#accountModal">Account</a></li>
         </ul>
@@ -224,6 +225,35 @@
     </div>
   </div>
 
+<!-- CANDIDATE -->
+<div id="Candidate" class="container">
+    <h3>Candidate</h3>
+      <%
+        List<Candidate> candidates = logicLayer.findAllCandidate();
+        i=0;
+      %>
+      <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% while(i < candidates.size()) {%>
+      	<tr id=ed<%=i%>>
+          	<td><%= candidates.get(i++).getName() %></td>
+        </tr>
+      <%} %>
+      
+      </tbody>
+    </table>
+    
+    <div class="pull-right">
+    	<span class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#createCand"></span>
+    	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updatePP"></span>
+    	<span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteCand"></span>
+    </div>
+  </div>
 
 
   <div id="accountModal" class="modal fade" role="dialog">
@@ -305,9 +335,7 @@
           <form class="form-signin" action = "ElectoralDistrict" method = "post">
             <label for="districtName" class="sr-only">Electoral District Name</label>
             <input type="text" name="districtName" class="form-control" placeholder="Electoral District Name" required=true autofocus=true>
-
-          
-			<input type = "hidden" name = "todo" value = "delete">
+            <input type = "hidden" name = "todo" value = "delete">
 
 
             <div class="modal-footer">
@@ -320,6 +348,7 @@
     </div>
 </div>
 
+<!--  Political Parties -->
 <div id="createPP" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -392,6 +421,82 @@
 
             <div class="modal-footer">
               <button class="btn btn-lg btn-primary" type="submit">Update</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- CANDIDATE -->
+<div id="createCand" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Create District</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" method ="post" action ="Candidate">
+            <label for="candidateName" class="sr-only">Candidate Name</label>
+            Candidate Name <br>
+            <input id = "candidateName" name ="candidateName" type="text" class="form-control" placeholder="Candidate Name" required=true autofocus=true>
+            
+            Election Name <br>
+            <label for="electionName" class="sr-only">Election Name</label>
+            <input name ="electionName" type="text" class="form-control" placeholder="Election Name" required=true autofocus=true>
+            
+            Is Candidate Partisan?
+            <label for="isPartisan" class="sr-only">Is Candidate Partisan?</label>
+            <input type = "radio" name = "isPartisan" value = "true">True
+            <input type = "radio" name = "isPartisan" value = "false" checked>False <br>
+   <!--       <input name ="isPartisan" type="text" class="form-control" placeholder="True or False" required=true autofocus=true>  -->   
+            
+            <label for="partyName" class="sr-only">Party Name</label>
+     		Party Name (if checked true for partisan) <br>
+             <%
+       		 List<PoliticalParty> temp = logicLayer.findAllPoliticalParty();
+        	i=0;
+            		while(i < temp.size())
+            		{
+        				 %><input type = "radio" name = "partyName" value = "<%=temp.get(i).getName()%>"><%=temp.get(i).getName()%> <br>
+            	    <%	i++;
+            	    }%>
+     	
+           <!--  <input name ="partyName" type="text" class="form-control" placeholder="Party Name" required=false autofocus=true>  -->
+            
+			<input type = "hidden" name = "todo" value = "create">
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Create</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+	</div>
+</div>
+
+<div id="deleteCand" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Delete Candidate</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" action = "Candidate" method = "post">
+            <label for="candidateName" class="sr-only">Candidate Name to Delete</label>
+            <input type="text" name="candidateName" class="form-control" placeholder="Candidate Name" required=true autofocus=true>
+            
+			<input type = "hidden" name = "todo" value = "delete">
+
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Delete</button>
               <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
             </div>
           </form>

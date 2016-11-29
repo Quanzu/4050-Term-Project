@@ -6,7 +6,7 @@ import java.util.List;
 
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
-import edu.uga.cs.evote.entity.PoliticalParty;
+import edu.uga.cs.evote.entity.*;
 import edu.uga.cs.evote.logic.LogicLayer;
 import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.object.impl.ObjectLayerImpl;
@@ -108,6 +108,32 @@ public class LogicLayerImpl implements LogicLayer{
 	public long deletePP(String partyName) throws EVException {
 		PoliticalPartyCtrl ctrlUpdatePPCtrl = new PoliticalPartyCtrl(objectLayer);
 		return ctrlUpdatePPCtrl.deletePP(partyName);
+	}
+
+	@Override
+	public List<Candidate> findAllCandidate() throws EVException {
+		CandidateCtrl ctrlCandCtrl = new CandidateCtrl(objectLayer);
+		return ctrlCandCtrl.findAllCandidate();
+	}
+
+	@Override
+	public long createCand(String candidateName, String partyName,
+			String electionName, String isPartisan) throws EVException {
+		CandidateCtrl createCandCtrl = new CandidateCtrl(objectLayer);
+		return createCandCtrl.createCand(candidateName, partyName, electionName, isPartisan);
+	}
+
+	@Override
+	public long updateCand(String candidateName, String newName)
+			throws EVException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public long deleteCand(String candidateName) throws EVException {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

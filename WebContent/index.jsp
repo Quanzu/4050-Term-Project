@@ -89,6 +89,7 @@
  
               <div class="tab-pane" id="register"> 
                 <form class="form-signin" action="Register" method="post"> 
+                <ul class="errorMessages"></ul>
                   <fieldset> 
                     <legend>General Information:</legend> 
                     <label for="fname" class="sr-only">First Name</label> 
@@ -119,6 +120,9 @@
                     <input type="number" id="zip" class="form-control" placeholder="Zip Code: Must be a number" required> 
                   </fieldset> 
                  
+          
+                 
+                 
                 <div class="modal-footer"> 
                   <button class="btn btn-lg btn-primary" type="submit">Register</button> 
                   <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button> 
@@ -131,6 +135,8 @@
  
     </div> 
   </div> 
+  
+ 
  
 </div> 
 </body> 
