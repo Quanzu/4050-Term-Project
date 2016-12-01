@@ -126,14 +126,14 @@ public class LogicLayerImpl implements LogicLayer{
 	@Override
 	public long updateCand(String candidateName, String newName)
 			throws EVException {
-		// TODO Auto-generated method stub
-		return 0;
+		CandidateCtrl updateCandCtrl = new CandidateCtrl(objectLayer);
+		return updateCandCtrl.updateCand(candidateName, newName);
 	}
 
 	@Override
 	public long deleteCand(String candidateName) throws EVException {
-		// TODO Auto-generated method stub
-		return 0;
+		CandidateCtrl deleteCandCtrl = new CandidateCtrl(objectLayer);
+		return deleteCandCtrl.deleteCand(candidateName);
 	}
 
 
