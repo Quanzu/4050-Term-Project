@@ -31,12 +31,26 @@ private ObjectLayer objectLayer = null;
 
         // check if the name already exists
         modelVoter = objectLayer.createVoter();
+	
+	if(fname != null)
         modelVoter.setFirstName(fname);
+		
+	if(lname != null)
         modelVoter.setLastName(lname);
+		
+	if(userName != null)
         modelVoter.setUserName(userName);
+		
+	if(password != null)
         modelVoter.setPassword(password);
+		
+	if(emailAddress != null)
         modelVoter.setEmailAddress(emailAddress);
+		
+	if(address != null)
         modelVoter.setAddress(address);
+		
+	if(modelVoter != null)
         modelVoter.setAge(age);
         voters = objectLayer.findVoter( modelVoter );
         if( voters.size() > 0 )
@@ -45,6 +59,7 @@ private ObjectLayer objectLayer = null;
         // check if the person actually exists, and if so, throw an exception
         if( voter != null )
         {
+		if(userName != null)
         	voter.setUserName(userName);
         }
             //throw new EVException( "A district with this name already exists" );
