@@ -2,6 +2,7 @@ package edu.uga.cs.evote.logic.impl;
 
 
 import java.sql.Connection;
+import java.util.Date;
 import java.util.List;
 
 import edu.uga.cs.evote.EVException;
@@ -203,6 +204,31 @@ public class LogicLayerImpl implements LogicLayer{
 	public List<Election> findAllElection() throws EVException {
 		ElectionCtrl ctrlElectionCtrl = new ElectionCtrl(objectLayer);
 		return ctrlElectionCtrl.findAllElection();
+	}
+
+	@Override
+	public long createBallot(Date openDate, Date closeDate) throws EVException {
+		BallotCtrl createBallotCtrl = new BallotCtrl(objectLayer);
+		return createBallotCtrl.createBallot(openDate, closeDate);
+	}
+
+	@Override
+	public List<Ballot> findAllBallot() throws EVException {
+		BallotCtrl ctrlBallotCtrl = new BallotCtrl(objectLayer);
+		return ctrlBallotCtrl.findAllBallot();
+	}
+
+	@Override
+	public long deleteBallot(String theId) throws EVException {
+		BallotCtrl deleteBallotCtrl = new BallotCtrl(objectLayer);
+		return deleteBallotCtrl.deleteBallot(theId);
+	}
+
+	@Override
+	public long updateBallot(Date openDate, Date closeDate, String id)
+			throws EVException {
+		BallotCtrl updateBallotCtrl = new BallotCtrl(objectLayer);
+		return updateBallotCtrl.updateBallot(openDate, closeDate, id);
 	}
 
 

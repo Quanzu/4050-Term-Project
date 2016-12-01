@@ -1,8 +1,10 @@
 package edu.uga.cs.evote.logic;
 
+import java.util.Date;
 import java.util.List;
 
 import edu.uga.cs.evote.EVException;
+import edu.uga.cs.evote.entity.Ballot;
 import edu.uga.cs.evote.entity.Candidate;
 import edu.uga.cs.evote.entity.Election;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
@@ -51,4 +53,10 @@ public interface LogicLayer {
 	public long createElection(String electionOffice, String isPartisan) throws EVException;
 	public long updateElection(String electionOffice) throws EVException;
 	public long deleteElection(String electionOffice) throws EVException;
+	
+	public long createBallot(Date openDate, Date closeDate) throws EVException;
+	public List<Ballot> findAllBallot() throws EVException;
+	public long deleteBallot(String theId) throws EVException;
+	public long updateBallot(Date openDate, Date closeDate, String id) throws EVException;
+	
 }

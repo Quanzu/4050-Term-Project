@@ -151,6 +151,8 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h1 class="modal-title text-center">Account Information</h1>
         </div>
+       
+        
         <div class="modal-body">
           <form class="form-signin" action = "VoterUpdate" method = "post">
             

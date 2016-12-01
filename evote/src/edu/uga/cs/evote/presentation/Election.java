@@ -97,7 +97,7 @@ response.setContentType("text/html");
 		{
 			newElectionOffice = request.getParameter("newCandidateName");
 			if(newElectionOffice == null){
-				System.out.println("New Candidate Name null");
+				System.out.println("Couldn't get Office name null");
 				return;
 			}
 		

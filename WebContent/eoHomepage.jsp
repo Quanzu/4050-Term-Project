@@ -126,6 +126,10 @@
   <!-- BALLOT -->
   <div id="Ballot" class="container">
     <h3>Ballot</h3>
+<%
+        List<Ballot> ballots = logicLayer.findAllBallot();
+        i=0;
+      %>
       <table class="table table-hover">
       <thead>
         <tr>
@@ -135,9 +139,21 @@
         </tr>
       </thead>
       <tbody>
-
+      <% while(i < ballots.size()) {%>
+      	<tr id=ed<%=i%>>
+          	<td><%= ballots.get(i).getId() %></td>
+          	<td><%= ballots.get(i).getOpenDate() %></td>
+          	<td><%= ballots.get(i++).getCloseDate() %></td>
+        </tr>
+      <%} %>
       </tbody>
     </table>
+    
+    <div class="pull-right">
+    	<span class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#createBallot"></span>
+      	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateBallot"></span> 
+    	<span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteBallot"></span>
+    </div>
   </div>
 
   <!-- Election -->
@@ -303,6 +319,8 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h1 class="modal-title text-center">Account Information</h1>
         </div>
+        
+        
         <div class="modal-body">
           <form class="form-signin" action = "ElectionsOfficerUpdate" method = "post">
             
@@ -679,6 +697,105 @@
     </div>
 </div>
 
+<!-- BALLOT -->
+<div id="createBallot" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Create Ballot</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" method ="post" action ="Ballot">
+            <label for="openDate" class="sr-only">Ballot Dates</label>
+            <input name ="openDate" type="date" class="form-control" placeholder="year(xx)-month-day" required=true autofocus=true>
+			 <input name ="closeDate" type="date" class="form-control" placeholder="year(xx)-month-day" required=true autofocus=true>
+			
+			<input type = "hidden" name = "todo" value = "create">
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Create</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+	</div>
+</div>
+
+<div id="updateBallot" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Update Ballot</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" method ="post" action ="Ballot">
+            <label for="ballotId" class="sr-only">Ballot Id</label>
+            
+            <%
+        i=0;
+      %>
+      
+      <% while(i < ballots.size()) {%>
+          	<input type = "radio" name = "ballot" value = "<%= ballots.get(i).getId() %>"> <%= ballots.get(i++).getId()%> <br>
+          	
+      <%} %>
+            
+            <label for="openDate" class="sr-only">Ballot Dates</label>
+            New Ballot Dates
+            <input name ="newOpenDate" type="date" class="form-control" placeholder="year(xx)-day-month" required=false autofocus=true>
+			 <input name ="newCloseDate" type="date" class="form-control" placeholder="year(xx)-day-month" required=false autofocus=true>
+			
+            
+			<input type = "hidden" name = "todo" value = "update">
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Delete</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+	</div>
+</div>
+
+<div id="deleteBallot" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Delete Ballot</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" method ="post" action ="Ballot">
+            <label for="ballotId" class="sr-only">Ballot Name</label>
+            
+            <%
+        List<Ballot> tempBallot = logicLayer.findAllBallot();
+        i=0;
+      %>
+      
+      <% while(i < ballots.size()) {%>
+          	<input type = "radio" name = "ballot" value = "<%= ballots.get(i).getId() %>"> <%= ballots.get(i++).getId()%> <br>
+          	
+      <%} %>
+            
+			<input type = "hidden" name = "todo" value = "delete">
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Delete</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+	</div>
+</div>
 
 </body>
 </html>
