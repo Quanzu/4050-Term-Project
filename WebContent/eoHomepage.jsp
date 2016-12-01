@@ -747,14 +747,14 @@
             
             <label for="openDate" class="sr-only">Ballot Dates</label>
             New Ballot Dates
-            <input name ="newOpenDate" type="date" class="form-control" placeholder="year(xx)-day-month" required=false autofocus=true>
-			 <input name ="newCloseDate" type="date" class="form-control" placeholder="year(xx)-day-month" required=false autofocus=true>
+            <input name ="newOpenDate" type="date" class="form-control" placeholder="year(xx)-day-month" required=true autofocus=true>
+			 <input name ="newCloseDate" type="date" class="form-control" placeholder="year(xx)-day-month" required=true autofocus=true>
 			
             
 			<input type = "hidden" name = "todo" value = "update">
 
             <div class="modal-footer">
-              <button class="btn btn-lg btn-primary" type="submit">Delete</button>
+              <button class="btn btn-lg btn-primary" type="submit">Update</button>
               <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
             </div>
           </form>

@@ -89,7 +89,7 @@ public class Ballot extends HttpServlet {
 			month = Integer.parseInt(openX[1]);
 			day = Integer.parseInt(openX[2]);
 			openDate = new Date(year, month, day);
-			System.out.println("Close date: " + openDate);
+			
 		}
 		
 		close = request.getParameter("closeDate");
@@ -106,7 +106,7 @@ public class Ballot extends HttpServlet {
 			month = Integer.parseInt(openX[1]);
 			day = Integer.parseInt(openX[2]);
 			closeDate = new Date(year, month, day);
-			System.out.println("Close date: " + closeDate);
+			
 		}
 		try {  
             ballotId = logicLayer.createBallot(openDate, closeDate);
@@ -144,38 +144,38 @@ public class Ballot extends HttpServlet {
         	}
 			newOpen = request.getParameter("newOpenDate");
 			//System.out.println(districtName);
-			if(open == null){
+			if(newOpen == null){
 				System.out.println("Open Date is null");
 	        	openDate = null;
 			}
 			else
 			{
 				int year, day, month;
-				String[] openX = open.split("-");
+				String[] openX = newOpen.split("-");
 				year = Integer.parseInt(openX[0]);
 				month = Integer.parseInt(openX[1]);
 				day = Integer.parseInt(openX[2]);
-				openDate = new Date(year, month, day);
+				newOpenDate = new Date(year, month, day);
 				
 			}
 			
 			newClose = request.getParameter("newCloseDate");
 			//System.out.println(districtName);
-			if(close == null){
+			if(newClose == null){
 				System.out.println("Close Date is null");
 	        	closeDate = null;
 			}
 			else
 			{
 				int year, day, month;
-				String[] openX = close.split("-");
+				String[] openX = newClose.split("-");
 				year = Integer.parseInt(openX[0]);
 				month = Integer.parseInt(openX[1]);
 				day = Integer.parseInt(openX[2]);
-				closeDate = new Date(year, month, day);
+				newCloseDate = new Date(year, month, day);
 			}
 			try {  
-	            ballotId = logicLayer.updateBallot(openDate, closeDate, theId);
+	            ballotId = logicLayer.updateBallot(newOpenDate, newCloseDate, theId);
 	            response.sendRedirect("eoHomepage.jsp#Ballot");
 	        } 
 	        catch ( Exception e ) {
