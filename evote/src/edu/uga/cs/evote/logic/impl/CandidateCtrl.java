@@ -76,10 +76,22 @@ private ObjectLayer objectLayer = null;
         
         //THIS IS THE ISSUE. MUST PASS IN POLITICAL PARTY AND ELECTION
              if (isPartisan.equalsIgnoreCase("false"))
+             {
+            	 
              	candidate = objectLayer.createCandidate(candidateName, null, election);
+             	objectLayer.storeCandidate( candidate );
+             	objectLayer.getPersistence().storeCandidateIsCandidateInElection(candidate, election);
+
+             }
              else
+             {
+            	 
             	 candidate = objectLayer.createCandidate(candidateName, party, election);
-        	objectLayer.storeCandidate( candidate );
+            	 objectLayer.storeCandidate( candidate );
+            	 objectLayer.getPersistence().storeCandidateIsMemberOfPoliticalParty(candidate, party);
+            	 objectLayer.getPersistence().storeCandidateIsCandidateInElection(candidate, election);
+             }
+             
 		
 		return candidate.getId();
         }
@@ -127,19 +139,20 @@ private ObjectLayer objectLayer = null;
 		Candidate modelCandidate = null;
         List<Candidate> candidates = null;
 
+       
         // check if the name already exists
         modelCandidate = objectLayer.createCandidate();
+        //gets the candidate in candidate
         modelCandidate.setName(candidateName);
         candidates = objectLayer.findCandidate(modelCandidate);
         if( candidates.size() > 0 )
             candidate = candidates.get(0);
         
-        // check if the party actually exists, and if so, throw an exception
+        // check if the candidate actually exists, and if so, throw an exception
         if( candidate != null )
         {
-            objectLayer.deleteCandidate( candidate );
+        	objectLayer.deleteCandidate( candidate );
         }
-        
 		return candidate.getId();
 	}
 }
