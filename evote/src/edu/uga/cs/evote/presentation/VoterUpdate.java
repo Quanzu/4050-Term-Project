@@ -57,8 +57,8 @@ public class VoterUpdate extends HttpServlet {
         }
             
         logicLayer = session.getLogicLayer();
-    	
-    	age = Integer.parseInt(request.getParameter("age"));
+    	age = 17;
+    	//age = Integer.parseInt(request.getParameter("age"));
     	firstName = request.getParameter("fname");
     	lastName = request.getParameter("lname");
     	username = request.getParameter("username");
@@ -67,19 +67,20 @@ public class VoterUpdate extends HttpServlet {
     	address = request.getParameter("street") + " " + request.getParameter("city")
     		+ " " + request.getParameter("state") + " " + request.getParameter("zip");
     	option = request.getParameter("todo");
-        if( firstName == null || lastName == null || username == null || password == null || email == null || address == null
+       /* if( firstName == null || lastName == null || username == null || password == null || email == null || address == null
         		|| age == 0) {
         	System.out.println("A parameter is null");
         	return;
-        }
+        }*/
 
     	
         try {          
         	//Make sure updateVoter is written
-            voterId = logicLayer.updateVoter( session, firstName, lastName, username, password, email, address, age );
+            voterId = logicLayer.updateVoter(firstName, lastName, username, password, email, address, age );
             System.out.println( "Obtained ssid: " + ssid );
             httpSession.setAttribute( "ssid", ssid );
             System.out.println( "Connection: " + session.getConnection() );
+            response.sendRedirect("voterHomepage.jsp");
         } 
         catch ( Exception e ) {
         	e.printStackTrace();

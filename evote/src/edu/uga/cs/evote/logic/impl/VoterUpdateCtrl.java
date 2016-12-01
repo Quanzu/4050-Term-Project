@@ -20,7 +20,7 @@ private ObjectLayer objectLayer = null;
 		this.objectLayer = objectLayer;
 	}
 	
-	public long updateVoter(Session session, String fname, String lname, String userName, String password, String emailAddress,
+	public long updateVoter(String fname, String lname, String userName, String password, String emailAddress,
 			String address, int age)
 			throws EVException
 	{

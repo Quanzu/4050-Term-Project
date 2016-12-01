@@ -8,7 +8,7 @@ import edu.uga.cs.evote.entity.Election;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.entity.Issue;
 import edu.uga.cs.evote.entity.PoliticalParty;
-import edu.uga.cs.evote.entity.ElectionsOfficer
+import edu.uga.cs.evote.entity.ElectionsOfficer;
 import edu.uga.cs.evote.entity.Voter;
 import edu.uga.cs.evote.session.Session;
 
@@ -19,7 +19,7 @@ public interface LogicLayer {
 	public String addVoter(Session session, String fname, String lname, String uname, String pword, 
 		String email, String address, int age ) throws EVException;
 	
-	public long updateVoter(Session session, String fname, String lname, String userName, String password, String emailAddress, String address, int age) throws EVException;
+	public long updateVoter(String fname, String lname, String userName, String password, String emailAddress, String address, int age) throws EVException;
 	public List<Voter>findAllVoter() throws EVException;
 	public long deleteVoter(String userName) throws EVException;
 	
