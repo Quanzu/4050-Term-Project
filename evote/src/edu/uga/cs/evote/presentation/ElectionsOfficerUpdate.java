@@ -64,15 +64,11 @@ public class ElectionsOfficerUpdate extends HttpServlet {
     	address = request.getParameter("street") + " " + request.getParameter("city")
     		+ " " + request.getParameter("state") + " " + request.getParameter("zip");
 
-        if( firstName == null || lastName == null || username == null || password == null || email == null || address == null) {
-        	System.out.println("A parameter is null");
-        	return;
-        }
 
     	
         try {          
         	
-            eoID = logicLayer.updateElectionsOfficer( session, firstName, lastName, username, password, email, address );
+            eoID = logicLayer.updateElectionsOfficer(firstName, lastName, username, password, email, address );
             System.out.println( "Obtained ssid: " + ssid );
             httpSession.setAttribute( "ssid", ssid );
             System.out.println( "Connection: " + session.getConnection() );
