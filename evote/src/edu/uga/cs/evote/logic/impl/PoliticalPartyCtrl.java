@@ -71,8 +71,7 @@ private ObjectLayer objectLayer = null;
 	}
 	
 	public List<PoliticalParty> findAllPoliticalParty() throws EVException{
-		List<PoliticalParty> politicalParties = null;
-		
+		List<PoliticalParty> politicalParties = null;	
 		politicalParties = objectLayer.findPoliticalParty(null);
 		return politicalParties;
 	}

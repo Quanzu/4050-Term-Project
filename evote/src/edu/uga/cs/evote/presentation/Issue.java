@@ -1,7 +1,6 @@
 package edu.uga.cs.evote.presentation;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,12 +13,13 @@ import edu.uga.cs.evote.session.Session;
 import edu.uga.cs.evote.session.SessionManager;
 
 /**
- * Servlet implementation class ElectoralDistrict
+ * Servlet implementation class Issue
  */
-@WebServlet("/Candidate")
-public class Candidate extends HttpServlet {
+@WebServlet("/Issue")
+public class Issue extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -30,13 +30,12 @@ public class Candidate extends HttpServlet {
         HttpSession    httpSession = null;
         Session        session = null;
         String         ssid = null;
-        long		   candidateId = -1;
-        String		   candidateName = null;
-        String 			newCandidateName = null;
-        String			option = null;
-        String		   partyName = null;
-        String		   electionName = null;
-        String			isPartisan = null;
+		String		   option = null;
+		long		   updateIssueId;
+		long		   issueId;
+		String		   newQuestion = null;
+		int			   newYesCount;
+		
         
         httpSession = request.getSession();
         if( httpSession == null ) {       // assume not logged in!
@@ -64,64 +63,39 @@ public class Candidate extends HttpServlet {
         
         option = request.getParameter("todo");
         
-		candidateName = request.getParameter("candidateName");
-		//System.out.println(districtName);
-		if(candidateName == null){
-			System.out.println("Candidate Name null");
+        String temp = request.getParameter("issueId");
+        if(temp == null){
+        	System.out.println("IssueId is null");
         	return;
-		}
-		electionName = request.getParameter("electionName");
-		if(electionName == null){
-			System.out.println("Election Name null");
-        	return;
-		}
-		
-		isPartisan = request.getParameter("isPartisan");
-		System.out.println(isPartisan);
-		if(isPartisan == null){
-			System.out.println("Partisan is null");
-        	return;
-		}
-		
-		if (option.equals("create"))
-		{
-			try {  
-	            candidateId = logicLayer.createCand(candidateName, partyName, electionName, isPartisan);
-	            response.sendRedirect("eoHomepage.jsp#Candidate");
-	        } 
-	        catch ( Exception e ) {
-	        	e.printStackTrace();
-	        }
-		}
-		else if (option.equals("delete")){
-			try {  
-	            candidateId = logicLayer.deleteCand(candidateName);
-	            response.sendRedirect("eoHomepage.jsp#Candidate");
-	        } 
-	        catch ( Exception e ) {
-	        	e.printStackTrace();
-	        }
-		}
-		
-		else
-		{
-			newCandidateName = request.getParameter("newCandidateName");
-			if(newCandidateName == null){
-				System.out.println("New Candidate Name null");
-				return;
-			}
-		
-		
-			
-			try {          
-	            candidateId = logicLayer.updateED(candidateName, newCandidateName );
-	            response.sendRedirect("eoHomepage.jsp#Candidate");
+        }else{
+        	issueId = Integer.parseInt(temp);
+        }
+       
+        
+        if(option.equals("update")){
+        	newQuestion = request.getParameter("newQuestion");
+            if(newQuestion == null){
+            	System.out.println("New Question is null");
+            	return;
+            }
+            
+            temp = request.getParameter("newYesCount");
+            if(temp == null){
+            	System.out.println("New Yes Count is null");
+            	return;
+            }else{
+            	newYesCount = Integer.parseInt(temp);
+            }
+            
+            try {      
+	            updateIssueId = logicLayer.updateIssue(issueId, newQuestion, newYesCount );
+	            response.sendRedirect("eoHomepage.jsp#Issue");
 			} 
 	        catch ( Exception e ) {
 	        	e.printStackTrace();
 	        }
-		
-		}
+        }
+        
 	}
 
 }

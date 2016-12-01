@@ -49,10 +49,12 @@
        top: 50px;
     }
     #Current {padding-top:50px;height:100vh;}
+    #Ballot {padding-top:50px;height:100vh;}    
     #Election {padding-top:50px;height:100vh;}
     #Issue {padding-top:50px;height:100vh;}
     #District {padding-top:50px;height:100vh;}
     #Party {padding-top:50px;height:100vh;}
+    #Candidate {padding-top:50px;height:100vh;}
 
   </style>
 </head>
@@ -121,6 +123,23 @@
     </table>
   </div>
 
+  <!-- BALLOT -->
+  <div id="Ballot" class="container">
+    <h3>Ballot</h3>
+      <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Open date</th>
+          <th>Close date</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
   <!-- Election -->
   <div id="Election" class="container">
     <h3>Election</h3>
@@ -145,22 +164,32 @@
   <!-- Issue -->
   <div id="Issue" class="container">
     <h3>Issue</h3>
+      <%
+        List<Issue> issues = logicLayer.findAllIssue();
+        i=0;
+      %>
       <table class="table table-hover">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Date</th>
-          <th>Details</th>
+          <th>ID</th>
+          <th>Question</th>
+          <th>Yes Count</th>
         </tr>
       </thead>
       <tbody>
-        <tr data-toggle="modal" data-target="#tableElement">
-          <td>Can we get curve?</td>
-          <td>10-18-2016</td>
-          <td>Pleaseeeee</td>
+      <% while(i < issues.size()) {%>
+      	<tr id=ed<%=i%>>
+          	<td><%= issues.get(i).getId() %></td>
+          	<td><%= issues.get(i).getQuestion() %></td>
+          	<td><%= issues.get(i++).getYesCount() %></td>          	
         </tr>
+      <%} %>
       </tbody>
     </table>
+    
+    <div class="pull-right">
+    	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateIssue"></span>
+    </div>
   </div>
 
   <!-- District -->
@@ -190,7 +219,6 @@
     	<span class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#createED"></span>
     	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateED"></span>
    	    <span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteED"></span>
-   	
     </div>
   </div>
 
@@ -497,6 +525,39 @@
 
             <div class="modal-footer">
               <button class="btn btn-lg btn-primary" type="submit">Delete</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- ISSUE -->
+ <div id="updateIssue" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Update Issue</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" action = "Issue" method = "post">
+            <label for="issueId" class="sr-only">Issue Id</label>
+            <input type="text" name="issueId" class="form-control" placeholder="Issue Id" required=true autofocus=true>
+
+            <label for="newQuestion" class="sr-only">New Question</label>
+            <input type="text" name="newQuestion" class="form-control" placeholder="New Question" required=true autofocus=true>
+			
+			<label for="newYesCount" class="sr-only">New Yes Count</label>
+            <input type="number" name="newYesCount" class="form-control" placeholder="New Yes Count" required=true autofocus=true>
+			
+			<input type = "hidden" name = "todo" value = "update">
+
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Update</button>
               <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
             </div>
           </form>

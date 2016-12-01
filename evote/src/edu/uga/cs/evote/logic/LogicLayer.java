@@ -5,6 +5,7 @@ import java.util.List;
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Candidate;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
+import edu.uga.cs.evote.entity.Issue;
 import edu.uga.cs.evote.entity.PoliticalParty;
 import edu.uga.cs.evote.session.Session;
 
@@ -14,6 +15,9 @@ public interface LogicLayer {
 	public void logout(String ssid) throws EVException;
 	public String addVoter(Session session, String fname, String lname, String uname, String pword, 
 		String email, String address, int age ) throws EVException;
+	
+	public List<Issue> findAllIssue() throws EVException;
+	public long updateIssue(long issueId, String newQuestion, int newYesCount) throws EVException;
 	
 	public List<ElectoralDistrict> findAllElectoralDistrict() throws EVException;
 	public long createED(String districtName) throws EVException;

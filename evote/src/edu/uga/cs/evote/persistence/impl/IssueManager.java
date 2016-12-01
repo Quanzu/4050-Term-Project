@@ -28,7 +28,7 @@ public class IssueManager {
 	
 	public void store(Issue issue) throws EVException{
         String               insertIssueSql = "insert into Issue (question, yesCount) values ( ?, ?)";              
-        String               updateIssueSql = "update issue set issueId = ?, question = ?, yesCount = ? where issueId = ?";              
+        String               updateIssueSql = "update issue set question = ?, yesCount = ? where issueId = ?";              
         PreparedStatement    stmt;
         int                  inscnt;
         long                 issueId;
@@ -85,10 +85,10 @@ public class IssueManager {
     }
 	
 	public List<Issue> restore (Issue modelIssue) throws EVException{
-		String       selectIssueSql = "select Issue issueId, question, yesCount from Issue";
+		String       selectIssueSql = "select issueId, question, yesCount from Issue";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
-        
+        StringBuffer condition = new StringBuffer( 100 );
         List<Issue> issues = new ArrayList<Issue>();
         
         // form the query based on the given Person object instance
@@ -96,30 +96,25 @@ public class IssueManager {
         
         if( modelIssue != null ) {
             if( modelIssue.getId() >= 0 ) // id is unique, so it is sufficient to get a person
-                query.append( " and issueId = " + modelIssue.getId() );
-            else if( modelIssue.getQuestion() != null ) 
-                query.append( " and question = '" + modelIssue.getQuestion() + "'" );
-            else {            	
-                    
-               if( modelIssue.getYesCount() > -1 ) 
-                        query.append( " and yesCount = " + modelIssue.getYesCount() );
-                }
-
-/*                if( modelIssue.getYesCount() != null ) {
-                   condition.append( " and" );
-                    condition.append( " yescount = '" + modelIssue.getYesCount() + "'" );
-                }
-            	
-                if( modelIssue.getNoCount() != null ){
-                    condition.append( " and" );
-                    condition.append( " nocount = '" + modelIssue.getNoCount() + "'" );
-                }
-
-                if( condition.length() > 0 ) {
-                    query.append(  " and " );
-                    query.append( condition );
-                }*/
+                condition.append( " issueId = " + modelIssue.getId() );
+            if( modelIssue.getQuestion() != null ){
+            	if(condition.length() > 0)
+            		condition.append(" and ");
+                condition.append( " question = '" + modelIssue.getQuestion() + "'" );
             }
+            
+            if( modelIssue.getYesCount() > 0 ){
+                if(condition.length() > 0)
+                	condition.append(" and ");
+            	condition.append( " yesCount = " + modelIssue.getYesCount() );
+            }
+            
+            if(condition.length() > 0){
+            	query.append(" where ");
+            	query.append(condition);
+            }
+            	
+        }         
         
         try {
 
@@ -154,7 +149,7 @@ public class IssueManager {
             }
         }
         catch( Exception e ) {      // just in case...
-            throw new EVException( "IssueManager.restore: Could not restore persistent voter object; Root cause: " + e );
+            throw new EVException( "IssueManager.restore: Could not restore persistent issue object; Root cause: " + e );
         }
 
         // if we get to this point, it's an error

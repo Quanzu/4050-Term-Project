@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.util.List;
 
 import edu.uga.cs.evote.EVException;
-import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.entity.*;
 import edu.uga.cs.evote.logic.LogicLayer;
 import edu.uga.cs.evote.object.ObjectLayer;
@@ -106,14 +105,14 @@ public class LogicLayerImpl implements LogicLayer{
 
 	@Override
 	public long deletePP(String partyName) throws EVException {
-		PoliticalPartyCtrl ctrlUpdatePPCtrl = new PoliticalPartyCtrl(objectLayer);
-		return ctrlUpdatePPCtrl.deletePP(partyName);
+		PoliticalPartyCtrl ctrlUpdatePP = new PoliticalPartyCtrl(objectLayer);
+		return ctrlUpdatePP.deletePP(partyName);
 	}
 
 	@Override
 	public List<Candidate> findAllCandidate() throws EVException {
-		CandidateCtrl ctrlCandCtrl = new CandidateCtrl(objectLayer);
-		return ctrlCandCtrl.findAllCandidate();
+		CandidateCtrl ctrlFindAllCandidate = new CandidateCtrl(objectLayer);
+		return ctrlFindAllCandidate.findAllCandidate();
 	}
 
 	@Override
@@ -134,6 +133,18 @@ public class LogicLayerImpl implements LogicLayer{
 	public long deleteCand(String candidateName) throws EVException {
 		CandidateCtrl deleteCandCtrl = new CandidateCtrl(objectLayer);
 		return deleteCandCtrl.deleteCand(candidateName);
+	}
+
+	@Override
+	public List<Issue> findAllIssue() throws EVException {
+		IssueCtrl ctrlFindAllIssue = new IssueCtrl(objectLayer);
+		return ctrlFindAllIssue.findAllIssue();
+	}
+
+	@Override
+	public long updateIssue(long issueId, String newQuestion, int newYesCount) throws EVException {
+		IssueCtrl updateIssueCtrl = new IssueCtrl(objectLayer);
+		return updateIssueCtrl.updateIssue(issueId, newQuestion, newYesCount);
 	}
 
 
