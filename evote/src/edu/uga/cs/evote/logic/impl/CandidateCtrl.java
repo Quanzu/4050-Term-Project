@@ -144,6 +144,7 @@ private ObjectLayer objectLayer = null;
         modelCandidate = objectLayer.createCandidate();
         //gets the candidate in candidate
         modelCandidate.setName(candidateName);
+        
         candidates = objectLayer.findCandidate(modelCandidate);
         if( candidates.size() > 0 )
             candidate = candidates.get(0);

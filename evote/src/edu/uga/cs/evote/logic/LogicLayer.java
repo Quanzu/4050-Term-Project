@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Candidate;
+import edu.uga.cs.evote.entity.Election;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.entity.Issue;
 import edu.uga.cs.evote.entity.PoliticalParty;
@@ -33,4 +34,9 @@ public interface LogicLayer {
 	public long createCand(String candidateName, String partyName, String electionName, String isPartisan) throws EVException;
 	public long updateCand(String candidateName, String newName) throws EVException;
 	public long deleteCand(String candidateName) throws EVException;
+	
+	public List<Election> findAllElection() throws EVException;
+	public long createElection(String electionOffice, String isPartisan) throws EVException;
+	public long updateElection(String electionOffice) throws EVException;
+	public long deleteElection(String electionOffice) throws EVException;
 }

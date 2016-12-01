@@ -143,27 +143,37 @@
   <!-- Election -->
   <div id="Election" class="container">
     <h3>Election</h3>
+     
+      <%
+        List<Election> elections = logicLayer.findAllElection();
+        i=0;
+      %>
       <table class="table table-hover">
       <thead>
         <tr>
           <th>Name</th>
-          <th>Date</th>
-          <th>Details</th>
         </tr>
       </thead>
       <tbody>
-        <tr data-toggle="modal" data-target="#tableElement">
-          <td>Trump VS Hillary</td>
-          <td>11-11-2016</td>
-          <td>some details</td>
+      <% while(i < elections.size()) {%>
+      	<tr id=ed<%=i%>>
+          	<td><%= elections.get(i++).getOffice() %></td>
         </tr>
+      <%} %>
       </tbody>
     </table>
+     
+     <div class="pull-right">
+    	<span class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#createElection"></span>
+    <!--  	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateCand"></span> -->
+    	<span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteElection"></span>
+    </div>
   </div>
 
   <!-- Issue -->
   <div id="Issue" class="container">
     <h3>Issue</h3>
+
       <%
         List<Issue> issues = logicLayer.findAllIssue();
         i=0;
@@ -190,6 +200,7 @@
     <div class="pull-right">
     	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateIssue"></span>
     </div>
+
   </div>
 
   <!-- District -->
@@ -278,7 +289,7 @@
     
     <div class="pull-right">
     	<span class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#createCand"></span>
-    	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updatePP"></span>
+    <!--  	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateCand"></span> -->
     	<span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteCand"></span>
     </div>
   </div>
@@ -298,7 +309,68 @@
     </div>
   </div>
   
+  <!-- ELECTION -->
+  <div id="createElection" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Create Election</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" method ="post" action ="Election">
+            <label for="electionOffice" class="sr-only">Election Office</label>
+            Election Office <br>
+            <input id = "electionOffice" name ="electionOffice" type="text" class="form-control" placeholder="election Office Name" required=true autofocus=true>
+            
+     
+            Is Election Partisan?
+            <label for="isPartisan" class="sr-only">Is Election Partisan?</label>
+            <input type = "radio" name = "isPartisan" value = "true">True
+            <input type = "radio" name = "isPartisan" value = "false" checked>False <br>
+   <!--       <input name ="isPartisan" type="text" class="form-control" placeholder="True or False" required=true autofocus=true>  -->   
+            
+            
+			<input type = "hidden" name = "todo" value = "create">
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Create</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+	</div>
+</div>
   
+  
+ <div id="deleteElection" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Delete Election</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" action = "Election" method = "post">
+            <label for="electionOffice" class="sr-only">Election</label>
+            <input type="text" name="electionOffice" class="form-control" placeholder="Election Name" required=true autofocus=true>
+            <input type = "hidden" name = "todo" value = "delete">
+
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Delete</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div> 
+
+<!-- ELECTORAL DISTRICT -->  
 <div id="createED" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -507,6 +579,7 @@
 	</div>
 </div>
 
+
 <div id="deleteCand" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -533,6 +606,7 @@
     </div>
 </div>
 
+<<<<<<< Updated upstream
 <!-- ISSUE -->
  <div id="updateIssue" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -565,6 +639,8 @@
       </div>
     </div>
 </div>
+=======
+>>>>>>> Stashed changes
 
 </body>
 </html>

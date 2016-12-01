@@ -16,26 +16,25 @@ import edu.uga.cs.evote.session.SessionManager;
 /**
  * Servlet implementation class ElectoralDistrict
  */
-@WebServlet("/Candidate")
-public class Candidate extends HttpServlet {
+@WebServlet("/Election")
+public class Election extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
+response.setContentType("text/html");
 		
         LogicLayer     logicLayer = null;
         HttpSession    httpSession = null;
         Session        session = null;
         String         ssid = null;
-        long		   candidateId = -1;
-        String		   candidateName = null;
-        String 			newCandidateName = null;
+        long		   electionId = -1;
+        String		   electionOffice = null;
+        String 			newElectionOffice = null;
         String			option = null;
-        String		   partyName = null;
-        String		   electionName = null;
+        String			ballot = null;
         String			isPartisan = null;
         
         httpSession = request.getSession();
@@ -64,30 +63,21 @@ public class Candidate extends HttpServlet {
         
         option = request.getParameter("todo");
         
-		candidateName = request.getParameter("candidateName");
-		//System.out.println(districtName);
-		if(candidateName == null){
-			System.out.println("Candidate Name null");
-        	return;
-		}
-		electionName = request.getParameter("electionName");
-		if(electionName == null){
-			System.out.println("Election Name null");
-        	return;
-		}
-		
+		electionOffice = request.getParameter("electionOffice");
 		isPartisan = request.getParameter("isPartisan");
-		
-		if(isPartisan == null){
-			System.out.println("Partisan is null");
+		//System.out.println(districtName);
+		if(electionOffice == null){
+			System.out.println("Election Office null");
         	return;
 		}
+		
 		
 		if (option.equals("create"))
 		{
+			
 			try {  
-	            candidateId = logicLayer.createCand(candidateName, partyName, electionName, isPartisan);
-	            response.sendRedirect("eoHomepage.jsp#Candidate");
+	            electionId = logicLayer.createElection(electionOffice, isPartisan);
+	            response.sendRedirect("eoHomepage.jsp#Election");
 	        } 
 	        catch ( Exception e ) {
 	        	e.printStackTrace();
@@ -95,8 +85,8 @@ public class Candidate extends HttpServlet {
 		}
 		else if (option.equals("delete")){
 			try {  
-	            candidateId = logicLayer.deleteCand(candidateName);
-	            response.sendRedirect("eoHomepage.jsp#Candidate");
+	            electionId = logicLayer.deleteElection(electionOffice);
+	            response.sendRedirect("eoHomepage.jsp#Election");
 	        } 
 	        catch ( Exception e ) {
 	        	e.printStackTrace();
@@ -105,8 +95,8 @@ public class Candidate extends HttpServlet {
 		
 		else
 		{
-			newCandidateName = request.getParameter("newCandidateName");
-			if(newCandidateName == null){
+			newElectionOffice = request.getParameter("newCandidateName");
+			if(newElectionOffice == null){
 				System.out.println("New Candidate Name null");
 				return;
 			}
@@ -114,7 +104,7 @@ public class Candidate extends HttpServlet {
 		
 			
 			try {          
-	            candidateId = logicLayer.updateED(candidateName, newCandidateName );
+	            electionId = logicLayer.updateED(electionOffice, newElectionOffice );
 	            response.sendRedirect("eoHomepage.jsp#Candidate");
 			} 
 	        catch ( Exception e ) {

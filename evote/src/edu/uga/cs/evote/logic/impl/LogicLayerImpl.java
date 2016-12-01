@@ -136,6 +136,7 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
+
 	public List<Issue> findAllIssue() throws EVException {
 		IssueCtrl ctrlFindAllIssue = new IssueCtrl(objectLayer);
 		return ctrlFindAllIssue.findAllIssue();
@@ -146,6 +147,31 @@ public class LogicLayerImpl implements LogicLayer{
 		IssueCtrl updateIssueCtrl = new IssueCtrl(objectLayer);
 		return updateIssueCtrl.updateIssue(issueId, newQuestion, newYesCount);
 	}
+
+
+	public long createElection(String electionOffice, String isPartisan) throws EVException {
+		ElectionCtrl createElectionCtrl = new ElectionCtrl(objectLayer);
+		return createElectionCtrl.createElection(electionOffice, isPartisan);
+	}
+
+	@Override
+	public long updateElection(String electionOffice) throws EVException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public long deleteElection(String electionOffice) throws EVException {
+		ElectionCtrl deleteElectionCtrl = new ElectionCtrl(objectLayer);
+		return deleteElectionCtrl.deleteElection(electionOffice);
+	}
+
+	@Override
+	public List<Election> findAllElection() throws EVException {
+		ElectionCtrl ctrlElectionCtrl = new ElectionCtrl(objectLayer);
+		return ctrlElectionCtrl.findAllElection();
+	}
+
 
 
 
