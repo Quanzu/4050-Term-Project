@@ -31,11 +31,22 @@ private ObjectLayer objectLayer = null;
 
         // check if the name already exists
         modelElectionsOfficer = objectLayer.createElectionsOfficer();
-        modelElectionsOfficer.setUserName(userName);
+       	if(userName != null)
+	modelElectionsOfficer.setUserName(userName);
+		
+	if(fname != null)
         modelElectionsOfficer.setFirstName(fname);
+		
+	if(lname != null)
         modelElectionsOfficer.setLastName(lname);
+		
+	if(password != null)
         modelElectionsOfficer.setPassword(password);
+		
+	if(emailAddress != null)
         modelElectionsOfficer.setEmailAddress(emailAddress);
+		
+	if(address != null)
         modelElectionsOfficer.setAddress(address);
         
         electionsOfficers = objectLayer.findElectionsOfficer( modelElectionsOfficer );
@@ -45,6 +56,7 @@ private ObjectLayer objectLayer = null;
         // check if the person actually exists, and if so, throw an exception
         if( electionsOfficer != null )
         {
+		if(userName != null)
         	electionsOfficer.setUserName(userName);
         }
             
