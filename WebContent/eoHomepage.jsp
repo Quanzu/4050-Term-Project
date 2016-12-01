@@ -325,13 +325,13 @@
           <form class="form-signin" action = "ElectionsOfficerUpdate" method = "post">
             
             <label for="fname" class="sr-only">New First Name</label>
-            <input type="text" name="fName" class="form-control" placeholder="New First Name" required=false autofocus=true>
+            <input type="text" name="fname" class="form-control" placeholder="New First Name" required=false autofocus=true>
 
             <label for="lname" class="sr-only">New Last Name</label>
-            <input type="text" name="fName" class="form-control" placeholder="New Last Name" required=false autofocus=true> 
+            <input type="text" name="lname" class="form-control" placeholder="New Last Name" required=false autofocus=true> 
             
             <label for="username" class="sr-only">New Username</label>
-            <input type="text" name="fName" class="form-control" placeholder="New Username" required=false autofocus=true>
+            <input type="text" name="username" class="form-control" placeholder="New Username" required=false autofocus=true>
             
             <label for="password" class="sr-only">New Password</label>
             <input type="text" name="password" class="form-control" placeholder="New Password" required=false autofocus=true>
@@ -342,7 +342,7 @@
             <label for="street" class="sr-only">New Street</label>
             <input type="text" name="street" class="form-control" placeholder="New Street" required=false autofocus=true>
 			
-			<label for="city" class="sr-only">New City</label>
+	    <label for="city" class="sr-only">New City</label>
             <input type="text" name="city" class="form-control" placeholder="New City" required=false autofocus=true>
             
             <label for="state" class="sr-only">New State</label>
@@ -356,10 +356,6 @@
               <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
             </div>
           </form>
-        </div>
-      </div>
-    </div>
-  </div>
         </div>
       </div>
     </div>
