@@ -74,10 +74,10 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 	
 	@Override
-	public long updateElectionsOfficer(Session session, String fname, String lname, String userName, String password, String emailAddress,
+	public long updateElectionsOfficer(String fname, String lname, String userName, String password, String emailAddress,
 			String address) throws EVException{
 		EOUpdateCtrl ctrlEOUpdateCtrl = new EOUpdateCtrl(objectLayer);
-		return ctrlEOUpdateCtrl.updateElectionsOfficer(session, fname, lname, userName, password, emailAddress, address);
+		return ctrlEOUpdateCtrl.updateElectionsOfficer(fname, lname, userName, password, emailAddress, address);
 	}
 	@Override
 	public List<ElectionsOfficer>findAllElectionsOfficer() throws EVException{
