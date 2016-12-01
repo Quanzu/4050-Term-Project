@@ -57,6 +57,39 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
+	public long updateVoter(Session session, String fname, String lname, String userName, String password, String emailAddress, String address, int age) throws EVException{
+		VoterUpdateCtrl ctrlVoterUpdateCtrl = new VoterUpdateCtrl(objectLayer);
+		return ctrlVoterUpdateCtrl.updateVoter(session, fname, lname, userName, password, emailAddress, address, age);
+	}
+	@Override
+	public List<Voter>findAllVoter() throws EVException{
+		VoterUpdateCtrl ctrlFindAllVoter = new VoterUpdateCtrl(objectLayer);
+		return ctrlFindAllVoter.findAllVoter();
+	}
+	@Override
+	public long deleteVoter(String userName) throws EVException{
+		VoterUpdateCtrl ctrlVoterUpdateCtrl = new VoterUpdateCtrl(objectLayer);
+		return ctrlVoterUpdateCtrl.deleteVoter(userName);
+	}
+	
+	@Override
+	public long updateElectionsOfficer(Session session, String fname, String lname, String userName, String password, String emailAddress,
+			String address) throws EVException{
+		EOUpdateCtrl ctrlEOUpdateCtrl = new EOUpdateCtrl(objectLayer);
+		return ctrlEOUpdateCtrl.updateElectionsOfficer(session, fname, lname, userName, password, emailAddress, address);
+	}
+	@Override
+	public List<ElectionsOfficer>findAllElectionsOfficer() throws EVException{
+		EOUpdateCtrl ctrlFindAllElectionsOfficerCtrl = new EOUpdateCtrl(objectLayer);
+		return ctrlFindAllElectionsOfficerCtrl.findAllElectionsOfficer();
+	}
+	@Override
+	public long deleteElectionsOfficer(String userName) throws EVException{
+		EOUpdateCtrl ctrlEOUpdateCtrl = new EOUpdateCtrl(objectLayer);
+		return ctrlEOUpdateCtrl.deleteElectionsOfficer(userName);
+	}
+	
+	@Override
 
 	public long createED(String districtName) throws EVException{
 		ElectoralDistrictCtrl ctrlCreateED = new ElectoralDistrictCtrl(objectLayer);
