@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ page import="edu.uga.cs.evote.session.Session" %>
+    <%@ page import="edu.uga.cs.evote.session.SessionManager" %>
+    <%@ page import="edu.uga.cs.evote.logic.LogicLayer" %>
+    <%@ page import="java.util.List" %>
+    <%@ page import="edu.uga.cs.evote.entity.*" %>
+    <%
+	String ssid = (String)session.getAttribute("ssid");
+    Session hpSession = SessionManager.getSessionById(ssid);
+    LogicLayer logicLayer = hpSession.getLogicLayer();
+    int i;
+ %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -102,6 +113,23 @@
     </table>
   </div>
 
+<form class="vote" action = "Vote" method = "post">
+<select>
+    <%
+    List<Ballot> ballots = logicLayer.findAllBallot();
+        i=0;
+      %>
+      
+      <% while(i < ballots.size()) {%>
+      <option value="<%= ballots.get(i).getId() %>"><%= ballots.get(i++).getId()%> </option>
+       
+          	
+      <%} %>
+  
+</select>
+ <button type = "button" name = "vote">Vote</button>
+</form>
+
   <!-- Election -->
   <div id="Results" class="container">
     <h3>Election</h3>
@@ -123,7 +151,6 @@
     </table>
   </div>
 
- 
 
   <div id="accountModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
