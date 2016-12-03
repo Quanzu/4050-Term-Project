@@ -8,7 +8,5 @@
 </head>
 <body>
 
-<p>One or more spaces contained invalid information. Please try again!</p>
-<a href = "index.jsp">home</a>
 </body>
 </html>

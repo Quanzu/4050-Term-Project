@@ -28,9 +28,10 @@ public interface LogicLayer {
 	public ElectionsOfficer updateElectionsOfficer(String fname, String lname, String userName, String password, String emailAddress,
 			String address) throws EVException;
 	
-	
 	public List<Issue> findAllIssue() throws EVException;
 	public long updateIssue(long issueId, String newQuestion, int newYesCount) throws EVException;
+	public long deleteIssue(long issueId) throws EVException;
+	public long createIssue(long issueId, String newQuestion, int newYesCount) throws EVException;
 	
 	public List<ElectoralDistrict> findAllElectoralDistrict() throws EVException;
 	public long createED(String districtName) throws EVException;
@@ -57,4 +58,6 @@ public interface LogicLayer {
 	public long deleteBallot(String theId) throws EVException;
 	public long updateBallot(Date openDate, Date closeDate, String id) throws EVException;
 	
+	public void addIssue(String id, String[] theIssues) throws EVException;
+	public void addElection(String id, String[] theElections) throws EVException;
 }

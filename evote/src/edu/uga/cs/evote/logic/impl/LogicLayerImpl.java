@@ -172,7 +172,21 @@ public class LogicLayerImpl implements LogicLayer{
 		return updateIssueCtrl.updateIssue(issueId, newQuestion, newYesCount);
 	}
 
-
+	@Override
+	public long createIssue(long issueId, String newQuestion, int newYesCount) throws EVException{
+		IssueCtrl createIssueCtrl = new IssueCtrl(objectLayer);
+		return createIssueCtrl.createIssue(issueId, newQuestion, newYesCount);
+		
+	}
+	
+	@Override
+	public long deleteIssue(long issueId) throws EVException{
+		IssueCtrl deleteIssueCtrl = new IssueCtrl(objectLayer);
+		return deleteIssueCtrl.deleteIssue(issueId);
+		
+	}
+	
+	@Override
 	public long createElection(String electionOffice, String isPartisan) throws EVException {
 		ElectionCtrl createElectionCtrl = new ElectionCtrl(objectLayer);
 		return createElectionCtrl.createElection(electionOffice, isPartisan);
@@ -220,6 +234,24 @@ public class LogicLayerImpl implements LogicLayer{
 		BallotCtrl updateBallotCtrl = new BallotCtrl(objectLayer);
 		return updateBallotCtrl.updateBallot(openDate, closeDate, id);
 	}
+
+	@Override
+	public void addIssue(String id, String[] theIssues) throws EVException {
+		BallotCtrl addIssueCtrl = new BallotCtrl(objectLayer);
+		addIssueCtrl.addIssue(id, theIssues);
+	}
+
+	@Override
+	public void addElection(String id, String[] theElections) throws EVException
+	{
+		BallotCtrl addElectionCtrl = new BallotCtrl(objectLayer);
+		addElectionCtrl.addElection(id, theElections);
+		
+	}
+
+
+
+
 	
 
 }
