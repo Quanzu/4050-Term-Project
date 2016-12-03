@@ -28,7 +28,7 @@ class ElectionsOfficerManager
             throws EVException
     {
         String               insertUserSql = "insert into User ( fname, lname, userName, password, email, address ) values ( ?, ?, ?, ?, ?, ? )";              
-        String               updateUserSql = "update User  set fname = ?, lname = ?, userName = ?, password = ?, email = ?, address = ? where userId = ?";              
+        String               updateUserSql = "update User set fname = ?, lname = ?, userName = ?, password = ?, email = ?, address = ? where userId = ?";              
         
         String				 insertOfficerSql = "insert into ElectionsOfficer (userId) values ( ? )";
         
@@ -129,7 +129,7 @@ class ElectionsOfficerManager
         
         if( modelOfficer != null ) {
             if( modelOfficer.getId() >= 0 ) // id is unique, so it is sufficient to get a person
-                query.append( " and id = '" + modelOfficer.getId() );
+                query.append( " and ElectionsOfficer.userId = " + modelOfficer.getId() );
             if( modelOfficer.getUserName() != null ) // userName is unique, so it is sufficient to get a person
                 query.append( " and userName = '" + modelOfficer.getUserName() + "'" );
             if( modelOfficer.getFirstName() != null ) {

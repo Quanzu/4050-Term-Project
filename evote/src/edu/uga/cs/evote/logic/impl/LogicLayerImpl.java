@@ -74,20 +74,10 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 	
 	@Override
-	public long updateElectionsOfficer(String fname, String lname, String userName, String password, String emailAddress,
+	public ElectionsOfficer updateElectionsOfficer(String fname, String lname, String userName, String password, String emailAddress,
 			String address) throws EVException{
-		EOUpdateCtrl ctrlEOUpdateCtrl = new EOUpdateCtrl(objectLayer);
+		ElectionsOfficerCtrl ctrlEOUpdateCtrl = new ElectionsOfficerCtrl(objectLayer);
 		return ctrlEOUpdateCtrl.updateElectionsOfficer(fname, lname, userName, password, emailAddress, address);
-	}
-	@Override
-	public List<ElectionsOfficer>findAllElectionsOfficer() throws EVException{
-		EOUpdateCtrl ctrlFindAllElectionsOfficerCtrl = new EOUpdateCtrl(objectLayer);
-		return ctrlFindAllElectionsOfficerCtrl.findAllElectionsOfficer();
-	}
-	@Override
-	public long deleteElectionsOfficer(String userName) throws EVException{
-		EOUpdateCtrl ctrlEOUpdateCtrl = new EOUpdateCtrl(objectLayer);
-		return ctrlEOUpdateCtrl.deleteElectionsOfficer(userName);
 	}
 	
 	@Override
@@ -230,12 +220,6 @@ public class LogicLayerImpl implements LogicLayer{
 		BallotCtrl updateBallotCtrl = new BallotCtrl(objectLayer);
 		return updateBallotCtrl.updateBallot(openDate, closeDate, id);
 	}
-
-
-
-
-	
-
 	
 
 }

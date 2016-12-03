@@ -7,10 +7,10 @@ import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Ballot;
 import edu.uga.cs.evote.entity.Candidate;
 import edu.uga.cs.evote.entity.Election;
+import edu.uga.cs.evote.entity.ElectionsOfficer;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.entity.Issue;
 import edu.uga.cs.evote.entity.PoliticalParty;
-import edu.uga.cs.evote.entity.ElectionsOfficer;
 import edu.uga.cs.evote.entity.Voter;
 import edu.uga.cs.evote.session.Session;
 
@@ -25,10 +25,8 @@ public interface LogicLayer {
 	public List<Voter>findAllVoter() throws EVException;
 	public long deleteVoter(String userName) throws EVException;
 	
-	public long updateElectionsOfficer(String fname, String lname, String userName, String password, String emailAddress,
+	public ElectionsOfficer updateElectionsOfficer(String fname, String lname, String userName, String password, String emailAddress,
 			String address) throws EVException;
-	public List<ElectionsOfficer>findAllElectionsOfficer() throws EVException;
-	public long deleteElectionsOfficer(String userName) throws EVException;
 	
 	
 	public List<Issue> findAllIssue() throws EVException;
