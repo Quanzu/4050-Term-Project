@@ -29,6 +29,7 @@ public class Register extends HttpServlet {
     	String password;
     	String email;
     	String address;
+    	String district;
    		String ssid = null;
    		String ssid2 = null;
    		Session session = null;
@@ -39,7 +40,6 @@ public class Register extends HttpServlet {
         if( ssid != null ) {
         	System.out.println( "Already have ssid: " + ssid );
             session = SessionManager.getSessionById( ssid );
-            //System.out.println( "Connection: " + session.getConnection() );
         }
         else
             System.out.println( "ssid is null" );
@@ -64,14 +64,16 @@ public class Register extends HttpServlet {
     	email = request.getParameter("email");
     	address = request.getParameter("street") + " " + request.getParameter("city")
     		+ " " + request.getParameter("state") + " " + request.getParameter("zip");
+    	district = request.getParameter("district");
+    	System.out.println(district);
+    	
 
         if( firstName == null || lastName == null || username == null || password == null || email == null || address == null
         		|| age == 0) {
         	System.out.println("A parameter is null");
         	return;
         }
-
-    	
+	
         try {          
             ssid2 = logicLayer.addVoter( session, firstName, lastName, username, password, email, address, age );
             System.out.println( "Obtained ssid: " + ssid );
@@ -87,5 +89,4 @@ public class Register extends HttpServlet {
         else
         	response.sendRedirect("invalidLogin.jsp");
 	}
-
 }

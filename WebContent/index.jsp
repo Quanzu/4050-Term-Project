@@ -109,20 +109,22 @@
                   <br> 
                   <fieldset> 
                     <legend>Address:</legend> 
-                    <label for="street" class="sr-only"></label> 
-                    <input type="text" id="street" class="form-control" placeholder="Street" required> 
-                    <label for="city" class="sr-only"></label> 
-                    <input type="text" id="city" class="form-control" placeholder="City" required> 
-                    <label for="state" class="sr-only"></label> 
-                    <input type="text" id="state" class="form-control" placeholder="State" required> 
-                    <label for="zip" class="sr-only"></label> 
-                    <input type="number" id="zip" class="form-control" placeholder="Zip Code: Must be a number" required> 
+                    <label for="street" class="sr-only">Street</label> 
+                    <input type="text" name="street" class="form-control" placeholder="Street" required>
+                    <label for="city" class="sr-only">City</label> 
+                    <input type="text" name="city" class="form-control" placeholder="City" required>
+                    <label for="state" class="sr-only">State</label> 
+                    <input type="text" name="state" class="form-control" placeholder="State" required> 
+                    <label for="zip" class="sr-only">Zip Code</label> 
+                    <input type="number" name="zip" class="form-control" placeholder="Zip Code: Must be a number" required>
                   </fieldset> 
  				  <br>
  				  
  				  <fieldset>
  				  	<legend>Electoral District:</legend>
-						
+						<label for="district" class="sr-only">District</label> 
+                    	<input type="text" name="district" class="form-control" placeholder=
+                    	"Enter the name of your electoral district exactly as it is spelled!" required> 
  				  </fieldset>
  				  
  				  
