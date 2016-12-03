@@ -34,7 +34,7 @@ public class Issue extends HttpServlet {
 		long		   updateIssueId;
 		long		   issueId;
 		String		   newQuestion = null;
-		int			   newYesCount;
+		int			   newYesCount = 0;
 		
         
         httpSession = request.getSession();

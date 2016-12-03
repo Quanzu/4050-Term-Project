@@ -190,7 +190,7 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 	
 	@Override
-	public long deleteElection(long issueId) throws EVException{
+	public long deleteIssue(long issueId) throws EVException{
 		IssueCtrl deleteIssueCtrl = new IssueCtrl(objectLayer);
 		return deleteIssueCtrl.deleteIssue(issueId);
 		
