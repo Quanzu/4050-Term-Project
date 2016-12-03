@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<form action="forgotLogin2.jsp" Method="POST">
-		Enter the e-mail that you used to register: <input type = "text" name=email value="" /><br>
+		Enter the e-mail that you used to register: <input type = "text" name="email" value="" /><br>
 		<input type ="submit" value="submit" name="submit" />
 		<a href = "index.jsp">Home</a>
 		</form>

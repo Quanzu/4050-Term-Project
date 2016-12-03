@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
-    pageEncoding="UTF-8"%> 
+    pageEncoding="UTF-8"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
 <html> 
 <head> 
@@ -15,7 +16,7 @@
 <div class="container-fluid"> 
   <div class="jumbotron"> 
     <h1 class="text-center">eVote</h1> 
-    <p>Welcome to our eVote website. Please select the appropiate option below.</p> 
+    <p>Welcome to our eVote website. Please select the appropriate option below.</p> 
   </div> 
 </div> 
  
@@ -79,7 +80,7 @@
                   <input type="text" name="username" class="form-control" placeholder="UserName" required autofocus> 
                   <label for="password" class="sr-only">Password</label> 
                   <input type="password" name="password" class="form-control" placeholder="Password" required> 
-                	<a href = "test.jsp">Forgot your username/password?</a>
+                	<a href = "forgotLogin1.jsp">Forgot your username/password?</a>
 	                <div class="modal-footer"> 
 	                  <button class="btn btn-lg btn-primary" type="submit">Sign in</button> 
 	                  <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button> 
@@ -100,8 +101,6 @@
                     <input type="text" name="username" class="form-control" placeholder="Username" required> 
                     <label for="password" class="sr-only">Password</label> 
                     <input type="password" name="password" class="form-control" placeholder="Password" required> 
-<!--                    <label for="passwordRetype" class="sr-only">Retype Password</label> -->
-<!--   				<input type="password" id="passwordRetype" class="form-control" placeholder="Retype Password" required>-->
                     <label for="email" class="sr-only">Email</label> 
                     <input type="email" name="email" class="form-control" placeholder="Email" required> 
                     <label for="age" class="sr-only">Age</label> 
@@ -119,10 +118,17 @@
                     <label for="zip" class="sr-only"></label> 
                     <input type="number" id="zip" class="form-control" placeholder="Zip Code: Must be a number" required> 
                   </fieldset> 
-                 
-          
-                 
-                 
+ 				  <br>
+ 				  
+ 				  <fieldset>
+ 				  	<legend>Electoral District:</legend>
+						
+ 				  </fieldset>
+ 				  
+ 				  
+ 				   
+ 
+ 
                 <div class="modal-footer"> 
                   <button class="btn btn-lg btn-primary" type="submit">Register</button> 
                   <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button> 
