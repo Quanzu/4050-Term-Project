@@ -66,9 +66,9 @@
     <div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <li><a href="#Current">Current</a></li>
-          <li><a href="#Election">Election</a></li>
-          <li><a href="#Issue">Issue</a></li>
+          <li><a href="#Current">Ballots</a></li>
+          <li><a href="#Results">Results</a></li>
+         
           <li><a href="#" data-toggle="modal" data-target="#accountModal">Account</a></li>
         </ul>
       </div>
@@ -103,7 +103,7 @@
   </div>
 
   <!-- Election -->
-  <div id="Election" class="container">
+  <div id="Results" class="container">
     <h3>Election</h3>
       <table class="table table-hover">
       <thead>
@@ -123,26 +123,7 @@
     </table>
   </div>
 
-  <!-- Issue -->
-  <div id="Issue" class="container">
-    <h3>Issue</h3>
-      <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Date</th>
-          <th>Details</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr data-toggle="modal" data-target="#tableElement">
-          <td>Can we get curve?</td>
-          <td>10-18-2016</td>
-          <td>Pleaseeeee</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+ 
 
   <div id="accountModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
