@@ -23,6 +23,35 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+  <script type="text/javascript">
+
+      function loadXMLDoc()
+      {
+        var xmlhttp;
+        var config=document.getElementsByName('configselect').value;
+        var url="eoHomepage.jsp";
+        if (window.XMLHttpRequest)
+        {
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+                document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+            }
+        }
+
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+      }
+        </script>
+  
   <style>
     body{
         position: relative;
@@ -84,6 +113,7 @@
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li><a href="#Current">Current</a></li>
+          <li><a href="#Ballot">Ballot</a></li>
           <li><a href="#Election">Election</a></li>
           <li><a href="#Issue">Issue</a></li>
           <li><a href="#District">District</a></li>
@@ -154,14 +184,107 @@
       	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateBallot"></span> 
     	<span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteBallot"></span>
     </div>
+    <div class="pull-left">
+    	<button type = "button" data-toggle="modal" data-target= "#addElection" >Add Election</button> 
+    	<button type = "button" data-toggle="modal" data-target= "#addIssue" >Add Issue</button>   
+    	 </div>
   </div>
+
+<!-- Target for ballot- add election and issue -->
+<div id="addElection" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Add Election</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" method ="post" action ="Ballot">
+            <label for="ballotId" class="sr-only">Ballot Id</label>
+          <br>  Select Ballot<br>
+            <%
+        i=0;
+      %>
+      
+      <% while(i < ballots.size()) {%>
+          	<input type = "radio" name = "ballot" value = "<%= ballots.get(i).getId() %>"> <%= ballots.get(i++).getId()%> <br>
+          	
+      <%} %>
+            Select Elections to add <br>
+       <%
+       List<Election> elections = logicLayer.findAllElection();
+        i=0;
+      %>
+      
+      <% while(i < elections.size()) {%>
+          	<input type = "checkbox" name = "theElections" value = "<%= elections.get(i).getOffice() %>"> <%= elections.get(i++).getOffice()%> <br>
+          	
+      <%} %>
+            
+			<input type = "hidden" name = "todo" value = "addElection">
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Add</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+	</div>
+</div>
+
+<div id="addIssue" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Add Issue</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" method ="post" action ="Ballot">
+            <label for="ballotId" class="sr-only">Ballot Id</label>
+          <br>  Select Ballot<br>
+            <%
+        i=0;
+      %>
+      
+      <% while(i < ballots.size()) {%>
+          	<input type = "radio" name = "ballot" value = "<%= ballots.get(i).getId() %>"> <%= ballots.get(i++).getId()%> <br>
+          	
+      <%} %>
+            Select Issues to add <br>
+       <%
+       List<Issue> issues = logicLayer.findAllIssue();
+        i=0;
+      %>
+      
+      <% while(i < issues.size()) {%>
+          	  <input type = "checkbox" name = "theIssues" value = "<%= issues.get(i).getQuestion() %>"> <%= issues.get(i++).getQuestion()%>
+          	 <br>
+          	
+      <%} %>
+            
+			<input type = "hidden" name = "todo" value = "addIssue">
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Add</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+	</div>
+</div>
+
 
   <!-- Election -->
   <div id="Election" class="container">
     <h3>Election</h3>
      
       <%
-        List<Election> elections = logicLayer.findAllElection();
+        
         i=0;
       %>
       <table class="table table-hover">
@@ -184,6 +307,19 @@
     <!--  	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateCand"></span> -->
     	<span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteElection"></span>
     </div>
+    <div id = "myDiv"></div>
+    <h2 align="center">Saved Configurations</h2>
+   Choose a configuration to run: 
+  <select name="configselect" width="10">
+    <option selected value="select">select</option>
+    <option value="Config1">config1</option>
+    <option value="Config2">config2</option>
+    <option value="Config3">config3</option>
+  </select> 
+  <button type="button" onclick='loadXMLDoc()'> Submit </button>
+  <div id="myDiv">
+    <h4>Get data here</h4>
+  </div>
   </div>
 
   <!-- Issue -->
@@ -191,7 +327,7 @@
     <h3>Issue</h3>
 
       <%
-        List<Issue> issues = logicLayer.findAllIssue();
+        
         i=0;
       %>
       <table class="table table-hover">

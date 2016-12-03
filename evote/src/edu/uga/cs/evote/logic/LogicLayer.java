@@ -60,4 +60,6 @@ public interface LogicLayer {
 	public long deleteBallot(String theId) throws EVException;
 	public long updateBallot(Date openDate, Date closeDate, String id) throws EVException;
 	
+	public void addIssue(String id, String[] theIssues) throws EVException;
+	public void addElection(String id, String[] theElections) throws EVException;
 }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.logic.LogicLayer;
 import edu.uga.cs.evote.session.Session;
 import edu.uga.cs.evote.session.SessionManager;
@@ -75,46 +76,46 @@ public class Ballot extends HttpServlet {
         
         if (option.equals("create"))
         {
-		open = request.getParameter("openDate");
-		//System.out.println(districtName);
-		if(open == null){
-			System.out.println("Open Date is null");
-        	return;
-		}
-		else
-		{
-			int year, day, month;
-			String[] openX = open.split("-");
-			year = Integer.parseInt(openX[0]);
-			month = Integer.parseInt(openX[1]);
-			day = Integer.parseInt(openX[2]);
-			openDate = new Date(year, month, day);
+        	open = request.getParameter("openDate");
+        	//System.out.println(districtName);
+        	if(open == null){
+        		System.out.println("Open Date is null");
+        		return;
+        	}
+        	else
+        	{
+        		int year, day, month;
+        		String[] openX = open.split("-");
+				year = Integer.parseInt(openX[0]);
+				month = Integer.parseInt(openX[1]);
+				day = Integer.parseInt(openX[2]);
+				openDate = new Date(year, month, day);
 			
-		}
+        	}
 		
-		close = request.getParameter("closeDate");
-		//System.out.println(districtName);
-		if(close == null){
-			System.out.println("Open Date is null");
-        	return;
-		}
-		else
-		{
-			int year, day, month;
-			String[] openX = close.split("-");
-			year = Integer.parseInt(openX[0]);
-			month = Integer.parseInt(openX[1]);
-			day = Integer.parseInt(openX[2]);
-			closeDate = new Date(year, month, day);
+        	close = request.getParameter("closeDate");
+        	//System.out.println(districtName);
+        	if(close == null){
+        		System.out.println("Open Date is null");
+        		return;
+        	}
+        	else
+        	{
+        		int year, day, month;
+        		String[] openX = close.split("-");
+        		year = Integer.parseInt(openX[0]);
+        		month = Integer.parseInt(openX[1]);
+        		day = Integer.parseInt(openX[2]);
+        		closeDate = new Date(year, month, day);
 			
-		}
-		try {  
-            ballotId = logicLayer.createBallot(openDate, closeDate);
-            response.sendRedirect("eoHomepage.jsp#Ballot");
-        } 
-        catch ( Exception e ) {
-        	e.printStackTrace();
-        }
+        	}
+        	try {  
+        		ballotId = logicLayer.createBallot(openDate, closeDate);
+        		response.sendRedirect("eoHomepage.jsp#Ballot");
+        	} 
+        	catch ( Exception e ) {
+        		e.printStackTrace();
+        	}
         }
 		//For delete and select
        
@@ -134,7 +135,43 @@ public class Ballot extends HttpServlet {
 	        }
 		}
 		
-        
+        //For ADD ISSUE
+		else if (option.equalsIgnoreCase("addIssue"))
+		{
+			
+			theId = request.getParameter("ballot");
+			String[] theIssues;
+			theIssues = request.getParameterValues("theIssues");
+			if (theIssues ==null)
+			{
+				//put error message;
+			}
+			try {	
+				logicLayer.addIssue(theId, theIssues);
+				response.sendRedirect("eoHomepage.jsp#Ballot");
+			} catch (EVException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (option.equalsIgnoreCase("addElection"))
+		{
+			
+			theId = request.getParameter("ballot");
+			String[] theElections;
+			theElections = request.getParameterValues("theElections");
+			if (theElections ==null)
+			{
+				//put error message;
+			}
+			try {	
+				logicLayer.addElection(theId, theElections);
+				response.sendRedirect("eoHomepage.jsp#Ballot");
+			} catch (EVException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		else
 		{
 			theId = request.getParameter("ballot");
