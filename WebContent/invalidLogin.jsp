@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<p>User name already in use. please chose different one</p>
+<p>One or more spaces contained invalid information. Please try again!</p>
 <a href = "index.jsp">home</a>
 </body>
 </html>

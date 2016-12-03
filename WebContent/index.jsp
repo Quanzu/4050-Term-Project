@@ -79,7 +79,7 @@
                   <input type="text" name="username" class="form-control" placeholder="UserName" required autofocus> 
                   <label for="password" class="sr-only">Password</label> 
                   <input type="password" name="password" class="form-control" placeholder="Password" required> 
-                
+                	<a href = "test.jsp">Forgot your username/password?</a>
 	                <div class="modal-footer"> 
 	                  <button class="btn btn-lg btn-primary" type="submit">Sign in</button> 
 	                  <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button> 
