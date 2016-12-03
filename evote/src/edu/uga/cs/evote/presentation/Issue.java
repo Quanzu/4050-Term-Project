@@ -71,8 +71,16 @@ public class Issue extends HttpServlet {
         	issueId = Integer.parseInt(temp);
         }
        
-        
-        if(option.equals("update")){
+        if(option.equals("create")){
+        	try {  
+	            issueId = logicLayer.createIssue(issueId, newQuestion, newYesCount);
+	            response.sendRedirect("eoHomepage.jsp#Issue");
+	        } 
+	        catch ( Exception e ) {
+	        	e.printStackTrace();
+	        }
+        }
+        else if(option.equals("update")){
         	newQuestion = request.getParameter("newQuestion");
             if(newQuestion == null){
             	System.out.println("New Question is null");
@@ -94,6 +102,15 @@ public class Issue extends HttpServlet {
 	        catch ( Exception e ) {
 	        	e.printStackTrace();
 	        }
+        }
+        else if(option.equals("delete")){
+        	try{
+        		issueId = logicLayer.deleteIssue(issueId);
+        		response.sendRedirect("eoHomepage.jsp#Issue");
+        	}
+        	catch( Exception e ){
+        		e.printStackTrace();
+        	}
         }
         
 	}
