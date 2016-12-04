@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Ballot;
+import edu.uga.cs.evote.entity.BallotItem;
 import edu.uga.cs.evote.entity.Candidate;
 import edu.uga.cs.evote.entity.Election;
 import edu.uga.cs.evote.entity.ElectionsOfficer;
@@ -47,6 +48,7 @@ public interface LogicLayer {
 	public long createCand(String candidateName, String partyName, String electionName, String isPartisan) throws EVException;
 	public long updateCand(String candidateName, String newName) throws EVException;
 	public long deleteCand(String candidateName) throws EVException;
+	public PoliticalParty getPoliticalPartyFromCandidate(Candidate candidate) throws EVException;
 	
 	public List<Election> findAllElection() throws EVException;
 	public long createElection(String electionOffice, String isPartisan) throws EVException;
@@ -55,9 +57,10 @@ public interface LogicLayer {
 	
 	public long createBallot(Date openDate, Date closeDate, String district) throws EVException;
 	public List<Ballot> findAllBallot() throws EVException;
+	public List<BallotItem> findBallotItems(Ballot ballot) throws EVException;
 	public long deleteBallot(String theId) throws EVException;
 	public long updateBallot(Date openDate, Date closeDate, String id) throws EVException;
-	public Ballot findBallot(long id) throws EVException; 
+	public Ballot findBallot(long id) throws EVException;
 	
 	public void addIssue(String id, String[] theIssues) throws EVException;
 	public void addElection(String id, String[] theElections) throws EVException;

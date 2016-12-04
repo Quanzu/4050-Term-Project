@@ -255,6 +255,16 @@ public class LogicLayerImpl implements LogicLayer{
 		return addElectionCtrl.findBallot(id);
 	}
 
+	@Override
+	public List<BallotItem> findBallotItems(Ballot ballot) throws EVException {
+		return objectLayer.getPersistence().restoreBallotIncludesBallotItem(ballot);
+	}
+
+	@Override
+	public PoliticalParty getPoliticalPartyFromCandidate(Candidate candidate) throws EVException {
+		return objectLayer.getPersistence().restoreCandidateIsMemberOfPoliticalParty(candidate);
+	}
+
 
 
 

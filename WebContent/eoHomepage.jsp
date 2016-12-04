@@ -307,12 +307,9 @@
     <!--  	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateCand"></span> -->
     	<span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteElection"></span>
     </div>
-    <div class="pull-left">
-    	<button type = "button" data-toggle="modal" data-target= "#addCandidate" >Add Candidate</button> 
+
     	 
-    	 </div>
-    	 
-    	 
+    </div>	 
   
   
   <!--  <div id = "myDiv"></div>
@@ -429,19 +426,31 @@
     <h3>Candidate</h3>
       <%
         List<Candidate> candidates = logicLayer.findAllCandidate();
-        i=0;
+        Candidate tempCandidate;
+        PoliticalParty tempParty;
+      	i=0;
       %>
       <table class="table table-hover">
       <thead>
         <tr>
           <th>Name</th>
+          <th>Party</th>
         </tr>
       </thead>
       <tbody>
-      <% while(i < candidates.size()) {%>
-      	<tr id=ed<%=i%>>
-          	<td><%= candidates.get(i++).getName() %></td>
-        </tr>
+      <% while(i < candidates.size()) {
+      		tempCandidate = candidates.get(i++);
+      		tempParty = logicLayer.getPoliticalPartyFromCandidate(tempCandidate);%>
+      		<tr id=candidate<%=i%>>
+          		<td><%= tempCandidate.getName() %></td>
+          		<%
+          		if(tempParty != null){
+          		%>
+          		<td><%= tempParty.getName()%></td>
+          		<%}else{ %>
+          		<td>N/A</td>
+          		<%} %>
+        	</tr>
       <%} %>
       
       </tbody>
@@ -449,7 +458,6 @@
     
     <div class="pull-right">
     	<span class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#createCand"></span>
-    <!--  	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateCand"></span> -->
     	<span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteCand"></span>
     </div>
   </div>
@@ -615,13 +623,15 @@
             i=0;
     		while(i < c.size())
     		{
-    			PoliticalParty temp = c.get(i).getPoliticalParty();
-    			temp.toString();
+    			PoliticalParty temp = logicLayer.getPoliticalPartyFromCandidate(c.get(i));
     			if (temp != null)
     			{
+        			temp.toString();
+
 				 %><input type = "radio" name = "cand" value = "<%=c.get(i).getName()%>"><%=c.get(i).getName()%> <br>
-    	    <%	i++;
+    	    <%	
     			}
+    			i++;
     	    }%>
             
             </div>
@@ -633,13 +643,14 @@
             i=0;
     		while(i < c.size())
     		{
-    			PoliticalParty temp = c.get(i).getPoliticalParty();
+    			PoliticalParty temp = logicLayer.getPoliticalPartyFromCandidate(c.get(i));
     			
     			if (temp == null)
     			{
 				 %><input type = "radio" name = "cand" value = "<%=c.get(i).getName()%>"><%=c.get(i).getName()%> <br>
-    	    <%	i++;
+    	    <%	
     			}
+    			i++;
     	    }%>
             
             </div>
@@ -852,34 +863,42 @@
         </div>
         <div class="modal-body">
           <form class="form-signin" method ="post" action ="Candidate">
-            <label for="candidateName" class="sr-only">Candidate Name</label>
-            Candidate Name <br>
-            <input id = "candidateName" name ="candidateName" type="text" class="form-control" placeholder="Candidate Name" required=true autofocus=true>
+            <label for="candidateName">Candidate Name: </label>
+            <input id = "candidateName" name ="candidateName" type="text" class="form-control" placeholder="Candidate Name" required=true>
+            <br>
+            <label for="electionName">Election Name: </label>
+            <input name ="electionName" type="text" class="form-control" placeholder="Election Name" required=true>
+            <br>
             
-            Election Name <br>
-            <label for="electionName" class="sr-only">Election Name</label>
-            <input name ="electionName" type="text" class="form-control" placeholder="Election Name" required=true autofocus=true>
+            <label for="isPartisan" >Partisan: </label>
+            <input type = "radio" name = "isPartisan" value = "true" onclick="togglePartisan()"> True
+            <input type = "radio" name = "isPartisan" value = "false" onclick="togglePartisan()" checked> False
+            <br>
+            <br>
             
-            Is Candidate Partisan?
-            <label for="isPartisan" class="sr-only">Is Candidate Partisan?</label>
-            <input type = "radio" name = "isPartisan" value = "true">True
-            <input type = "radio" name = "isPartisan" value = "false" checked>False <br>
-   <!--       <input name ="isPartisan" type="text" class="form-control" placeholder="True or False" required=true autofocus=true>  -->   
             <script>
-           
+           		function togglePartisan(){
+           			if(document.getElementById("partisanPartyNames").style.display == 'none'){
+           				document.getElementById("partisanPartyNames").style.display = 'block';
+           			}else{
+           				document.getElementById("partisanPartyNames").style.display = 'none'
+           			}
+           		}
             </script>
-            <label for="partyName" class="sr-only">Party Name</label>
-     		Party Name (if checked true for partisan) <br>
-             <%
-       		 List<PoliticalParty> temp = logicLayer.findAllPoliticalParty();
-        	i=0;
-            		while(i < temp.size())
-            		{
-        				 %><input type = "radio" name = "partyName" value = "<%=temp.get(i).getName()%>"><%=temp.get(i).getName()%> <br>
-            	    <%	i++;
-            	    }%>
+            
+            <div id="partisanPartyNames" style="display:none;">
+	            <label for="partyName">Party Names: </label>
+	            <br>
+	             <%
+	       		 List<PoliticalParty> temp = logicLayer.findAllPoliticalParty();
+	        	i=0;
+	            		while(i < temp.size())
+	            		{
+	        				 %><input type = "radio" name = "partyName" value = "<%=temp.get(i).getName()%>"> <%=temp.get(i).getName()%> <br>
+	            	    <%	i++;
+	            	    }%>
      	
-           <!--  <input name ="partyName" type="text" class="form-control" placeholder="Party Name" required=false autofocus=true>  -->
+            </div>
             
 			<input type = "hidden" name = "todo" value = "create">
 

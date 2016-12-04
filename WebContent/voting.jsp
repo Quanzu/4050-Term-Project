@@ -41,7 +41,7 @@ out.print(theBallot.getCloseDate());
 	Ballot ID: <%out.print( theBallot.getId()); %> <br>
 	<% out.println(theBallot.getOpenDate());%>
 	<%
-	List<BallotItem> items = theBallot.getBallotItems();
+	List<BallotItem> items = logicLayer.findBallotItems(theBallot);
 	out.println(items.size());
 		for (int i = 0; i < items.size();i++)
 		{

@@ -52,7 +52,7 @@ public class CandidateImpl extends Persistent implements Candidate {
 	public Election getElection() throws EVException {
 		if(election == null)
 			if(isPersistent()){
-				election = getPersistencaLayer().restoreCandidateIsCandidateInElection(this);
+				election = getPersistenceLayer().restoreCandidateIsCandidateInElection(this);
 			} else
 	            throw new EVException( "This election object is not persistent" );
 			
@@ -69,7 +69,7 @@ public class CandidateImpl extends Persistent implements Candidate {
 	public PoliticalParty getPoliticalParty() throws EVException {
 		if(politicalParty == null)
 			if(isPersistent()){
-				politicalParty = getPersistencaLayer().restoreCandidateIsMemberOfPoliticalParty(this);
+				politicalParty = getPersistenceLayer().restoreCandidateIsMemberOfPoliticalParty(this);
 			} else
 	            throw new EVException( "This election object is not persistent" );
 			

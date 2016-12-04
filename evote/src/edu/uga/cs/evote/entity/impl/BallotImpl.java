@@ -59,7 +59,7 @@ public class BallotImpl extends Persistent implements Ballot {
 	public ElectoralDistrict getElectoralDistrict() throws EVException {
 		if(electoralDistrict == null)
 			if(isPersistent()){
-				electoralDistrict = getPersistencaLayer().restoreElectoralDistrictHasBallotBallot(this);
+				electoralDistrict = getPersistenceLayer().restoreElectoralDistrictHasBallotBallot(this);
 			} else
 	            throw new EVException( "This ballot object is not persistent" );
 		
@@ -75,11 +75,12 @@ public class BallotImpl extends Persistent implements Ballot {
 	public List<BallotItem> getBallotItems() throws EVException {
 		if(ballotItems == null)
 			if(isPersistent()){
-				ballotItems = getPersistencaLayer().restoreBallotIncludesBallotItem(this);
+				ballotItems = getPersistenceLayer().restoreBallotIncludesBallotItem(this);
 			} else
 	            throw new EVException( "This ballot object is not persistent" );
 		
-		return ballotItems;	}
+		return ballotItems;	
+	}
 
 	@Override
 	public void addBallotItem(BallotItem ballotItem) throws EVException {
@@ -97,7 +98,7 @@ public class BallotImpl extends Persistent implements Ballot {
 			if( isPersistent() ) {
 				VoteRecord voteRecord = new VoteRecordImpl();
 				voteRecord.setBallot(this);
-				voteRecords = getPersistencaLayer().restoreVoteRecord( voteRecord );
+				voteRecords = getPersistenceLayer().restoreVoteRecord( voteRecord );
 			}
 	        else
 	            throw new EVException( "This ballot object is not persistent" );
