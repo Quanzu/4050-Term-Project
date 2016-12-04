@@ -1,4 +1,4 @@
-package edu.uga.cs.evote.logic.impl;
+ package edu.uga.cs.evote.logic.impl;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class VotingCtrl {
 	
     public long recordIssue( long issueId, String newQuestion, int newYesCount, String vote ) throws EVException{
    
-    	if(vote.equalsIgnoreCase("yes")){
+    	
     	Issue issue = null;
 		Issue modelIssue = null;
         List<Issue> issues = null;
@@ -33,12 +33,16 @@ public class VotingCtrl {
             issue = issues.get( 0 );
         }
         
+        if (issue != null)
+        {
+        	if(vote.equalsIgnoreCase("yes")){
+        		issue.setYesCount(newYesCount+1);
+        		objectLayer.storeIssue( issue );
+        	}
+        	
         
-        issue.setQuestion(newQuestion);
-        issue.setYesCount(newYesCount+1);
-        objectLayer.storeIssue( issue );
-		
-		return issue.getId();}
+		return issue.getId();
+        }
     	else
     		return issueId;
 }

@@ -108,15 +108,15 @@ public class LogicLayerImpl implements LogicLayer{
 	
 	@Override
 	public long recordIssue(long issueId, String newQuestion, int newYesCount, String vote) throws EVException {
-		IssueCtrl ctrlRecordIssueCtrl = new IssueCtrl(objectLayer);
+		VotingCtrl ctrlRecordIssueCtrl = new VotingCtrl(objectLayer);
 		return ctrlRecordIssueCtrl.recordIssue(issueId, newQuestion, newYesCount, vote);
 	}
 	
 	@Override
-	public long recordCandidate(String candidateName)
+	public long recordElection(String candidateName)
 			throws EVException {
-		CandidateCtrl recordCandCtrl = new CandidateCtrl(objectLayer);
-		return recordCandCtrl.recordCandidate(candidateName);
+		VotingCtrl recordCandCtrl = new VotingCtrl(objectLayer);
+		return recordCandCtrl.recordElection(candidateName);
 	}
 	
 	@Override

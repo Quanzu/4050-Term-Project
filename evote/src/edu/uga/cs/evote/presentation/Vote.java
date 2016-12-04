@@ -42,8 +42,13 @@ response.setContentType("text/html");
         String         ssid = null;
         long		   ballotId = -1;
         String 			theId;
-        
-
+        String 			option = null;
+        long			issueId;
+        long			electionId;
+        String			issueVote;
+        String			question = null;
+       long				x;
+        int			voteCount;
     	httpSession = request.getSession();
     	ssid = (String)httpSession.getAttribute("ssid");
         if( ssid != null ) {
@@ -66,46 +71,45 @@ response.setContentType("text/html");
             
         logicLayer = session.getLogicLayer();
         
-        /*httpSession = request.getSession();
-        if( httpSession == null ) {       // assume not logged in!
-            System.out.println("Session expired or illegal; please log in" );
-            return;
-        }
-        
-    	ssid = (String)httpSession.getAttribute("ssid");
-        if( ssid == null ) {       // not logged in!
-            System.out.println("Session expired or illegal; please log in" );
-            return;
-        }
-          
-        session = SessionManager.getSessionById( ssid );
-        if( session == null ) {
-            System.out.println("Session expired or illegal; please log in" );
-            return; 
-        }
-        
-        logicLayer = session.getLogicLayer();
-        if( logicLayer == null ) {
-            System.out.println("Session expired or illegal; please log in" );
-            return; 
-        }
-        */
+        option = request.getParameter("todo");
         theId = request.getParameter("choseBallot");
-        
-       
-        
-       
         httpSession.setAttribute("choseBallot", theId);
        
         
-        httpSession = request.getSession(false); //use false to use the existing session
+       if (option.equalsIgnoreCase("issue"))
+       {
+    	  
+    	   String str = request.getParameter("issueId");
+    	   issueId = Integer.parseInt(str);
+    	   voteCount = Integer.parseInt(request.getParameter("voteCount")); 
+    	   issueVote = request.getParameter("issueVote");
+    	   question = request.getParameter("question");
+    	   
+    	   try {  
+	            x = logicLayer.recordIssue(issueId, question, voteCount, issueVote);
+	            
+	        } 
+	        catch ( Exception e ) {
+	        	e.printStackTrace();
+	        }
+    	   
+       }
+       else if (option.equalsIgnoreCase("election"))
+       {
+    	   
+       }
+        
+       
+        
+        //httpSession = request.getSession(false); //use false to use the existing session
         
         
-        System.out.println(theId);
+        //System.out.println(theId);
        /* if(theId == null){
     		System.out.println("No ballot selected");
     		return;
     	}*/
+        
 		try {  
             //ballotId = logicLayer.vote(theId);
 			//RequestDispatcher rd = request.getRequestDispatcher("voting.jsp");
