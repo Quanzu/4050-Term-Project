@@ -13,7 +13,7 @@
 
     %>
 	<head>
-  <title>eVote Homepage</title>
+  <title>eVote</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -79,6 +79,7 @@
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li><a href="#Current">Ballot <%= session.getAttribute("choseBallot")%></a></li>
+          <li><a href="voterHomepage.jsp">Cancel</a></li>
           
          
           <li><a href="#" data-toggle="modal" data-target="#accountModal">Account</a></li>
@@ -114,9 +115,7 @@ theBallot = logicLayer.findBallot(temp);
 	<%
 	List<BallotItem> items = logicLayer.findBallotItems(theBallot);
 	
-	%>
-	<form action = "Vote" method = "post">
-	<% 
+	
 		for (int i = 0; i < items.size();i++)
 		{
 			if(items.get(i) instanceof Issue )
@@ -127,6 +126,8 @@ theBallot = logicLayer.findBallot(temp);
 				
 				%>
 				
+				<form action = "SubmitVote" method = "post" target = "formresponse">
+	
 				<br>
 				<input type = "hidden" name = "voteCount" value = "<%=issue.getVoteCount() %>">
 				<input type = "hidden" name = "issueId" value = "<%=issue.getId() %>">
@@ -134,12 +135,15 @@ theBallot = logicLayer.findBallot(temp);
 				<input type = "radio" name = "issueVote" value = "yes">Yes<br>
 				<input type = "radio" name = "issueVote" value = "no">No<br>
 				<input type = "hidden" name = "todo" value = "issue">
+				<button type = "submit" name = "submit">Vote</button>
+				</form>
+			<!-- 	<iframe name='formresponse' width='300' height='200'></frame> -->
 				<% 
 			}
 			%>
-			<button type = "submit" name = "submit">Vote</button>
-			</form>
-			<form action = "Vote" method = "post">
+			
+			
+			
 			<% 
 			if(items.get(i) instanceof Election )
 			{
@@ -155,19 +159,22 @@ theBallot = logicLayer.findBallot(temp);
 					for (int j = 0; j<candidates.size(); j++)
 					{	
 					%>
-				
+					<form action = "Vote" method = "post">
 					<br>
 					<input type = "radio" name = "electionVote" value = "<%=candidates.get(i).getName() %>"> <%=candidates.get(i).getName() %><br>
 					<input type = "hidden" name = "todo" value = "election">
 				<% 
 					}
+					%><button type = "submit" name = "submit">Vote</button>
+					</form><% 
+							
 				}
-				%><button type = "submit" name = "submit">Vote</button><% 
+				
 			}
 		}
 	%>
 	
-	</form>
+	
 	
       
       
@@ -180,6 +187,63 @@ theBallot = logicLayer.findBallot(temp);
 
 	
 	</div>
+	
+	<div id="accountModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Account Information</h1>
+        </div>
+       
+        
+        <div class="modal-body">
+          <form class="form-signin" action = "VoterUpdate" method = "post">
+            
+            <label for="age" class="sr-only">New Age</label>
+            <input type="text" name="age" class="form-control" placeholder="New Age" required=false autofocus=true>
+           
+            <label for="fname" class="sr-only">New First Name</label>
+            <input type="text" name="fName" class="form-control" placeholder="New First Name" required=false autofocus=true>
+            
+            <label for="lname" class="sr-only">New Last Name</label>
+            <input type="text" name="lName" class="form-control" placeholder="New Last Name" required=false autofocus=true>
+            
+            <label for="username" class="sr-only">New Username</label>
+            <input type="text" name="username" class="form-control" placeholder="New Username" required=false autofocus=true>
+            
+            <label for="password" class="sr-only">New Password</label>
+            <input type="text" name="password" class="form-control" placeholder="New Password" required=false autofocus=true>
+            
+            <label for="email" class="sr-only">New Email</label>
+            <input type="text" name="email" class="form-control" placeholder="New Email" required=false autofocus=true>
+            
+            <label for="street" class="sr-only">New Streete</label>
+            <input type="text" name="street" class="form-control" placeholder="New Street" required=false autofocus=true>
+			
+			<label for="city" class="sr-only">New City</label>
+            <input type="text" name="city" class="form-control" placeholder="New City" required=false autofocus=true>
+            
+            <label for="state" class="sr-only">New State</label>
+            <input type="text" name="state" class="form-control" placeholder="New State" required=false autofocus=true>
+            
+            <label for="zip" class="sr-only">New Zip</label>
+            <input type="text" name="zip" class="form-control" placeholder="New Zip" required=false autofocus=true>
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Update</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+          
+          <form method = "post" action = "VoterUpdate">
+<input type = "hidden" name = "todo" value = "delete">
+<button type = "submit">Unregister</button> 
+</form>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 
