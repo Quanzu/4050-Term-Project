@@ -2,11 +2,13 @@ package edu.uga.cs.evote.logic.impl;
 
 import java.sql.*;
 import java.util.List;
+
 import com.mysql.jdbc.PreparedStatement;
+
 import edu.uga.cs.evote.EVException;
+import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.entity.Voter;
 import edu.uga.cs.evote.object.ObjectLayer;
-import edu.uga.cs.evote.persistence.impl.VoterDistrictManager;
 import edu.uga.cs.evote.session.Session;
 import edu.uga.cs.evote.session.SessionManager;
 
@@ -22,12 +24,13 @@ public class VoterRegCtrl {
 	
     public String addVoter( Session session, String fname, String lname, String userName, String password, 
     		String email, String address, int age, String district ) throws EVException{
-    	
+    	 	int inscnt;
     		String ssid = null;
     		Voter voter = null;
 	        Voter modelVoter = null;
 	        List<Voter> voters = null;
 			Statement statement = null;
+			PreparedStatement prep = null;
 			ResultSet resultSet = null;
 	        Connection conn = session.getConnection();
 	        
@@ -48,17 +51,26 @@ public class VoterRegCtrl {
 			
 
 			try{ 
-				statement=conn.createStatement();
-				String sql ="SELECT * FROM electoraldistrict where districtName = '" + district + "'";
-				resultSet = statement.executeQuery(sql);
-				resultSet.getInt("districtId");
-				resultSet.getString("districtName");
+				statement = conn.createStatement();
+				String electoralDistrictSql ="SELECT * FROM electoraldistrict where districtName = '" + district + "'";
+				resultSet = statement.executeQuery(electoralDistrictSql);
+				if(resultSet.next()){
+					String insertVoterDistrictSql = "insert into VoterDistrict (voterId, districtId ) values ( ?, ?)";
+					prep = (PreparedStatement) conn.prepareStatement(insertVoterDistrictSql);
+					int electoralDistrictId = resultSet.getInt(1);
+					prep.setInt(1, electoralDistrictId);
+					prep.setInt(2, (int) voter.getId());
+					inscnt = prep.executeUpdate();
+				}
 			}
 			catch (Exception e) {
 				e.printStackTrace();
 			}
 			
-			VoterDistrictManager vdm = new VoterDistrictManager(conn, objectLayer);
+
+			
+			
+			
 			
 			ssid = SessionManager.storeSession(session);
 
