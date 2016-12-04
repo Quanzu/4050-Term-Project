@@ -39,6 +39,10 @@ public interface LogicLayer {
 	public long updateED(String districtName, String newName) throws EVException;
 	public long deleteED(String districtName) throws EVException;
 
+	public long recordElection(String candidateName)
+			throws EVException;
+	public long recordIssue(long issueId, String newQuestion, int newYesCount, String vote) throws EVException;
+	
 	public List<PoliticalParty> findAllPoliticalParty() throws EVException;
 	public long createPP(String partyName) throws EVException;
 	public long updatePP(String partyName, String newName) throws EVException;

@@ -18,7 +18,7 @@ import edu.uga.cs.evote.session.SessionManager;
  * Servlet implementation class Vote
  */
 @WebServlet("/Vote")
-public class Vote extends HttpServlet {
+public class SubmitVote extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
    
@@ -49,6 +49,7 @@ response.setContentType("text/html");
         String			question = null;
        long				x;
         int			voteCount;
+        
     	httpSession = request.getSession();
     	ssid = (String)httpSession.getAttribute("ssid");
         if( ssid != null ) {
@@ -73,8 +74,8 @@ response.setContentType("text/html");
         
         option = request.getParameter("todo");
         theId = request.getParameter("choseBallot");
-        httpSession.setAttribute("choseBallot", theId);
-      httpSession = request.getSession(false);
+  /*      httpSession.setAttribute("choseBallot", theId);
+      httpSession = request.getSession(false);*/
         
        if (option.equalsIgnoreCase("issue"))
        {
@@ -110,16 +111,7 @@ response.setContentType("text/html");
     		return;
     	}*/
         
-		try {  
-            //ballotId = logicLayer.vote(theId);
-			//RequestDispatcher rd = request.getRequestDispatcher("voting.jsp");
-            //rd.forward(request, response);
-            response.sendRedirect("voting.jsp");
-        } 
-        catch ( Exception e ) {
-        	e.printStackTrace();
-        }
-        
+		
 	}
 
 }

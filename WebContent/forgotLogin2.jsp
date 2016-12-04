@@ -1,4 +1,4 @@
-<%@page import="java.sql.*"%>
+<%@page import="java.sql.*,edu.uga.cs.evote.persistence.impl.DbUtils"%>
 
 <html>
 	<head>
@@ -6,19 +6,6 @@
 	</head>
 	<%
 		String id = request.getParameter("userId");
-		String driverName = "com.mysql.jdbc.Driver";
-		String connectionUrl = "jdbc:mysql://localhost:3306/";
-		String dbName = "evote";
-		String userId = "root";
-		String password = "Ihave0ideas!";
-
-		try {
-			Class.forName(driverName);
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 
 		Connection connection = null;
 		Statement statement = null;
@@ -28,7 +15,7 @@
 
 	<%
 		try{ 
-			connection = DriverManager.getConnection(connectionUrl+dbName, userId, password);
+			connection = DbUtils.connect();
 			statement=connection.createStatement();
 			String email = request.getParameter("email");
 			String sql ="SELECT * FROM user where email = '" + email + "'";
