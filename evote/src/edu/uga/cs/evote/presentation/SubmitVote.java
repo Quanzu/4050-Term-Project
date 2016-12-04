@@ -17,7 +17,7 @@ import edu.uga.cs.evote.session.SessionManager;
 /**
  * Servlet implementation class Vote
  */
-@WebServlet("/Vote")
+@WebServlet("/SubmitVote")
 public class SubmitVote extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

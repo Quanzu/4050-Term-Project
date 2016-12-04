@@ -187,7 +187,7 @@
     <div class="pull-left">
     	<button type = "button" data-toggle="modal" data-target= "#addElection" >Add Election</button> 
     	<button type = "button" data-toggle="modal" data-target= "#addIssue" >Add Issue</button>   
-    	 </div>
+    </div>
   </div>
 
 <!-- Target for ballot- add election and issue -->
@@ -304,28 +304,12 @@
      
      <div class="pull-right">
     	<span class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#createElection"></span>
-    <!--  	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateCand"></span> -->
+    	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateElection"></span>
     	<span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteElection"></span>
     </div>
 
     	 
     </div>	 
-  
-  
-  <!--  <div id = "myDiv"></div>
-    <h2 align="center">Saved Configurations</h2>
-   Choose a configuration to run: 
-  <select name="configselect" width="10">
-    <option selected value="select">select</option>
-    <option value="Config1">config1</option>
-    <option value="Config2">config2</option>
-    <option value="Config3">config3</option>
-  </select> 
-  <button type="button" onclick='loadXMLDoc()'> Submit </button>
-  <div id="myDiv">
-    <h4>Get data here</h4>
-  </div>
-  </div>-->
 
   <!-- Issue -->
   <div id="Issue" class="container">
@@ -587,37 +571,27 @@
         </div>
         <div class="modal-body">
           <form class="form-signin" method ="post" action ="Election">
-            <label for="electionOffice" class="sr-only">Election Office</label>
-            Election Office <br>
-            <input id = "electionOffice" name ="electionOffice" type="text" class="form-control" placeholder="election Office Name" required=true autofocus=true>
-            
+            <label for="electionOffice">Election Office: </label> <br>
+            <input name ="electionOffice" type="text" class="form-control">
+            <br>
      
-            Is Election Partisan?
-            <label for="isPartisan" class="sr-only">Is Election Partisan?</label>
-            <input type = "radio" name = "isPartisan" id = "true" value = "true" onclick = "yes();">True
-            <input type = "radio" name = "isPartisan" id = "false" value = "false" onclick = "no();">False <br>
-   <!--       <input name ="isPartisan" type="text" class="form-control" placeholder="True or False" required=true autofocus=true>  -->   
+            <label for="isPartisan">Partisan: </label>
+            <input type = "radio" name = "isPartisan" id = "true" value = "true" onclick = "toggleElectionPartisan()">True
+            <input type = "radio" name = "isPartisan" id = "false" value = "false" onclick = "toggleElectionPartisan()" checked>False <br>
        	
-           <script type="text/javascript">
-           function yes(){
-        	   var val = document.getElementById("true");
-        	   
-        	   if (val.checked)
-        		   {
-        		   document.getElementById("partisan").style.display = "block";
-        		   }
-        
-        	   
-           }
-           function no(){
-        	   var f = document.getElementById("false");
-        	   if (f.checked)
-        		   document.getElementById("noPartisan").style.display = "block";
-           }
-           </script>
+            <script>
+           		function toggleElectionPartisan(){
+           			if(document.getElementById("partisanCandidateNames").style.display == 'none'){
+           				document.getElementById("partisanCandidateNames").style.display = 'block';
+           				document.getElementById("notPartisanCandidateNames").style.display = 'none';
+           			}else{
+           				document.getElementById("partisanCandidateNames").style.display = 'none';
+           				document.getElementById("notPartisanCandidateNames").style.display = 'block';
+           			}
+           		}
+            </script>
             
-            <div id = "partisan" style = "display: none;">
-            HI
+            <div id = "partisanCandidateNames" style = "display: none;">
             <%
             List<Candidate> c = logicLayer.findAllCandidate();
             i=0;
@@ -628,7 +602,7 @@
     			{
         			temp.toString();
 
-				 %><input type = "radio" name = "cand" value = "<%=c.get(i).getName()%>"><%=c.get(i).getName()%> <br>
+				 %><input type = "radio" name = "cand" value = "<%=c.get(i).getName()%>"> <%=c.get(i).getName()%> <br>
     	    <%	
     			}
     			i++;
@@ -636,8 +610,7 @@
             
             </div>
             
-            <div id = "noPartisan" style = "display: none;">
-            Hey
+            <div id = "notPartisanCandidateNames" style = "display: none;">
              <%
             
             i=0;
@@ -647,7 +620,7 @@
     			
     			if (temp == null)
     			{
-				 %><input type = "radio" name = "cand" value = "<%=c.get(i).getName()%>"><%=c.get(i).getName()%> <br>
+				 %><input type = "radio" name = "cand" value = "<%=c.get(i).getName()%>"> <%=c.get(i).getName()%> <br>
     	    <%	
     			}
     			i++;
