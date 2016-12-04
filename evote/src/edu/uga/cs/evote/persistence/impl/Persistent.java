@@ -31,7 +31,7 @@ public abstract class Persistent implements Persistable {
 		return id >= 0;
 	}
 	
-	public static PersistenceLayer getPersistencaLayer() {
+	public static PersistenceLayer getPersistenceLayer() {
         return persistenceLayer;
     }
 

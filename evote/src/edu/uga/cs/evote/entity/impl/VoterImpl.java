@@ -64,7 +64,7 @@ public class VoterImpl extends UserImpl implements Voter {
 		if( isPersistent() ) {
 			VoteRecord voteRecord = new VoteRecordImpl();
 			voteRecord.setVoter(this);
-            voteRecords = getPersistencaLayer().restoreVoteRecord( voteRecord );
+            voteRecords = getPersistenceLayer().restoreVoteRecord( voteRecord );
         }
         else
             throw new EVException( "This voter object is not persistent" );

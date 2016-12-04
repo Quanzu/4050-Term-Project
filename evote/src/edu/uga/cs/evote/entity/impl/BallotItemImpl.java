@@ -30,7 +30,7 @@ public abstract class BallotItemImpl extends Persistent implements BallotItem {
 	public Ballot getBallot() throws EVException {
 		if(ballot == null)
 			if(isPersistent()){
-				ballot = getPersistencaLayer().restoreBallotIncludesBallotItem(this);
+				ballot = getPersistenceLayer().restoreBallotIncludesBallotItem(this);
 			} else
 	            throw new EVException( "This ballot item object is not persistent" );
 			
