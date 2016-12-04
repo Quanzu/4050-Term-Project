@@ -426,19 +426,31 @@
     <h3>Candidate</h3>
       <%
         List<Candidate> candidates = logicLayer.findAllCandidate();
-        i=0;
+        Candidate tempCandidate;
+        PoliticalParty tempParty;
+      	i=0;
       %>
       <table class="table table-hover">
       <thead>
         <tr>
           <th>Name</th>
+          <th>Party</th>
         </tr>
       </thead>
       <tbody>
-      <% while(i < candidates.size()) {%>
-      	<tr id=ed<%=i%>>
-          	<td><%= candidates.get(i++).getName() %></td>
-        </tr>
+      <% while(i < candidates.size()) {
+      		tempCandidate = candidates.get(i++);
+      		tempParty = logicLayer.getPoliticalPartyFromCandidate(tempCandidate);%>
+      		<tr id=candidate<%=i%>>
+          		<td><%= tempCandidate.getName() %></td>
+          		<%
+          		if(tempParty != null){
+          		%>
+          		<td><%= tempParty.getName()%></td>
+          		<%}else{ %>
+          		<td>N/A</td>
+          		<%} %>
+        	</tr>
       <%} %>
       
       </tbody>
