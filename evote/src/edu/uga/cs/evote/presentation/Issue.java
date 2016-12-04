@@ -33,10 +33,8 @@ public class Issue extends HttpServlet {
 		String		   option = null;
 		long		   updateIssueId;
 		long		   issueId;
-		String		   newQuestion = null;
 		int			   newYesCount = 0;
-		
-        
+		     
         httpSession = request.getSession();
         if( httpSession == null ) {       // assume not logged in!
             System.out.println("Session expired or illegal; please log in" );
@@ -63,17 +61,12 @@ public class Issue extends HttpServlet {
         
         option = request.getParameter("todo");
         
-        String temp = request.getParameter("issueId");
-        if(temp == null){
-        	System.out.println("IssueId is null");
-        	return;
-        }else{
-        	issueId = Integer.parseInt(temp);
-        }
        
         if(option.equals("create")){
+            String question = request.getParameter("question");
+
         	try {  
-	            issueId = logicLayer.createIssue(issueId, newQuestion, newYesCount);
+	            issueId = logicLayer.createIssue(question);
 	            response.sendRedirect("eoHomepage.jsp#Issue");
 	        } 
 	        catch ( Exception e ) {
@@ -81,6 +74,14 @@ public class Issue extends HttpServlet {
 	        }
         }
         else if(option.equals("update")){
+            String temp = request.getParameter("issueId");
+    		String newQuestion = null;
+            if(temp == null){
+            	System.out.println("IssueId is null");
+            	return;
+            }else{
+            	issueId = Integer.parseInt(temp);
+            }
         	newQuestion = request.getParameter("newQuestion");
             if(newQuestion == null){
             	System.out.println("New Question is null");
@@ -104,6 +105,8 @@ public class Issue extends HttpServlet {
 	        }
         }
         else if(option.equals("delete")){
+            String temp = request.getParameter("issueId");
+        	issueId = Integer.parseInt(temp);
         	try{
         		issueId = logicLayer.deleteIssue(issueId);
         		response.sendRedirect("eoHomepage.jsp#Issue");

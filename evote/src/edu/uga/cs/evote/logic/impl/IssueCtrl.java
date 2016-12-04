@@ -14,7 +14,7 @@ public class IssueCtrl {
 		this.objectLayer = objectLayer;
 	}
 	
-	public long createIssue(long issueId, String newQuestion, int newYesCount)
+	public long createIssue(String question)
 			throws EVException
 	{
 		Issue issue = null;
@@ -22,17 +22,14 @@ public class IssueCtrl {
         List<Issue> issues = null;
 
         // check if the name already exists
-        modelIssue = objectLayer.createIssue();
-        modelIssue.setId(issueId);
-        modelIssue.setQuestion(newQuestion);
-        modelIssue.setYesCount(newYesCount);
+        modelIssue = objectLayer.createIssue(question);
         issues = objectLayer.findIssue( modelIssue );
         if( issues.size() > 0 )
             issue = issues.get( 0 );
         if(issue != null)
         	throw new EVException("An Issue with the same Question already exists");
         else{
-        issue = objectLayer.createIssue(newQuestion);
+        issue = objectLayer.createIssue(question);
         objectLayer.storeIssue( issue );
         }
 		return issue.getId();

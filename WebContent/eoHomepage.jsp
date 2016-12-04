@@ -156,7 +156,7 @@
   <!-- BALLOT -->
   <div id="Ballot" class="container">
     <h3>Ballot</h3>
-<%
+	  <%
         List<Ballot> ballots = logicLayer.findAllBallot();
         i=0;
       %>
@@ -355,15 +355,15 @@
     </table>
     
     <div class="pull-right">
+        <span class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#createIssue"></span>
     	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateIssue"></span>
+    	<span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteIssue"></span>
     </div>
-
   </div>
 
   <!-- District -->
   <div id="District" class="container">
     <h3>District</h3>
-
       <%
         List<ElectoralDistrict> districts = logicLayer.findAllElectoralDistrict();
         i=0;
@@ -941,6 +941,33 @@
 
 
 <!-- ISSUE -->
+<div id="createIssue" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Create Issue</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" action = "Issue" method = "post">
+
+            <label for="question">Question: </label>
+            <input type="text" name="question" class="form-control" required=true>
+			
+			<input type = "hidden" name = "todo" value = "create">
+
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Create</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
  <div id="updateIssue" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -965,6 +992,33 @@
 
             <div class="modal-footer">
               <button class="btn btn-lg btn-primary" type="submit">Update</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div id="deleteIssue" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Delete Issue</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" action = "Issue" method = "post">
+
+			<label for="issueId">Issue Id: </label>
+            <input type="text" name="issueId" class="form-control">
+			
+			<input type = "hidden" name = "todo" value = "delete">
+
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Delete</button>
               <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
             </div>
           </form>

@@ -173,9 +173,9 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
-	public long createIssue(long issueId, String newQuestion, int newYesCount) throws EVException{
+	public long createIssue(String question) throws EVException{
 		IssueCtrl createIssueCtrl = new IssueCtrl(objectLayer);
-		return createIssueCtrl.createIssue(issueId, newQuestion, newYesCount);
+		return createIssueCtrl.createIssue(question);
 		
 	}
 	

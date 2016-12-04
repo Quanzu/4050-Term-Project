@@ -32,7 +32,7 @@ public interface LogicLayer {
 	public List<Issue> findAllIssue() throws EVException;
 	public long updateIssue(long issueId, String newQuestion, int newYesCount) throws EVException;
 	public long deleteIssue(long issueId) throws EVException;
-	public long createIssue(long issueId, String newQuestion, int newYesCount) throws EVException;
+	public long createIssue(String question) throws EVException;
 	
 	public List<ElectoralDistrict> findAllElectoralDistrict() throws EVException;
 	public long createED(String districtName) throws EVException;
