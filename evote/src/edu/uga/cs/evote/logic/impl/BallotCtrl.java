@@ -16,6 +16,9 @@ import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.session.Session;
 import edu.uga.cs.evote.session.SessionManager;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 public class BallotCtrl {
 
 private ObjectLayer objectLayer = null;
@@ -214,6 +217,39 @@ private ObjectLayer objectLayer = null;
 		
 		ballots = objectLayer.findBallot(null);
 		return ballots;
+	}
+	
+	public List<Ballot> getCurrentBallot() throws EVException{
+		List<Ballot> currentBallots = null;
+		List<Ballot> allBallots = this.findAllBallot();
+		
+		Date closeDate;
+		Date date1 = new Date();
+	
+		DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+	      // Date dateobj = new Date();
+	       df.format(date1);
+	       //System.out.println(df.format(dateobj));
+		
+		for (int i = 0; i < allBallots.size(); i++)
+		{
+			closeDate = allBallots.get(i).getCloseDate();
+			if (closeDate.after(date1))
+			{
+				currentBallots.add(allBallots.get(i));
+			}
+		}
+		
+		//getting current date and time using Date class
+	       
+
+	       /*getting current date time using calendar class 
+	        * An Alternative of above*/
+	       
+	       
+		
+		
+		return currentBallots;
 	}
 	
 	public long deleteBallot(String theId) throws EVException

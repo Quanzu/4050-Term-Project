@@ -39,7 +39,7 @@ public class VotingCtrl {
         		issue.setYesCount(newYesCount+1);
         		objectLayer.storeIssue( issue );
         	}
-        	
+        	//objectLayer.getPersistence().store
         
 		return issue.getId();
         }

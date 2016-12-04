@@ -120,6 +120,12 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 	
 	@Override
+	public List<Ballot> getCurrentBallot() throws EVException {
+		BallotCtrl ctrlBallotCtrl = new BallotCtrl(objectLayer);
+		return ctrlBallotCtrl.getCurrentBallot();
+	}
+
+	@Override
 	public long createPP(String partyName) throws EVException {
 		PoliticalPartyCtrl ctrlCreatePP = new PoliticalPartyCtrl(objectLayer);
 		return ctrlCreatePP.createPP(partyName);

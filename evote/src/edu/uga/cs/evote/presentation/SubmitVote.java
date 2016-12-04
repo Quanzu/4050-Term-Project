@@ -88,6 +88,7 @@ response.setContentType("text/html");
     	   
     	   try {  
 	            x = logicLayer.recordIssue(issueId, question, voteCount, issueVote);
+	            response.sendRedirect("voting.jsp");
 	            
 	        } 
 	        catch ( Exception e ) {
@@ -99,7 +100,7 @@ response.setContentType("text/html");
        {
     	   
        }
-        
+       
        
         
         //httpSession = request.getSession(false); //use false to use the existing session
