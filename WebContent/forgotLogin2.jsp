@@ -6,19 +6,6 @@
 	</head>
 	<%
 		String id = request.getParameter("userId");
-		String driverName = "com.mysql.jdbc.Driver";
-		String connectionUrl = "jdbc:mysql://localhost:3306/";
-		String dbName = "evote";
-		String userId = "root";
-		String password = "Ihave0ideas!";
-
-		try {
-			Class.forName(driverName);
-		}
-
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 
 		Connection connection = null;
 		Statement statement = null;
