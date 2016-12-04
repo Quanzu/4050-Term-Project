@@ -251,6 +251,7 @@ public class EvoteTester {
 			{
 				Election election = (Election)items.get(i);
 				countE++;
+				System.out.println(election.getOffice());
 			}
 		}
 		System.out.println(items.size());

@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import edu.uga.cs.evote.entity.VoteRecord;
 import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Ballot;
@@ -370,7 +369,6 @@ public class BallotManager {
             throw new EVException( "BallotManager.restoreBallotIncludesBallotItem: Could not restore persistent elec object; Root cause: " + e );
         }
         try {
-
             stmt2 = conn.createStatement();
 
             // retrieve the persistent BallotItem objects
@@ -385,7 +383,7 @@ public class BallotManager {
                 boolean	  alternateAllowedb;
               	Election nextBallotItem = null;
               
-                ResultSet rs = stmt.getResultSet();
+                ResultSet rs = stmt2.getResultSet();
               
                 while( rs.next() ) {
 
