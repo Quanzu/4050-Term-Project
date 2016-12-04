@@ -249,6 +249,12 @@ public class LogicLayerImpl implements LogicLayer{
 		
 	}
 
+	@Override
+	public Ballot findBallot(long id) throws EVException {
+		BallotCtrl addElectionCtrl = new BallotCtrl(objectLayer);
+		return addElectionCtrl.findBallot(id);
+	}
+
 
 
 

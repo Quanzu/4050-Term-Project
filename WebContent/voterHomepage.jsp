@@ -113,22 +113,42 @@
     </table>
   </div>
 
-<form class="vote" action = "Vote" method = "post">
-<select>
-    <%
-    List<Ballot> ballots = logicLayer.findAllBallot();
+<button type = "button" data-toggle="modal" data-target= "#vote" >Vote</button>
+
+<div id="vote" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Add Election</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" method ="post" action = "Vote">
+            <label for="ballotId" class="sr-only">Ballot Id</label>
+          <br>  Select Ballot<br>
+            <%
+            List<Ballot> ballots = logicLayer.findAllBallot();
         i=0;
       %>
       
       <% while(i < ballots.size()) {%>
-      <option value="<%= ballots.get(i).getId() %>"><%= ballots.get(i++).getId()%> </option>
-       
+          	<input type = "radio" name = "choseBallot" value = "<%= ballots.get(i).getId() %>"> <%= ballots.get(i++).getId()%> <br>
           	
       <%} %>
-  
-</select>
- <button type = "button" name = "vote">Vote</button>
-</form>
+           
+			<input type = "hidden" name = "todo" value = "addElection">
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">vote</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+	</div>
+</div>
+
 
   <!-- Election -->
   <div id="Results" class="container">

@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.List;
 
 import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.*;
@@ -15,7 +16,7 @@ public class EvoteTester {
 		
 		/* MODIFY THESE TWO VALUES TO TEST */
 		boolean toCreateAndStore = true;
-		boolean toDelete = true;
+		boolean toDelete = false;
 		
 		
 		Connection conn = null;
@@ -233,6 +234,28 @@ public class EvoteTester {
 			persistence.storeVoteRecord(vr3);
 			persistence.storeVoteRecord(vr4);
 		}
+		
+		List<BallotItem> items =persistence.restoreBallotIncludesBallotItem(b1);
+		int countI = 0;
+		int countE = 0;
+		for (int i = 0; i<items.size(); i++)
+		{
+			if(items.get(i) instanceof Issue )
+			{
+				Issue issue = (Issue)items.get(i);
+				countI++;
+				System.out.println(issue.getQuestion());
+			}
+			
+			if(items.get(i) instanceof Election )
+			{
+				Election election = (Election)items.get(i);
+				countE++;
+			}
+		}
+		System.out.println(items.size());
+		System.out.println(countI);
+		System.out.println(countE);
 		
 		if(toDelete){
 			//delete voter

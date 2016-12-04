@@ -135,6 +135,23 @@ private ObjectLayer objectLayer = null;
 	
 	}
 	
+	public Ballot findBallot(long id) throws EVException 
+	{
+		Ballot ballot = null;
+        Ballot modelBallot = null;
+        List<Ballot> ballots = null;
+        
+        // check if the name already exists
+        modelBallot = objectLayer.createBallot();
+        modelBallot.setId(id);
+        ballots = objectLayer.findBallot( modelBallot );
+        if( ballots.size() > 0 )
+            ballot = ballots.get( 0 );
+        
+        System.out.println("HI");
+        return ballot;
+	}
+	
 	public long updateBallot(Date openDate, Date closeDate, String id)
 			throws EVException
 	{
