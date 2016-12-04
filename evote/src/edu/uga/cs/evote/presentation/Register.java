@@ -85,7 +85,7 @@ public class Register extends HttpServlet {
         }
         
         if(ssid2 != null)
-        	response.sendRedirect("voterHomepage.jsp");
+        	response.sendRedirect("index.jsp");
         else
         	response.sendRedirect("invalidLogin.jsp");
 	}

@@ -77,7 +77,7 @@
               <div class="tab-pane active" id="voterSignIn"> 
                 <form class="form-signin" method="post" action="VoterLogin"> 
                   <label for="username" class="sr-only">UserName</label> 
-                  <input type="text" name="username" class="form-control" placeholder="UserName" required autofocus> 
+                  <input type="text" name="username" class="form-control" placeholder="Username" required autofocus> 
                   <label for="password" class="sr-only">Password</label> 
                   <input type="password" name="password" class="form-control" placeholder="Password" required> 
                 	<a href = "forgotLogin1.jsp">Forgot your username/password?</a>
