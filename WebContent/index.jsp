@@ -53,7 +53,7 @@
               <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button> 
             </div> 
           </form> 
-        </div> 
+        </div>
       </div> 
  
     </div> 

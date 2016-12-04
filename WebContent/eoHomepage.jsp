@@ -307,12 +307,9 @@
     <!--  	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateCand"></span> -->
     	<span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteElection"></span>
     </div>
-    <div class="pull-left">
-    	<button type = "button" data-toggle="modal" data-target= "#addCandidate" >Add Candidate</button> 
+
     	 
-    	 </div>
-    	 
-    	 
+    </div>	 
   
   
   <!--  <div id = "myDiv"></div>
@@ -615,13 +612,15 @@
             i=0;
     		while(i < c.size())
     		{
-    			PoliticalParty temp = c.get(i).getPoliticalParty();
-    			temp.toString();
+    			PoliticalParty temp = logicLayer.getPoliticalPartyFromCandidate(c.get(i));
     			if (temp != null)
     			{
+        			temp.toString();
+
 				 %><input type = "radio" name = "cand" value = "<%=c.get(i).getName()%>"><%=c.get(i).getName()%> <br>
-    	    <%	i++;
+    	    <%	
     			}
+    			i++;
     	    }%>
             
             </div>
@@ -633,13 +632,14 @@
             i=0;
     		while(i < c.size())
     		{
-    			PoliticalParty temp = c.get(i).getPoliticalParty();
+    			PoliticalParty temp = logicLayer.getPoliticalPartyFromCandidate(c.get(i));
     			
     			if (temp == null)
     			{
 				 %><input type = "radio" name = "cand" value = "<%=c.get(i).getName()%>"><%=c.get(i).getName()%> <br>
-    	    <%	i++;
+    	    <%	
     			}
+    			i++;
     	    }%>
             
             </div>

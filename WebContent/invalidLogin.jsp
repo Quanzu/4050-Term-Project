@@ -4,11 +4,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Log In Error</title>
 </head>
 <body>
-
-<p>One or more spaces contained invalid information. Please try again!</p>
-<a href = "index.jsp">home</a>
-</body>
+<br><br>
+<center><h3><p style="color:red">Sorry, either the username or password entered is incorrect, please try again.</p></h3></center>
+<%
+getServletContext().getRequestDispatcher("/index.jsp").include(request, response);
+%></body>
 </html>
