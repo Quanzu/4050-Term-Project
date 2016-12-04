@@ -46,6 +46,7 @@ public class Ballot extends HttpServlet {
         String 			newClose = null;
         Date 			newOpenDate = null;
         Date			newCloseDate = null;
+        String 			district = null;
         
         
         httpSession = request.getSession();
@@ -76,6 +77,7 @@ public class Ballot extends HttpServlet {
         
         if (option.equals("create"))
         {
+        	district = request.getParameter("districtName");
         	open = request.getParameter("openDate");
         	//System.out.println(districtName);
         	if(open == null){
@@ -110,7 +112,7 @@ public class Ballot extends HttpServlet {
 			
         	}
         	try {  
-        		ballotId = logicLayer.createBallot(openDate, closeDate);
+        		ballotId = logicLayer.createBallot(openDate, closeDate, district);
         		response.sendRedirect("eoHomepage.jsp#Ballot");
         	} 
         	catch ( Exception e ) {

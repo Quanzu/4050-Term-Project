@@ -39,6 +39,7 @@ out.print(theBallot.getCloseDate());
 	<div>
 	
 	Ballot ID: <%out.print( theBallot.getId()); %> <br>
+	<% out.println(theBallot.getOpenDate());%>
 	<%
 	List<BallotItem> items = theBallot.getBallotItems();
 	out.println(items.size());
@@ -70,7 +71,6 @@ out.print(theBallot.getCloseDate());
 			}
 		}
 	%>
-	
 	<button type = "submit" name = "submit">Vote</button>
 	
 	</div>

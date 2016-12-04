@@ -307,7 +307,15 @@
     <!--  	<span class="btn glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateCand"></span> -->
     	<span class="btn glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteElection"></span>
     </div>
-    <div id = "myDiv"></div>
+    <div class="pull-left">
+    	<button type = "button" data-toggle="modal" data-target= "#addCandidate" >Add Candidate</button> 
+    	 
+    	 </div>
+    	 
+    	 
+  
+  
+  <!--  <div id = "myDiv"></div>
     <h2 align="center">Saved Configurations</h2>
    Choose a configuration to run: 
   <select name="configselect" width="10">
@@ -320,7 +328,7 @@
   <div id="myDiv">
     <h4>Get data here</h4>
   </div>
-  </div>
+  </div>-->
 
   <!-- Issue -->
   <div id="Issue" class="container">
@@ -578,11 +586,63 @@
      
             Is Election Partisan?
             <label for="isPartisan" class="sr-only">Is Election Partisan?</label>
-            <input type = "radio" name = "isPartisan" value = "true">True
-            <input type = "radio" name = "isPartisan" value = "false" checked>False <br>
+            <input type = "radio" name = "isPartisan" id = "true" value = "true" onclick = "yes();">True
+            <input type = "radio" name = "isPartisan" id = "false" value = "false" onclick = "no();">False <br>
    <!--       <input name ="isPartisan" type="text" class="form-control" placeholder="True or False" required=true autofocus=true>  -->   
        	
-           
+           <script type="text/javascript">
+           function yes(){
+        	   var val = document.getElementById("true");
+        	   
+        	   if (val.checked)
+        		   {
+        		   document.getElementById("partisan").style.display = "block";
+        		   }
+        
+        	   
+           }
+           function no(){
+        	   var f = document.getElementById("false");
+        	   if (f.checked)
+        		   document.getElementById("noPartisan").style.display = "block";
+           }
+           </script>
+            
+            <div id = "partisan" style = "display: none;">
+            HI
+            <%
+            List<Candidate> c = logicLayer.findAllCandidate();
+            i=0;
+    		while(i < c.size())
+    		{
+    			PoliticalParty temp = c.get(i).getPoliticalParty();
+    			temp.toString();
+    			if (temp != null)
+    			{
+				 %><input type = "radio" name = "cand" value = "<%=c.get(i).getName()%>"><%=c.get(i).getName()%> <br>
+    	    <%	i++;
+    			}
+    	    }%>
+            
+            </div>
+            
+            <div id = "noPartisan" style = "display: none;">
+            Hey
+             <%
+            
+            i=0;
+    		while(i < c.size())
+    		{
+    			PoliticalParty temp = c.get(i).getPoliticalParty();
+    			
+    			if (temp == null)
+    			{
+				 %><input type = "radio" name = "cand" value = "<%=c.get(i).getName()%>"><%=c.get(i).getName()%> <br>
+    	    <%	i++;
+    			}
+    	    }%>
+            
+            </div>
             
 			<input type = "hidden" name = "todo" value = "create">
 
@@ -805,7 +865,9 @@
             <input type = "radio" name = "isPartisan" value = "true">True
             <input type = "radio" name = "isPartisan" value = "false" checked>False <br>
    <!--       <input name ="isPartisan" type="text" class="form-control" placeholder="True or False" required=true autofocus=true>  -->   
-            
+            <script>
+           
+            </script>
             <label for="partyName" class="sr-only">Party Name</label>
      		Party Name (if checked true for partisan) <br>
              <%
@@ -906,7 +968,16 @@
             <label for="openDate" class="sr-only">Ballot Dates</label>
             <input name ="openDate" type="date" class="form-control" placeholder="year(xx)-month-day" required=true autofocus=true>
 			 <input name ="closeDate" type="date" class="form-control" placeholder="year(xx)-month-day" required=true autofocus=true>
-			
+			District:
+			 <br>
+             <%
+       		 List<ElectoralDistrict> x = logicLayer.findAllElectoralDistrict();
+        	i=0;
+            		while(i < x.size())
+            		{
+        				 %><input type = "radio" name = "districtName" value = "<%=x.get(i).getName()%>"><%=x.get(i).getName()%> <br>
+            	    <%	i++;
+            	    }%>
 			<input type = "hidden" name = "todo" value = "create">
 
             <div class="modal-footer">

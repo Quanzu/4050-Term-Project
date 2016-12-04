@@ -235,7 +235,7 @@ public class EvoteTester {
 			persistence.storeVoteRecord(vr4);
 		}
 		
-		List<BallotItem> items =persistence.restoreBallotIncludesBallotItem(b1);
+		List<BallotItem> items = b1.getBallotItems();
 		int countI = 0;
 		int countE = 0;
 		for (int i = 0; i<items.size(); i++)
