@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.sql.*"%>
+<%ResultSet resultset = null; %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
 <html> 
@@ -122,10 +123,30 @@
  				  
  				  <fieldset>
  				  	<legend>Electoral District:</legend>
-						<label for="district" class="sr-only">District</label> 
-                    	<input type="text" name="district" class="form-control" placeholder=
-                    	"Enter the name of your electoral district exactly as it is spelled!" required> 
- 				  </fieldset>
+ 					<%
+ 						try{
+ 						Class.forName("com.mysql.jdbc.Driver").newInstance();
+						Connection connection = DriverManager.getConnection
+            				("jdbc:mysql://localhost:3306/evote?user=root&password=Ihave0ideas!");
+
+       					Statement statement = connection.createStatement() ;
+
+					    resultset =statement.executeQuery("select * from electoraldistrict") ;
+					%>
+				<label for="district"></label>
+        		<select name="district" size="1" id="district">
+        		<%  while(resultset.next()){ %>
+            		<option><%= resultset.getString(2)%></option>
+		        <% } %>
+        		</select>
+				<%
+        			}
+        			catch(Exception e){
+             			out.println("wrong entry"+e);
+        			}
+				%>
+
+ 				</fieldset>
  				  
  				  
  				   

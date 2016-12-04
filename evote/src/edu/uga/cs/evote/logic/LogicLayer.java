@@ -19,7 +19,7 @@ public interface LogicLayer {
 	public String voterLogin(Session session, String userName, String password) throws EVException;
 	public void logout(String ssid) throws EVException;
 	public String addVoter(Session session, String fname, String lname, String uname, String pword, 
-		String email, String address, int age ) throws EVException;
+		String email, String address, int age, String district ) throws EVException;
 	
 	public long updateVoter(String fname, String lname, String userName, String password, String emailAddress, String address, int age) throws EVException;
 	public List<Voter>findAllVoter() throws EVException;

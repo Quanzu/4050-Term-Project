@@ -65,8 +65,6 @@ public class Register extends HttpServlet {
     	address = request.getParameter("street") + " " + request.getParameter("city")
     		+ " " + request.getParameter("state") + " " + request.getParameter("zip");
     	district = request.getParameter("district");
-    	System.out.println(district);
-    	
 
         if( firstName == null || lastName == null || username == null || password == null || email == null || address == null
         		|| age == 0) {
@@ -75,7 +73,7 @@ public class Register extends HttpServlet {
         }
 	
         try {          
-            ssid2 = logicLayer.addVoter( session, firstName, lastName, username, password, email, address, age );
+            ssid2 = logicLayer.addVoter( session, firstName, lastName, username, password, email, address, age, district );
             System.out.println( "Obtained ssid: " + ssid );
             httpSession.setAttribute( "ssid", ssid );
             System.out.println( "Connection: " + session.getConnection() );
