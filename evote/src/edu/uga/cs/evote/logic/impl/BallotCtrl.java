@@ -9,6 +9,7 @@ import edu.uga.cs.evote.entity.BallotItem;
 import edu.uga.cs.evote.entity.Election;
 import edu.uga.cs.evote.entity.ElectionsOfficer;
 import edu.uga.cs.evote.entity.Ballot;
+import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.entity.Issue;
 import edu.uga.cs.evote.entity.PoliticalParty;
 import edu.uga.cs.evote.object.ObjectLayer;
@@ -23,13 +24,17 @@ private ObjectLayer objectLayer = null;
 		this.objectLayer = objectLayer;
 	}
 	
-	public long createBallot(Date openDate, Date closeDate)
+	public long createBallot(Date openDate, Date closeDate, String districtName)
 			throws EVException
 	{
 		
 		Ballot ballot = null;
         Ballot modelBallot = null;
         List<Ballot> ballots = null;
+        ElectoralDistrict district = null;
+        ElectoralDistrict modelDistrict = null;
+        List<ElectoralDistrict> districts = null;
+
         
         modelBallot = objectLayer.createBallot();
         modelBallot.setOpenDate(openDate);
@@ -45,10 +50,25 @@ private ObjectLayer objectLayer = null;
         }
         else	
         {
-        	ballot = objectLayer.createBallot(openDate, closeDate, null);
+        	
+            // check if the name already exists
+            modelDistrict = objectLayer.createElectoralDistrict();
+            modelDistrict.setName(districtName);
+            districts = objectLayer.findElectoralDistrict( modelDistrict );
+            if( districts.size() > 0 )
+                district = districts.get( 0 );
+            
+            // check if the person actually exists, and if so, throw an exception
+            if( district != null )
+            {
+            	ballot = objectLayer.createBallot(openDate, closeDate, district);
+            	
+            }
+            
         	
         }
         objectLayer.storeBallot(ballot);
+        objectLayer.getPersistence().storeElectoralDistrictHasBallotBallot(district, ballot);
         return ballot.getId();
 	}
 	
@@ -147,8 +167,7 @@ private ObjectLayer objectLayer = null;
         ballots = objectLayer.findBallot( modelBallot );
         if( ballots.size() > 0 )
             ballot = ballots.get( 0 );
-        
-        System.out.println("HI");
+     
         return ballot;
 	}
 	

@@ -53,7 +53,7 @@ public interface LogicLayer {
 	public long updateElection(String electionOffice) throws EVException;
 	public long deleteElection(String electionOffice) throws EVException;
 	
-	public long createBallot(Date openDate, Date closeDate) throws EVException;
+	public long createBallot(Date openDate, Date closeDate, String district) throws EVException;
 	public List<Ballot> findAllBallot() throws EVException;
 	public long deleteBallot(String theId) throws EVException;
 	public long updateBallot(Date openDate, Date closeDate, String id) throws EVException;

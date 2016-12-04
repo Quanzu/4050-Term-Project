@@ -211,9 +211,9 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
-	public long createBallot(Date openDate, Date closeDate) throws EVException {
+	public long createBallot(Date openDate, Date closeDate, String district) throws EVException {
 		BallotCtrl createBallotCtrl = new BallotCtrl(objectLayer);
-		return createBallotCtrl.createBallot(openDate, closeDate);
+		return createBallotCtrl.createBallot(openDate, closeDate, district);
 	}
 
 	@Override
