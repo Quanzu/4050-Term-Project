@@ -35,41 +35,45 @@
  
 <div class="container"> 
 	<% 
-	String oldOffice = request.getParameter("oldOfficeName"); 
-	Election modelElection = logicLayer.getObjectLayer().createElection();
+	int ballotId = Integer.parseInt(request.getParameter("ballotId"));
+	Ballot modelBallot = logicLayer.getObjectLayer().createBallot();
 	List<Election> allElectionList = logicLayer.findAllElection();
 	i=0;
-	modelElection.setOffice(oldOffice);
-	Election currentElection = logicLayer.getObjectLayer().findElection(modelElection).get(0);
+	modelBallot.setId(ballotId);
+	Ballot currentBallot = logicLayer.getObjectLayer().findBallot(modelBallot).get(0);
 	%>
 	
-	<form class="form-signin" action = "Election" method = "post">
+	<form class="form-signin" action = "Ballot" method = "post">
 	
-	<input type = "hidden" name = "oldOfficeName" value = "<%=oldOffice %>">
+	<input type = "hidden" name = "ballotId" value = "<%=ballotId %>">
 	
-	<label for="newOfficeName">New Office Name: </label>
-    <input type="text" name="newOfficeName" class="form-control">
+	<label for="newOpenDate">New Open Date: </label>
+    <input name ="newOpenDate" type="date" class="form-control" placeholder="yyyy-mm-dd">
+    <br>
+    <label for="newCloseDate">New Close Date: </label>
+	<input name ="newCloseDate" type="date" class="form-control" placeholder="yyyy-mm-dd">
+	<br>	
 	<br>
 	
-	<label for="addCandidatesToElection">Add Candidate: </label> <br>
+	<label for="addElectionToBallot">Add Election: </label> <br>
 	<%
-	List<Candidate> toShowAddCandidates = logicLayer.findAllCandidate();
-	List<Candidate> candidateList = logicLayer.getObjectLayer().getPersistence().restoreCandidateIsCandidateInElection(currentElection);
-	toShowAddCandidates.remove(candidateList);
+	List<Election> toShowAddElection = logicLayer.findAllElection();
+	List<BallotItem> electionList = logicLayer.getObjectLayer().getPersistence().restoreBallotIncludesBallotItem(currentBallot);
+	toShowAddElection.remove(electionList);
 	Election tempElection;
 	PoliticalParty tempParty;
 	i=0;
-	while(i < toShowAddCandidates.size()){
+	while(i < toShowAddElection.size()){
 		tempParty = logicLayer.getPoliticalPartyFromCandidate(toShowAddCandidates.get(i));
 		tempElection = logicLayer.getElectionFromCandidate(toShowAddCandidates.get(i));
 		if(currentElection.getIsPartisan()){
 			if(tempParty != null && tempElection == null){
-				%><input type="checkbox" name="addCandidatesToElection" value = "<%=toShowAddCandidates.get(i).getName()%>"> <%=toShowAddCandidates.get(i).getName()%> <br>
+				%><input type="checkbox" name="addElectionToBallot" value = "<%=toShowAddCandidates.get(i).getName()%>"> <%=toShowAddCandidates.get(i).getName()%> <br>
 				<%
 			}
 		}else{
 			if(tempParty == null & tempElection == null){
-				%><input type="checkbox" name="addCandidatesToElection" value = "<%=candidateList.get(i).getName()%>"> <%=candidateList.get(i).getName()%> <br>
+				%><input type="checkbox" name="addElectionToBallot" value = "<%=candidateList.get(i).getName()%>"> <%=candidateList.get(i).getName()%> <br>
 				<%
 			}
 		}

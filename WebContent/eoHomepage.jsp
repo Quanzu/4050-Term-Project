@@ -1056,7 +1056,7 @@
             <label for="openDate">Open Date: </label>
             <input name ="openDate" type="date" class="form-control" placeholder="yyyy-mm-dd">
             <br>
-            <label for="openDate">Close Date: </label>
+            <label for="closeDate">Close Date: </label>
 			<input name ="closeDate" type="date" class="form-control" placeholder="yyyy-mm-dd">
 			<br>
 			
