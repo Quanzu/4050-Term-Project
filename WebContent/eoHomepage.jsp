@@ -652,21 +652,35 @@
             <label for="newOfficeName">New Office Name: </label>
             <input type="text" name="newOfficeName" class="form-control">
             
-            
-            <label for="addCandidatesToElections">Add Candidate: </label> <br>
+            <br>
+            <label for="addCandidatesToElection">Add Candidate: </label> <br>
 			<%
 			List<Candidate> candidateList = logicLayer.findAllCandidate();
+			Election tempElection = null;
 			i=0;
 			while(i<candidateList.size()){
-				tempBallot = logicLayer.getBallotFromIssue(allIssues.get(i));
-				if(tempBallot == null){
-					%><input type="checkbox" name="issues" value = "<%=allIssues.get(i).getQuestion()%>"> <%=allIssues.get(i).getQuestion()%> <br>
+				tempElection = logicLayer.getElectionFromCandidate(candidateList.get(i));
+				if(tempElection == null){
+					%><input type="checkbox" name="addCandidatesToElection" value = "<%=candidateList.get(i).getName()%>"> <%=candidateList.get(i).getName()%> <br>
 					<%
 				}
 				i++;
 			}
 			%>
             
+            <br>
+            <label for="removeCandidatesToElection">Add Candidate: </label> <br>
+			<%
+			i=0;
+			while(i<candidateList.size()){
+				tempElection = logicLayer.getElectionFromCandidate(candidateList.get(i));
+				if(tempElection != null){
+					%><input type="checkbox" name="removeCandidatesToElection" value = "<%=candidateList.get(i).getName()%>"> <%=candidateList.get(i).getName()%> <br>
+					<%
+				}
+				i++;
+			}
+			%>
             
             
             <input type = "hidden" name = "todo" value = "update">
