@@ -669,7 +669,7 @@
 			%>
             
             <br>
-            <label for="removeCandidatesToElection">Add Candidate: </label> <br>
+            <label for="removeCandidatesToElection">Remove Candidate: </label> <br>
 			<%
 			i=0;
 			while(i<candidateList.size()){
