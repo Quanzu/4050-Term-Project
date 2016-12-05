@@ -12,6 +12,7 @@ import edu.uga.cs.evote.entity.ElectionsOfficer;
 import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.entity.Issue;
 import edu.uga.cs.evote.entity.PoliticalParty;
+import edu.uga.cs.evote.entity.VoteRecord;
 import edu.uga.cs.evote.entity.Voter;
 import edu.uga.cs.evote.session.Session;
 
@@ -77,7 +78,9 @@ public interface LogicLayer {
 	public List<Ballot> getCurrentBallot() throws EVException;
 	public void removeElectionFromBallot(Ballot ballot, Election election) throws EVException;
 	public void removeIssueFromBallot(Ballot ballot, Issue issue) throws EVException;
-
+	public void storeVoterRecord(VoteRecord voteRecord) throws EVException;
+	public VoteRecord createVoteRecord(String ballot, String voter, Date date) throws EVException;
+	
 	
 	public void addIssue(String id, String[] theIssues) throws EVException;
 	public void addElection(String id, String[] theElections) throws EVException;

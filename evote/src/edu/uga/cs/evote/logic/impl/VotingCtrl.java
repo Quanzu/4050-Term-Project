@@ -1,5 +1,6 @@
  package edu.uga.cs.evote.logic.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import edu.uga.cs.evote.EVException;
@@ -72,4 +73,20 @@ public long recordElection(String candidateName)
     objectLayer.storeCandidate( candidate );
 	
 	return candidate.getId();
-}}
+	}
+
+	
+	public VoteRecord createVoteRecord(String ballot, String voter, Date date) throws EVException
+	{
+		return null;
+		
+	}
+
+
+
+}
+
+
+
+
+
