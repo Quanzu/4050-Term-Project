@@ -238,7 +238,7 @@ class VoterManager
         
         if( voter != null ) {
             if( voter.getId() >= 0 ) // id is unique, so it is sufficient to get a person
-                query.append( " and v.voterId = " + voter.getId() );
+                query.append( " and v.voterId = " + voter.getVoterId() );
             else {
             	return null;  
             }
