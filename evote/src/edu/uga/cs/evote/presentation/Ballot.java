@@ -221,45 +221,66 @@ public class Ballot extends HttpServlet {
 			}
 			*/
 		}
+        //update
 		else
 		{
-			theId = request.getParameter("ballot");
+			theId = request.getParameter("ballotId");
         	if(theId == null){
         		System.out.println("No ballot selected");
         		return;
         	}
+        	
+        	
+        	//gets date!
 			newOpen = request.getParameter("newOpenDate");
 			//System.out.println(districtName);
-			if(newOpen == null){
-				System.out.println("Open Date is null");
-	        	openDate = null;
+			open = request.getParameter("newOpenDate");
+        	if(open == null){
+        		System.out.println("Open Date is null");
+        		return;
+        	
 			}
 			else
 			{
-				int year, day, month;
-				String[] openX = newOpen.split("-");
-				year = Integer.parseInt(openX[0]);
-				month = Integer.parseInt(openX[1]);
-				day = Integer.parseInt(openX[2]);
-				newOpenDate = new Date(year, month, day);
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        	    try {
+            		int year, day, month;
+            		String[] openX = open.split("-");
+            		year = Integer.parseInt(openX[0]);
+            		month = Integer.parseInt(openX[1]);
+            		day = Integer.parseInt(openX[2]);
+            		open = Integer.toString(year)+"-"+Integer.toString(month)+"-"+Integer.toString(day);
+					openDate = format.parse(open);
+					//System.out.println(open);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				
 			}
 			
-			newClose = request.getParameter("newCloseDate");
-			//System.out.println(districtName);
-			if(newClose == null){
-				System.out.println("Close Date is null");
-	        	closeDate = null;
+        	close = request.getParameter("newCloseDate");
+        	if(close == null){
+        		System.out.println("Open Date is null");
+        		return;
 			}
 			else
 			{
-				int year, day, month;
-				String[] openX = newClose.split("-");
-				year = Integer.parseInt(openX[0]);
-				month = Integer.parseInt(openX[1]);
-				day = Integer.parseInt(openX[2]);
-				newCloseDate = new Date(year, month, day);
+				 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	        	    try {
+	            		int year, day, month;
+	            		String[] openX = close.split("-");
+	            		year = Integer.parseInt(openX[0]);
+	            		month = Integer.parseInt(openX[1]);
+	            		day = Integer.parseInt(openX[2]);
+	            		close = Integer.toString(year)+"-"+Integer.toString(month)+"-"+Integer.toString(day);
+						closeDate = format.parse(close);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
 			}
+        	//get Elections to add and remove
+        	
+        	//get issues to add and remove
 			try {  
 	            ballotId = logicLayer.updateBallot(newOpenDate, newCloseDate, theId);
 	            response.sendRedirect("eoHomepage.jsp#Ballot");
