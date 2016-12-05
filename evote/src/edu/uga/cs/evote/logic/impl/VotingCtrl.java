@@ -36,11 +36,12 @@ public class VotingCtrl {
         
         if (issue != null)
         {
-        	if(vote.equalsIgnoreCase("yes")){
+        	if(vote.equalsIgnoreCase("yes"))
+        	{
         		issue.setYesCount(newYesCount+1);
         		objectLayer.storeIssue( issue );
         	}
-        	//objectLayer.getPersistence().store
+        	
         
 		return issue.getId();
         }
@@ -118,7 +119,7 @@ public long recordElection(String candidateName)
         }
              
 		
-		return voteRecord.getId();
+		return voteRecord;
 		
 	}
 

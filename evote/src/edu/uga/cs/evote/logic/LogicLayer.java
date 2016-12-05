@@ -81,7 +81,7 @@ public interface LogicLayer {
 	public List<Ballot> getCurrentBallot() throws EVException;
 	public void removeElectionFromBallot(Ballot ballot, Election election) throws EVException;
 	public void removeIssueFromBallot(Ballot ballot, Issue issue) throws EVException;
-	public void storeVoterRecord(VoteRecord voteRecord) throws EVException;
+	
 	public VoteRecord createVoteRecord(long ballotId, String voterUserName, Date date) throws EVException;
 	
 	

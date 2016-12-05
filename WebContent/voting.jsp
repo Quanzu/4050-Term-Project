@@ -99,7 +99,8 @@ String str = x.toString();
 int temp = Integer.parseInt(str);
 theBallot = logicLayer.findBallot(temp);
 
-
+Voter voter = (Voter)hpSession.getUser();
+String voterName = voter.getUserName();
 
 
 %>
@@ -136,22 +137,12 @@ theBallot = logicLayer.findBallot(temp);
 		}
 	}
 	
-	//populates voted
-//	for (int i = 0; i < items.size(); i++)
-//	{
-//		if (items.get(i) instanceof Issue)
-//		{
-//			Issue issue = (Issue)items.get(i);
-//			votedIssue.add(issue.getId());
-//		}
-//		if (items.get(i) instanceof Election )
-//		{
-//			Election election = (Election)items.get(i);
-//			votedElect.add(election.getId());
-//		}
-//	}
 	
 	
+	%>
+	<form action = "SubmitVote" method = "post">
+	<input type = "hidden" name = "voterUsername" value = "<%= voterName%>">
+	<% 
 		for (int i = 0; i < items.size();i++)
 		{
 			if(items.get(i) instanceof Issue )
@@ -165,20 +156,22 @@ theBallot = logicLayer.findBallot(temp);
 				
 					out.println("Issue " + i + ":" + issue.getQuestion());
 					
-					
+					String voteCount = "voteCount" + i;
+					String issueId = "issueId"+i;
+					String question = "question"+i;
+					String issueVote = "issueVote" + i;
 					%>
 					
-					<form action = "SubmitVote" method = "post" target = "formresponse">
-		
+					
 					<br>
-					<input type = "hidden" name = "voteCount" value = "<%=issue.getVoteCount() %>">
-					<input type = "hidden" name = "issueId" value = "<%=issue.getId() %>">
-					<input type = "hidden" name = "question" value = "<%=issue.getQuestion() %>">
-					<input type = "radio" name = "issueVote" value = "yes">Yes<br>
-					<input type = "radio" name = "issueVote" value = "no">No<br>
+					<input type = "hidden" name = "issueCount" value = "<%=issueCount%>">
+					<input type = "hidden" name = <%=voteCount %> value = "<%=issue.getVoteCount() %>">
+					<input type = "hidden" name = <%=issueId %> value = "<%=issue.getId() %>">
+					<input type = "hidden" name = <%=question %> value = "<%=issue.getQuestion() %>">
+					<input type = "radio" name = <%=issueVote %> value = "yes">Yes<br>
+					<input type = "radio" name = <%=issueVote %> value = "no">No<br>
 					<input type = "hidden" name = "todo" value = "issue">
-					<button type = "submit" name = "submit">Vote</button>
-					</form>
+					
 				<!-- 	<iframe name='formresponse' width='300' height='200'></frame> -->
 					<% 
 					
@@ -189,12 +182,6 @@ theBallot = logicLayer.findBallot(temp);
 				
 			}
 			%>
-			<script>
-           		function makeGone(){
-           			
-           		}
-            </script>
-			
 			
 			<% 
 			if(items.get(i) instanceof Election )
@@ -202,23 +189,30 @@ theBallot = logicLayer.findBallot(temp);
 				Election election = (Election)items.get(i);
 				out.println("Election Office " + i + ":" + election.getOffice());
 				List<Candidate> candidates = election.getCandidates();
+				String electionVote = "electionVote"+i;
+				
 				if (candidates.size() == 0)
 				{
-					%> <br>No Candidates Listed<br> <% 
+					%> <br>No Candidates Listed
+					
+					
+					<input type = "hidden" name = "electionCount" value = "<%=electionCount%>">
+					
+					<br> <% 
 				}
 				else
 				{
 					for (int j = 0; j<candidates.size(); j++)
 					{	
 					%>
-					<form action = "Vote" method = "post">
+					
 					<br>
-					<input type = "radio" name = "electionVote" value = "<%=candidates.get(i).getName() %>"> <%=candidates.get(i).getName() %><br>
+					<input type = "radio" name = <%=electionVote %> value = "<%=candidates.get(i).getName() %>"> <%=candidates.get(i).getName() %><br>
 					<input type = "hidden" name = "todo" value = "election">
 				<% 
 					}
-					%><button type = "submit" name = "submit">Vote</button>
-					</form><% 
+					%>
+					<% 
 							
 				}
 				
@@ -227,8 +221,8 @@ theBallot = logicLayer.findBallot(temp);
 	%>
 	
 	
-	
-      
+	<button type = "submit" name = "submit">Vote</button>
+      </form>
       
       
   </div>

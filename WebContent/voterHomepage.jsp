@@ -106,11 +106,11 @@
        ElectoralDistrict ballotEDist = null;
        while(i < ballots.size()){
 
-	edVoter = logicLayer.getElectoralDistrictFromVoter(currentVoter);
-     	userED = edVoter.getName();
-        ballotEDist = logicLayer.findED(ballots.get(i));
-    	   ballotED = ballotEDist.getName();
-    	   if(userED.equals(ballotED)){  
+	//edVoter = logicLayer.getElectoralDistrictFromVoter(currentVoter);
+    // 	userED = edVoter.getName();
+    //    ballotEDist = logicLayer.findED(ballots.get(i));
+   // 	   ballotED = ballotEDist.getName();
+   // 	   if(userED.equals(ballotED)){  
 
     		   %>
       <table class="table table-hover">
@@ -157,7 +157,7 @@
           		%>
       </tbody>
     </table>
-    <%	   }
+    <%	   //}
        }
       %>
   </div>
@@ -186,16 +186,17 @@
       %>
       
       <% while(i < ballots.size()) {
-    	eDistrictVoter = logicLayer.getElectoralDistrictFromVoter(currentVoter3);
-       	userEDD = eDistrictVoter.getName();
-        ballotEDistrict = logicLayer.findED(ballots.get(i));
-      	ballotEDD = ballotEDistrict.getName();
-      	   if(userEDD.equals(ballotEDD)){ 
+   // 	eDistrictVoter = logicLayer.getElectoralDistrictFromVoter(currentVoter3);
+    //   	userEDD = eDistrictVoter.getName();
+   //     ballotEDistrict = logicLayer.findED(ballots.get(i));
+   //   	ballotEDD = ballotEDistrict.getName();
+    //  	   if(userEDD.equals(ballotEDD)){ 
       
       %>
           	<input type = "radio" name = "choseBallot" value = "<%= ballots.get(i).getId() %>"> <%= ballots.get(i++).getId()%> <br>
           	
-      <%}} %>
+      <%//}
+    } %>
            
 			<input type = "hidden" name = "todo" value = "addElection">
 
@@ -228,11 +229,11 @@
        ElectoralDistrict ballotEDist2 = null;
        ElectoralDistrict edVoter2 = null;
        while(ii < ballotList.size()){
-	     edVoter2 = logicLayer.getElectoralDistrictFromVoter(currentVoter2);
-       	     userED2 = edVoter2.getName();
-    	     ballotEDist2 = logicLayer.findED(ballotList.get(ii));
-    	     ballotED2 = ballotEDist2.getName();
-    	     if(userED2.equals(ballotED2)){
+	//     edVoter2 = logicLayer.getElectoralDistrictFromVoter(currentVoter2);
+    //   	     userED2 = edVoter2.getName();
+   // 	     ballotEDist2 = logicLayer.findED(ballotList.get(ii));
+   // 	     ballotED2 = ballotEDist2.getName();
+   // 	     if(userED2.equals(ballotED2)){
 
     		 closeDate = ballotList.get(ii).getCloseDate();
     		 if(closeDate.before(dateCurrent)){
@@ -282,7 +283,7 @@
           		%>
       </tbody>
     </table>
-    <%	 }  
+    <%	// }  
     		 }
        }
       %>
