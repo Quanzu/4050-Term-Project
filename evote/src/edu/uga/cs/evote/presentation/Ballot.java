@@ -117,6 +117,37 @@ public class Ballot extends HttpServlet {
         	catch ( Exception e ) {
         		e.printStackTrace();
         	}
+        	
+        	//adds in the issues
+        	String[] theIssues;
+			theIssues = request.getParameterValues("issues");
+			theId = request.getParameter("ballot");
+			if (theIssues != null)
+			{
+				try {  
+					logicLayer.addIssue(theId, theIssues);
+	        		
+	        	} 
+	        	catch ( Exception e ) {
+	        		e.printStackTrace();
+	        	}
+			}
+			
+			//adds in the elections
+			String[] elections;
+			elections = request.getParameterValues("elections");
+			if (elections != null)
+			{
+				try {  
+					logicLayer.addIssue(theId, elections);
+	        		
+	        	} 
+	        	catch ( Exception e ) {
+	        		e.printStackTrace();
+	        	}
+			}
+        	
+        	
         }
 		//For delete and select
        
