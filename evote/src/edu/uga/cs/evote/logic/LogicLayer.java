@@ -56,6 +56,7 @@ public interface LogicLayer {
 	public long updateCand(String candidateName, String newName) throws EVException;
 	public long deleteCand(String candidateName) throws EVException;
 	public PoliticalParty getPoliticalPartyFromCandidate(Candidate candidate) throws EVException;
+	public Election getElectionFromCandidate(Candidate candidate) throws EVException;
 	
 	public List<Election> findAllElection() throws EVException;
 	public long createElection(String electionOffice, String isPartisan, String[] candidates) throws EVException;

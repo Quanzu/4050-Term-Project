@@ -321,6 +321,12 @@ public class LogicLayerImpl implements LogicLayer{
 		
 	}
 
+	@Override
+	public Election getElectionFromCandidate(Candidate candidate) throws EVException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	
 

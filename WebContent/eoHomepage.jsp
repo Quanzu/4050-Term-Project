@@ -637,7 +637,50 @@
       </div>
 	</div>
 </div>
-  
+ 
+
+ <div id="updateElection" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h1 class="modal-title text-center">Update Election</h1>
+        </div>
+        <div class="modal-body">
+          <form class="form-signin" action = "Election" method = "post">
+            <label for="newOfficeName">New Office Name: </label>
+            <input type="text" name="newOfficeName" class="form-control">
+            
+            
+            <label for="addCandidatesToElections">Add Candidate: </label> <br>
+			<%
+			List<Candidate> candidateList = logicLayer.findAllCandidate();
+			i=0;
+			while(i<candidateList.size()){
+				tempBallot = logicLayer.getBallotFromIssue(allIssues.get(i));
+				if(tempBallot == null){
+					%><input type="checkbox" name="issues" value = "<%=allIssues.get(i).getQuestion()%>"> <%=allIssues.get(i).getQuestion()%> <br>
+					<%
+				}
+				i++;
+			}
+			%>
+            
+            
+            
+            <input type = "hidden" name = "todo" value = "update">
+
+            <div class="modal-footer">
+              <button class="btn btn-lg btn-primary" type="submit">Update</button>
+              <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+ 
   
  <div id="deleteElection" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -1027,7 +1070,7 @@
             	    }%>
 			
 			<br>
-			<label for="">Election: </label> <br>
+			<label for="elections">Election: </label> <br>
 			<%
 			List<Election> allElections = logicLayer.findAllElection();
 			i=0;
@@ -1043,7 +1086,7 @@
 			%>
 			
 			<br>
-			<label for="">Issue: </label> <br>
+			<label for="issues">Issue: </label> <br>
 			<%
 			List<Issue> allIssues = logicLayer.findAllIssue();
 			i=0;
