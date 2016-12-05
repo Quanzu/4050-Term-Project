@@ -222,9 +222,8 @@
        int candVoteCount = 0;
        String candName2 = "";
        Date closeDate;
-       Date dateCurrent = new Date();
-       DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-       df.format(dateCurrent);
+       Date dateCurrent = new Date(2015,12,05);
+      
        String userED2 = "";
        String ballotED2 = "";
        ElectoralDistrict ballotEDist2 = null;
@@ -237,8 +236,8 @@
     	     ballotED2 = ballotEDist2.getName();
     	     if(userED2.equals(ballotED2)){
 
-    		// closeDate = ballotList.get(ii).getCloseDate();
-    		// if(closeDate.before(dateCurrent)){
+    		 closeDate = ballotList.get(ii).getCloseDate();
+    		 if(closeDate.before(dateCurrent)){
     		   %>
       <table class="table table-hover">
       <tbody>
@@ -286,7 +285,7 @@
       </tbody>
     </table>
     <%	 }  
-    		// }
+    		 }
        }
       %>
   </div>
