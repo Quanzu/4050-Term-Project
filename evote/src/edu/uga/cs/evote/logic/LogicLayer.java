@@ -25,6 +25,7 @@ public interface LogicLayer {
 	public long updateVoter(String fname, String lname, String userName, String password, String emailAddress, String address, int age) throws EVException;
 	public List<Voter>findAllVoter() throws EVException;
 	public long deleteVoter(String userName) throws EVException;
+	public ElectoralDistrict getElectoralDistrictFromVoter(Voter voter) throws EVException;
 	
 	public ElectionsOfficer updateElectionsOfficer(String fname, String lname, String userName, String password, String emailAddress,
 			String address) throws EVException;
