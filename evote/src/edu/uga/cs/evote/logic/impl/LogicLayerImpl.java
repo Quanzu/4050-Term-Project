@@ -210,12 +210,6 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
-	public long updateElection(String electionOffice) throws EVException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public long deleteElection(String electionOffice) throws EVException {
 		ElectionCtrl deleteElectionCtrl = new ElectionCtrl(objectLayer);
 		return deleteElectionCtrl.deleteElection(electionOffice);

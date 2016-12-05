@@ -29,7 +29,7 @@ public class ElectionManager {
             throws EVException
     {
         String               insertCandidateSql = "insert into Election ( office, isPartisan, alternateAllowed, voteCount ) values ( ?, ?, ?, ? )";              
-        String               updateCandidateSql = "update Candidate set  office = ?, isPartisan = ?, alternateAllowed = ?, voteCount = ? where electionId = ?";
+        String               updateCandidateSql = "update Election set  office = ?, isPartisan = ?, alternateAllowed = ?, voteCount = ? where electionId = ?";
         PreparedStatement    stmt;
         int                  inscnt;
         long                 electionId;

@@ -77,7 +77,7 @@ private ObjectLayer objectLayer = null;
         {
          
         // check if the issue actually exists, and if so, throw an exception
-        	if( election != null )
+        	if( election != null && newElectionName.length() > 0)
         		election.setOffice(newElectionName);
         	objectLayer.storeElection( election );
         }

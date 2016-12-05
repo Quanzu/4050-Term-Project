@@ -95,17 +95,22 @@ public class Election extends HttpServlet {
 		
 		else
 		{
-			newElectionOffice = request.getParameter("newCandidateName");
+			String oldOfficeName = request.getParameter("oldOfficeName");
+			newElectionOffice = request.getParameter("newOfficeName");
 			if(newElectionOffice == null){
 				System.out.println("Couldn't get Office name null");
 				return;
-			}
-		
-		
+			}	
+			
+			String [] toRemove;
+			toRemove = request.getParameterValues("removeCandidatesToElection");
+
+			String [] toAdd;
+			toAdd = request.getParameterValues("addCandidatesToElection");
 			
 			try {          
-	            electionId = logicLayer.updateED(electionOffice, newElectionOffice );
-	            response.sendRedirect("eoHomepage.jsp#Candidate");
+	            electionId = logicLayer.updateElection(oldOfficeName, newElectionOffice, toRemove, toAdd);
+	            response.sendRedirect("eoHomepage.jsp#Election");
 			} 
 	        catch ( Exception e ) {
 	        	e.printStackTrace();
