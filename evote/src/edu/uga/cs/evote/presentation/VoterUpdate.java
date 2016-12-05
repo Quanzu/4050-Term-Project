@@ -30,6 +30,7 @@ public class VoterUpdate extends HttpServlet {
     	String password;
     	String email;
     	String address;
+    	int age1;
    		String ssid = null;
    		String ssid2 = null;
    		String option = null;
@@ -57,7 +58,27 @@ public class VoterUpdate extends HttpServlet {
         }
             
         logicLayer = session.getLogicLayer();
-    	age = 17;
+        option = request.getParameter("todo");
+        
+        if(option.equals("updateProfile")){
+        	firstName = request.getParameter("fname");
+        	lastName = request.getParameter("lname");
+        	username = request.getParameter("username");
+        	password = request.getParameter("password");
+        	email = request.getParameter("email");
+        	address = request.getParameter("address");
+        	String str = request.getParameter("age");
+        	age1 = Integer.parseInt(str);
+    	
+        	try {             	
+        		 session.setUser(logicLayer.updateVoter(firstName, lastName, username, password, email, address, age1));
+            	response.sendRedirect("voterHomepage.jsp");
+        	} 
+        	catch ( Exception e ) {
+        		e.printStackTrace();
+        	}
+        }
+    	/*age = 17;
     	//age = Integer.parseInt(request.getParameter("age"));
     	firstName = request.getParameter("fname");
     	lastName = request.getParameter("lname");
@@ -71,7 +92,7 @@ public class VoterUpdate extends HttpServlet {
         		|| age == 0) {
         	System.out.println("A parameter is null");
         	return;
-        }*/
+        }
 
     	
         try {          
@@ -102,6 +123,8 @@ public class VoterUpdate extends HttpServlet {
       //  else
         	//response.sendRedirect("invalidLogin.jsp");
         	//Where send
+	*/
 	}
+	
 
 }

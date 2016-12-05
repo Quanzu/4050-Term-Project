@@ -6,6 +6,7 @@ import edu.uga.cs.evote.EVException;
 import edu.uga.cs.evote.entity.Candidate;
 import edu.uga.cs.evote.entity.Election;
 import edu.uga.cs.evote.entity.ElectionsOfficer;
+import edu.uga.cs.evote.entity.User;
 import edu.uga.cs.evote.entity.Voter;
 import edu.uga.cs.evote.entity.PoliticalParty;
 import edu.uga.cs.evote.object.ObjectLayer;
@@ -20,7 +21,7 @@ private ObjectLayer objectLayer = null;
 		this.objectLayer = objectLayer;
 	}
 	
-	public long updateVoter(String fname, String lname, String userName, String password, String emailAddress,
+	public Voter updateVoter(String fname, String lname, String userName, String password, String emailAddress,
 			String address, int age)
 			throws EVException
 	{
@@ -29,45 +30,36 @@ private ObjectLayer objectLayer = null;
         Voter modelVoter = null;
         List<Voter> voters = null;
 
+       
+
         // check if the name already exists
         modelVoter = objectLayer.createVoter();
-	
-	if(fname != null)
-        modelVoter.setFirstName(fname);
+       	modelVoter.setUserName(userName);
+
 		
-	if(lname != null)
-        modelVoter.setLastName(lname);
-		
-	if(userName != null)
-        modelVoter.setUserName(userName);
-		
-	if(password != null)
-        modelVoter.setPassword(password);
-		
-	if(emailAddress != null)
-        modelVoter.setEmailAddress(emailAddress);
-		
-	if(address != null)
-        modelVoter.setAddress(address);
-		
-	if(modelVoter != null)
-        modelVoter.setAge(age);
+        
         voters = objectLayer.findVoter( modelVoter );
         if( voters.size() > 0 )
             voter = voters.get( 0 );
+        else
+        	return null; //elections officer does not exist
         
-        // check if the person actually exists, and if so, throw an exception
-        if( voter != null )
-        {
-		if(userName != null)
-        	voter.setUserName(userName);
+        voter.setFirstName(fname);
+        voter.setLastName(lname);
+        
+        String passwordLength = "";
+        for(int n=0; n<voter.getPassword().length(); n++){
+			passwordLength = passwordLength + "*";
         }
-            //throw new EVException( "A district with this name already exists" );
-        
-        //district = objectLayer.createElectoralDistrict(districtName);
+        if(!password.equals(passwordLength))
+        	voter.setPassword(password);
+        voter.setAge(age);
+        voter.setEmailAddress(emailAddress);
+        voter.setAddress(address);
+                
         objectLayer.storeVoter( voter );
 		
-		return voter.getId();
+		return voter;
 	}
 	
 	public List<Voter> findAllVoter() throws EVException{
