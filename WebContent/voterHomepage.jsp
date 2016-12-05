@@ -165,7 +165,7 @@
 
 
 <div id="vote" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+        <div class="modal-dialog">
 
       <div class="modal-content">
         <div class="modal-header">
@@ -177,14 +177,25 @@
             <label for="ballotId" class="sr-only">Ballot Id</label>
           <br>  Select Ballot<br>
             <%
-           
+        ElectoralDistrict ballotEDistrict = null;
+        Voter currentVoter3 = (Voter)hpSession.getUser();
+        ElectoralDistrict eDistrictVoter = null;
         i=0;
+        String userEDD = "";
+        String ballotEDD= "";
       %>
       
-      <% while(i < ballots.size()) {%>
+      <% while(i < ballots.size()) {
+    	eDistrictVoter = logicLayer.getElectoralDistrictFromVoter(currentVoter3);
+       	userEDD = eDistrictVoter.getName();
+        ballotEDistrict = logicLayer.findED(ballots.get(i));
+      	ballotEDD = ballotEDistrict.getName();
+      	   if(userEDD.equals(ballotEDD)){ 
+      
+      %>
           	<input type = "radio" name = "choseBallot" value = "<%= ballots.get(i).getId() %>"> <%= ballots.get(i++).getId()%> <br>
           	
-      <%} %>
+      <%}} %>
            
 			<input type = "hidden" name = "todo" value = "addElection">
 
