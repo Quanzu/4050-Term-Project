@@ -1,6 +1,7 @@
 package edu.uga.cs.evote.presentation;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -48,6 +49,9 @@ response.setContentType("text/html");
         String			issueVote;
         String			question = null;
        long				x;
+       List<String>		voted = null;
+       
+       
         int			voteCount;
     	httpSession = request.getSession();
     	ssid = (String)httpSession.getAttribute("ssid");
@@ -78,12 +82,15 @@ response.setContentType("text/html");
         
        if (option.equalsIgnoreCase("issue"))
        {
-    	  
+    	   
     	   String str = request.getParameter("issueId");
     	   issueId = Integer.parseInt(str);
     	   voteCount = Integer.parseInt(request.getParameter("voteCount")); 
     	   issueVote = request.getParameter("issueVote");
     	   question = request.getParameter("question");
+    	  
+    	   httpSession.setAttribute("issueDelete", str);
+    	   voted.add(str);
     	   
     	   try {  
 	            x = logicLayer.recordIssue(issueId, question, voteCount, issueVote);

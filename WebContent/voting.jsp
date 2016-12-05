@@ -114,6 +114,42 @@ theBallot = logicLayer.findBallot(temp);
 
 	<%
 	List<BallotItem> items = logicLayer.findBallotItems(theBallot);
+	List<Integer> votedElect = null;
+	List<Integer> votedIssue = null;
+	int issueCount = 0; 
+	int electionCount = 0;
+	//Object y = session.getAttribute("issueDelete");
+	//String temporary = y.toString();
+	//int addIssue = Integer.parseInt(temporary);
+	//votedIssue.add(addIssue);
+	
+	//Gets count of how many items and elections
+	for (int i = 0; i < items.size();i++)
+	{
+		if(items.get(i) instanceof Issue )
+		{
+			issueCount++;
+		}
+		if (items.get(i) instanceof Election )
+		{
+			electionCount++;
+		}
+	}
+	
+	//populates voted
+//	for (int i = 0; i < items.size(); i++)
+//	{
+//		if (items.get(i) instanceof Issue)
+//		{
+//			Issue issue = (Issue)items.get(i);
+//			votedIssue.add(issue.getId());
+//		}
+//		if (items.get(i) instanceof Election )
+//		{
+//			Election election = (Election)items.get(i);
+//			votedElect.add(election.getId());
+//		}
+//	}
 	
 	
 		for (int i = 0; i < items.size();i++)
@@ -121,27 +157,43 @@ theBallot = logicLayer.findBallot(temp);
 			if(items.get(i) instanceof Issue )
 			{
 				Issue issue = (Issue)items.get(i);
-				out.println("Issue " + i + ":" + issue.getQuestion());
+				
+				//was gonna do something where if this list had the issue's id, then
+				//you don't display the question
+				//but i can't seem to pass through the id or anything...
 				
 				
-				%>
-				
-				<form action = "SubmitVote" method = "post" target = "formresponse">
+					out.println("Issue " + i + ":" + issue.getQuestion());
+					
+					
+					%>
+					
+					<form action = "SubmitVote" method = "post" target = "formresponse">
+		
+					<br>
+					<input type = "hidden" name = "voteCount" value = "<%=issue.getVoteCount() %>">
+					<input type = "hidden" name = "issueId" value = "<%=issue.getId() %>">
+					<input type = "hidden" name = "question" value = "<%=issue.getQuestion() %>">
+					<input type = "radio" name = "issueVote" value = "yes">Yes<br>
+					<input type = "radio" name = "issueVote" value = "no">No<br>
+					<input type = "hidden" name = "todo" value = "issue">
+					<button type = "submit" name = "submit">Vote</button>
+					</form>
+				<!-- 	<iframe name='formresponse' width='300' height='200'></frame> -->
+					<% 
+					
+						
 	
-				<br>
-				<input type = "hidden" name = "voteCount" value = "<%=issue.getVoteCount() %>">
-				<input type = "hidden" name = "issueId" value = "<%=issue.getId() %>">
-				<input type = "hidden" name = "question" value = "<%=issue.getQuestion() %>">
-				<input type = "radio" name = "issueVote" value = "yes">Yes<br>
-				<input type = "radio" name = "issueVote" value = "no">No<br>
-				<input type = "hidden" name = "todo" value = "issue">
-				<button type = "submit" name = "submit">Vote</button>
-				</form>
-			<!-- 	<iframe name='formresponse' width='300' height='200'></frame> -->
-				<% 
+				
+				
+				
 			}
 			%>
-			
+			<script>
+           		function makeGone(){
+           			
+           		}
+            </script>
 			
 			
 			<% 
