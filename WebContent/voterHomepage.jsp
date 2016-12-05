@@ -217,6 +217,7 @@
     <%
         List<Ballot> ballotList = logicLayer.findAllBallot();
         Voter currentVoter2 = (Voter)hpSession.getUser();
+        System.out.println(currentVoter2.getElectoralDistrict());
        int  ii=0;
        int candVoteCount = 0;
        String candName2 = "";

@@ -33,6 +33,16 @@ public class VoterRegCtrl {
 			PreparedStatement prep = null;
 			ResultSet resultSet = null;
 	        Connection conn = session.getConnection();
+	        ElectoralDistrict district1 = null;
+	        ElectoralDistrict modelDistrict = null;
+	        List<ElectoralDistrict> districts = null;
+
+	        // check if the name already exists
+	        modelDistrict = objectLayer.createElectoralDistrict();
+	        modelDistrict.setName(district);
+	        districts = objectLayer.findElectoralDistrict( modelDistrict );
+	        if( districts.size() > 0 )
+	            district1 = districts.get( 0 );
 	        
 	        // check if the uname already exists
 	        modelVoter = objectLayer.createVoter();
@@ -49,8 +59,10 @@ public class VoterRegCtrl {
 	        objectLayer.storeVoter( voter );
 			session.setUser(voter);
 			
-
-			try{ 
+			objectLayer.getPersistence().storeVoterBelongsToElectoralDistrict(voter, district1);
+			
+	/*		try{ 
+				
 				statement = conn.createStatement();
 				String electoralDistrictSql ="SELECT * FROM electoraldistrict where districtName = '" + district + "'";
 				resultSet = statement.executeQuery(electoralDistrictSql);
@@ -67,7 +79,7 @@ public class VoterRegCtrl {
 				e.printStackTrace();
 			}
 			
-
+*/
 			
 			
 			
