@@ -4,9 +4,12 @@
     <%@ page import="edu.uga.cs.evote.session.SessionManager" %>
     <%@ page import="edu.uga.cs.evote.logic.LogicLayer" %>
     <%@ page import="java.util.List" %>
+    <%@ page import="java.text.DateFormat" %>
+    <%@ page import="java.text.SimpleDateFormat" %>
+    <%@ page import="java.util.Calendar" %>
+    <%@ page import="java.util.Date" %>
     <%@ page import="edu.uga.cs.evote.entity.*" %>
-    <%
-	String ssid = (String)session.getAttribute("ssid");
+    <%String ssid = (String)session.getAttribute("ssid");
     Session hpSession = SessionManager.getSessionById(ssid);
     LogicLayer logicLayer = hpSession.getLogicLayer();
     int i;
@@ -89,28 +92,63 @@
 
   <!-- CURRENT -->
   <div id="Current" class="container">
-    <h3>Current</h3>
+     <h3>Current</h3>
+    <%
+        List<Ballot> ballots = logicLayer.findAllBallot();
+        Voter currentVoter = (Voter)hpSession.getUser();
+       i = 0;
+       String candName = "";
+       String candParty = "";
+       while(i < ballots.size()){
+    	   if(ballots.get(i).getElectoralDistrict().getName().equals(currentVoter.getElectoralDistrict().getName())){  
+    		   %>
       <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Election/Issue</th>
-          <th>Name</th>
-          <th>Date</th>
-        </tr>
-      </thead>
       <tbody>
         <tr data-toggle="modal" data-target="#tableElement">
-          <td>Election</td>
-          <td>Trump VS Hillary</td>
-          <td>11-11-2016</td>
+          	<td><%= "Ballot ID: " + ballots.get(i).getId() %></td>
+          	<td><%= "Open Date: " + ballots.get(i).getOpenDate() %></td>
+          	<td><%= "Close Date: " + ballots.get(i).getCloseDate() %></td>
         </tr>
-        <tr data-toggle="modal" data-target="#tableElement">
-          <td>Issue</td>
-          <td>Can we get a curve?</td>
-          <td>10-18-2016</td>
-        </tr>
+        <%List<BallotItem> items = ballots.get(i).getBallotItems();
+          	  for (int j = 0; j < items.size();j++){
+          		  String balItemName = "";
+          		  if(items.get(j) instanceof Issue){
+          			  Issue issue = (Issue)items.get(j);
+          			  %>
+          		<tr data-toggle="modal" data-target="#tableElement">
+          	<td><%= "Issue: " + issue.getQuestion() %></td>
+        				</tr>
+        <% 
+          		  }
+          		  else if (items.get(j) instanceof Election){
+          			  Election election = (Election)items.get(j);
+          			  %>	   
+          			  <tr data-toggle="modal" data-target="#tableElement">
+          			  <td><%= "Election Office: " + election.getOffice() %></td>
+          		      <% 
+          		      	List<Candidate> candidates = election.getCandidates();
+          		      	for (int k = 0; k < candidates.size(); k++){
+          		      		candName = candidates.get(k).getName();
+          		      		candParty = candidates.get(k).getPoliticalParty().getName();
+          		      %>
+          		      <td><%= "Candidate " + k + ": " + candName + "\n" + candParty %></td>
+          		      <% 
+          		      	}
+          		      %>
+          		    
+        				</tr>
+       			 <% 
+          			  
+          		  }
+          		  
+          	  }   	
+          	i++;
+          		%>
       </tbody>
     </table>
+    <%	   }
+       }
+      %>
   </div>
 
 <button type = "button" data-toggle="modal" data-target= "#vote" >Vote</button>
@@ -152,23 +190,71 @@
 
   <!-- Election -->
   <div id="Results" class="container">
-    <h3>Election</h3>
+    <h3>Results</h3>
+    <%
+        List<Ballot> ballotList = logicLayer.findAllBallot();
+        Voter currentVoter2 = (Voter)hpSession.getUser();
+       int  ii=0;
+       int candVoteCount = 0;
+       String candName2 = "";
+       Date closeDate;
+       Date dateCurrent = new Date();
+       DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+       df.format(dateCurrent);
+       
+       while(ii < ballotList.size()){
+    	   if(ballotList.get(ii).getElectoralDistrict().getName().equals(currentVoter2.getElectoralDistrict().getName())){
+    		 closeDate = ballotList.get(ii).getCloseDate();
+    		 if(closeDate.before(dateCurrent)){
+    		   %>
       <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Date</th>
-          <th>Details</th>
-        </tr>
-      </thead>
       <tbody>
         <tr data-toggle="modal" data-target="#tableElement">
-          <td>Trump VS Hillary</td>
-          <td>11-11-2016</td>
-          <td>some details</td>
+          	<td><%= "Ballot ID: " + ballotList.get(ii).getId() %></td>
+          	<td><%= "Open Date: " + ballotList.get(ii).getOpenDate() %></td>
+          	<td><%= "Close Date: " + ballotList.get(ii).getCloseDate() %></td>
         </tr>
+        <%List<BallotItem> items = ballotList.get(ii).getBallotItems();
+          	  for (int j = 0; j < items.size();j++){
+          		  String balItemName = "";
+          		  if(items.get(j) instanceof Issue){
+          			  Issue issue = (Issue)items.get(j);
+          			  %>
+          		<tr data-toggle="modal" data-target="#tableElement">
+          	<td><%= "Issue: " + issue.getQuestion() %></td>
+          	<td><%= "Vote Count: " + issue.getYesCount() %></td>
+        				</tr>
+        <% 
+          		  }
+          		  else if (items.get(j) instanceof Election){
+          			  Election election = (Election)items.get(j);
+          			  %>	   
+          			  <tr data-toggle="modal" data-target="#tableElement">
+          			  <td><%= "Election Office: " + election.getOffice() %></td>
+          		      <% 
+          		      	List<Candidate> candidates = election.getCandidates();
+          		      	for (int k = 0; k < candidates.size(); k++){
+          		      		candName2 = candidates.get(k).getName();
+          		      		candVoteCount = candidates.get(k).getVoteCount();
+          		      %>
+          		      <td><%= candName2 +" VoteCount: " + candVoteCount %></td>
+          		      <% 
+          		      	}
+          		      %>
+          		    
+        				</tr>
+       			 <% 
+          			  
+          		  }
+          		  
+          	  }   	
+          	ii++;
+          		%>
       </tbody>
     </table>
+    <%	 }  }
+       }
+      %>
   </div>
 
 
