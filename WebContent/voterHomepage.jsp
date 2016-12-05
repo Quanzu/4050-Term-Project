@@ -229,11 +229,12 @@
        ElectoralDistrict ballotEDist2 = null;
        ElectoralDistrict edVoter2 = null;
        while(ii < ballotList.size()){
-	//     edVoter2 = logicLayer.getElectoralDistrictFromVoter(currentVoter2);
-    //   	     userED2 = edVoter2.getName();
-   // 	     ballotEDist2 = logicLayer.findED(ballotList.get(ii));
-   // 	     ballotED2 = ballotEDist2.getName();
-   // 	     if(userED2.equals(ballotED2)){
+	     edVoter2 = logicLayer.getElectoralDistrictFromVoter(currentVoter2);
+	     System.out.println(edVoter2);
+       	     userED2 = edVoter2.getName();
+    	     ballotEDist2 = logicLayer.findED(ballotList.get(ii));
+    	     ballotED2 = ballotEDist2.getName();
+    	     if(userED2.equals(ballotED2)){
 
     		// closeDate = ballotList.get(ii).getCloseDate();
     		// if(closeDate.before(dateCurrent)){
@@ -283,7 +284,7 @@
           		%>
       </tbody>
     </table>
-    <%	// }  
+    <%	 }  
     		// }
        }
       %>
