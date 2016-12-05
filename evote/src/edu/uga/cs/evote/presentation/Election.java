@@ -32,6 +32,7 @@ response.setContentType("text/html");
         String         ssid = null;
         long		   electionId = -1;
         String		   electionOffice = null;
+        String[]	   candidates = null;
         String 			newElectionOffice = null;
         String			option = null;
         String			ballot = null;
@@ -62,21 +63,20 @@ response.setContentType("text/html");
         }       
         
         option = request.getParameter("todo");
-        
-		electionOffice = request.getParameter("electionOffice");
-		isPartisan = request.getParameter("isPartisan");
-		//System.out.println(districtName);
-		if(electionOffice == null){
-			System.out.println("Election Office null");
-        	return;
-		}
 		
 		
 		if (option.equals("create"))
 		{
+			electionOffice = request.getParameter("electionOffice");
+			if(electionOffice == null){
+				System.out.println("Election Office null");
+	        	return;
+			}
+			isPartisan = request.getParameter("isPartisan");
+			candidates = request.getParameterValues("cand");
 			
 			try {  
-	            electionId = logicLayer.createElection(electionOffice, isPartisan);
+	            electionId = logicLayer.createElection(electionOffice, isPartisan, candidates);
 	            response.sendRedirect("eoHomepage.jsp#Election");
 	        } 
 	        catch ( Exception e ) {

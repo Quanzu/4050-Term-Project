@@ -96,7 +96,6 @@ public class Ballot extends HttpServlet {
         	}
 		
         	close = request.getParameter("closeDate");
-        	//System.out.println(districtName);
         	if(close == null){
         		System.out.println("Open Date is null");
         		return;

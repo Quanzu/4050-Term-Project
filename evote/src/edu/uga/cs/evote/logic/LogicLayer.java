@@ -33,6 +33,8 @@ public interface LogicLayer {
 	public long updateIssue(long issueId, String newQuestion, int newYesCount) throws EVException;
 	public long deleteIssue(long issueId) throws EVException;
 	public long createIssue(String question) throws EVException;
+	public Ballot getBallotFromIssue(Issue issue) throws EVException;
+
 	
 	public List<ElectoralDistrict> findAllElectoralDistrict() throws EVException;
 	public long createED(String districtName) throws EVException;
@@ -55,9 +57,10 @@ public interface LogicLayer {
 	public PoliticalParty getPoliticalPartyFromCandidate(Candidate candidate) throws EVException;
 	
 	public List<Election> findAllElection() throws EVException;
-	public long createElection(String electionOffice, String isPartisan) throws EVException;
+	public long createElection(String electionOffice, String isPartisan, String[] candidates) throws EVException;
 	public long updateElection(String electionOffice) throws EVException;
 	public long deleteElection(String electionOffice) throws EVException;
+	public Ballot getBallotFromElection(Election election) throws EVException;
 	
 	public long createBallot(Date openDate, Date closeDate, String district) throws EVException;
 	public List<Ballot> findAllBallot() throws EVException;
@@ -69,4 +72,5 @@ public interface LogicLayer {
 	
 	public void addIssue(String id, String[] theIssues) throws EVException;
 	public void addElection(String id, String[] theElections) throws EVException;
+	
 }

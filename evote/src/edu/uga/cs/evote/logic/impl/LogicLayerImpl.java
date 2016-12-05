@@ -204,9 +204,9 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 	
 	@Override
-	public long createElection(String electionOffice, String isPartisan) throws EVException {
+	public long createElection(String electionOffice, String isPartisan, String[] candidates) throws EVException {
 		ElectionCtrl createElectionCtrl = new ElectionCtrl(objectLayer);
-		return createElectionCtrl.createElection(electionOffice, isPartisan);
+		return createElectionCtrl.createElection(electionOffice, isPartisan, candidates);
 	}
 
 	@Override
@@ -280,6 +280,16 @@ public class LogicLayerImpl implements LogicLayer{
 	@Override
 	public PoliticalParty getPoliticalPartyFromCandidate(Candidate candidate) throws EVException {
 		return objectLayer.getPersistence().restoreCandidateIsMemberOfPoliticalParty(candidate);
+	}
+
+	@Override
+	public Ballot getBallotFromIssue(Issue issue) throws EVException {
+		return objectLayer.getPersistence().restoreBallotIncludesBallotItem(issue);
+	}
+
+	@Override
+	public Ballot getBallotFromElection(Election election) throws EVException {
+		return objectLayer.getPersistence().restoreBallotIncludesBallotItem(election);
 	}
 
 

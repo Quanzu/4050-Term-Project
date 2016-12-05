@@ -576,8 +576,8 @@
             <br>
      
             <label for="isPartisan">Partisan: </label>
-            <input type = "radio" name = "isPartisan" id = "true" value = "true" onclick = "toggleElectionPartisan()">True
-            <input type = "radio" name = "isPartisan" id = "false" value = "false" onclick = "toggleElectionPartisan()" checked>False <br>
+            <input type = "radio" name = "isPartisan" id = "true" value = "true" onclick = "toggleElectionPartisan()"> True
+            <input type = "radio" name = "isPartisan" id = "false" value = "false" onclick = "toggleElectionPartisan()" checked> False <br>
        	
             <script>
            		function toggleElectionPartisan(){
@@ -600,9 +600,7 @@
     			PoliticalParty temp = logicLayer.getPoliticalPartyFromCandidate(c.get(i));
     			if (temp != null)
     			{
-        			temp.toString();
-
-				 %><input type = "radio" name = "cand" value = "<%=c.get(i).getName()%>"> <%=c.get(i).getName()%> <br>
+				 %><input type = "checkbox" name = "cand" value = "<%=c.get(i).getName()%>"> <%=c.get(i).getName()%> <br>
     	    <%	
     			}
     			i++;
@@ -610,7 +608,7 @@
             
             </div>
             
-            <div id = "notPartisanCandidateNames" style = "display: none;">
+            <div id = "notPartisanCandidateNames">
              <%
             
             i=0;
@@ -620,7 +618,7 @@
     			
     			if (temp == null)
     			{
-				 %><input type = "radio" name = "cand" value = "<%=c.get(i).getName()%>"> <%=c.get(i).getName()%> <br>
+				 %><input type = "checkbox" name = "cand" value = "<%=c.get(i).getName()%>"> <%=c.get(i).getName()%> <br>
     	    <%	
     			}
     			i++;
@@ -1011,19 +1009,55 @@
         </div>
         <div class="modal-body">
           <form class="form-signin" method ="post" action ="Ballot">
-            <label for="openDate" class="sr-only">Ballot Dates</label>
-            <input name ="openDate" type="date" class="form-control" placeholder="year(xx)-month-day" required=true autofocus=true>
-			 <input name ="closeDate" type="date" class="form-control" placeholder="year(xx)-month-day" required=true autofocus=true>
-			District:
-			 <br>
+            <label for="openDate">Open Date: </label>
+            <input name ="openDate" type="date" class="form-control" placeholder="yyyy-mm-dd">
+            <br>
+            <label for="openDate">Close Date: </label>
+			<input name ="closeDate" type="date" class="form-control" placeholder="yyyy-mm-dd">
+			<br>
+			
+			<label for="districtName">District: </label> <br>
              <%
        		 List<ElectoralDistrict> x = logicLayer.findAllElectoralDistrict();
         	i=0;
             		while(i < x.size())
             		{
-        				 %><input type = "radio" name = "districtName" value = "<%=x.get(i).getName()%>"><%=x.get(i).getName()%> <br>
+        				 %><input type = "radio" name = "districtName" value = "<%=x.get(i).getName()%>"> <%=x.get(i).getName()%> <br>
             	    <%	i++;
             	    }%>
+			
+			<br>
+			<label for="">Election: </label> <br>
+			<%
+			List<Election> allElections = logicLayer.findAllElection();
+			i=0;
+			Ballot tempBallot = null;
+			while(i<allElections.size()){
+				tempBallot = logicLayer.getBallotFromElection(allElections.get(i));
+				if(tempBallot == null){
+					%><input type="checkbox" name="elections" value = "<%=allElections.get(i).getOffice()%>"> <%=allElections.get(i).getOffice()%> <br>
+					<%
+				}
+				i++;
+			}
+			%>
+			
+			<br>
+			<label for="">Issue: </label> <br>
+			<%
+			List<Issue> allIssues = logicLayer.findAllIssue();
+			i=0;
+			while(i<allElections.size()){
+				tempBallot = logicLayer.getBallotFromIssue(allIssues.get(i));
+				if(tempBallot == null){
+					%><input type="checkbox" name="issues" value = "<%=allIssues.get(i).getQuestion()%>"> <%=allIssues.get(i).getQuestion()%> <br>
+					<%
+				}
+				i++;
+			}
+			%>
+			
+			
 			<input type = "hidden" name = "todo" value = "create">
 
             <div class="modal-footer">
@@ -1088,7 +1122,7 @@
             <label for="ballotId" class="sr-only">Ballot Name</label>
             
             <%
-        List<Ballot> tempBallot = logicLayer.findAllBallot();
+        List<Ballot> tempBallot2 = logicLayer.findAllBallot();
         i=0;
       %>
       

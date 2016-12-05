@@ -3,15 +3,9 @@ package edu.uga.cs.evote.logic.impl;
 import java.util.List;
 
 import edu.uga.cs.evote.EVException;
+import edu.uga.cs.evote.entity.Candidate;
 import edu.uga.cs.evote.entity.Election;
-import edu.uga.cs.evote.entity.Election;
-import edu.uga.cs.evote.entity.ElectionsOfficer;
-import edu.uga.cs.evote.entity.Election;
-import edu.uga.cs.evote.entity.Election;
-import edu.uga.cs.evote.entity.PoliticalParty;
 import edu.uga.cs.evote.object.ObjectLayer;
-import edu.uga.cs.evote.session.Session;
-import edu.uga.cs.evote.session.SessionManager;
 
 public class ElectionCtrl {
 
@@ -21,42 +15,42 @@ private ObjectLayer objectLayer = null;
 		this.objectLayer = objectLayer;
 	}
 	
-	public long createElection(String electionOffice, String isPartisan)
+	public long createElection(String electionOffice, String isPartisan, String[] candidates)
 			throws EVException
 	{
 		Election election = null;
         Election modelElection = null;
         List<Election> elections = null;
         
-        
         boolean temp;
         // check if the name already exists
         modelElection = objectLayer.createElection();
         modelElection.setOffice(electionOffice);
         if (isPartisan.equalsIgnoreCase("false"))
-        {
        	 temp = false;
-       	 modelElection.setIsPartisan(temp);
-        }
         else
-        {
-        temp = true;
-       	modelElection.setIsPartisan(true);
-        }
+        	temp = true;
+        
         elections = objectLayer.findElection( modelElection );
         if( elections.size() > 0 )
             election = elections.get( 0 );
         
         // check if the issue actually exists, and if so, throw an exception
         if( election != null )
-            throw new EVException( "An Issue with the same Question already exists" );
+            throw new EVException( "An election with the same office name already exists" );
         
         else
-        {
-        	
-             	election = objectLayer.createElection(electionOffice, temp);
-             	
-             	objectLayer.storeElection(election);
+        { 	
+        	election = objectLayer.createElection(electionOffice, temp);  	
+            objectLayer.storeElection(election);
+            
+            for(int i=0; i<candidates.length; i++){
+            	String tempName = candidates[0];
+            	Candidate modelCandidate = objectLayer.createCandidate();
+            	modelCandidate.setName(tempName);
+            	Candidate tempCand = objectLayer.findCandidate(modelCandidate).get(0);
+            	objectLayer.getPersistence().storeCandidateIsCandidateInElection(tempCand, election);
+            }
         }
              
 		
