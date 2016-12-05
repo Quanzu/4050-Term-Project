@@ -298,28 +298,29 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
-	public void addCandidateToElection(String electionId, String candidateId) throws EVException {
+	public void addCandidateToElection(Election election, Candidate candidate) throws EVException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void removeCandidateToElection(String electionId, String candidateId) throws EVException {
+	public void removeCandidateToElection(Election election, Candidate candidate) throws EVException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void removeElectionFromBallot(String ballotId, String electionId) throws EVException {
+	public void removeElectionFromBallot(Ballot ballot, Election election) throws EVException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void removeIssueFromBallot(String ballotId, String issueId) throws EVException {
+	public void removeIssueFromBallot(Ballot ballot, Issue issue) throws EVException {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 	
 
