@@ -305,8 +305,7 @@ public class LogicLayerImpl implements LogicLayer{
 
 	@Override
 	public void removeCandidateToElection(Election election, Candidate candidate) throws EVException {
-		objectLayer.getPersistence().deleteCandidateIsCandidateInElection(candidate, election);
-		
+		objectLayer.getPersistence().deleteCandidateIsCandidateInElection(candidate, election);	
 	}
 
 	@Override
@@ -323,7 +322,6 @@ public class LogicLayerImpl implements LogicLayer{
 
 	@Override
 	public Election getElectionFromCandidate(Candidate candidate) throws EVException {
-		// TODO Auto-generated method stub
 		return objectLayer.getPersistence().restoreCandidateIsCandidateInElection(candidate);
 	}
 
@@ -332,7 +330,10 @@ public class LogicLayerImpl implements LogicLayer{
 		return objectLayer.getPersistence().restoreVoterBelongsToElectoralDistrict(voter);
 	}
 
-
+	@Override
+	public ObjectLayer getObjectLayer(){
+		return this.objectLayer;
+	}
 	
 
 }

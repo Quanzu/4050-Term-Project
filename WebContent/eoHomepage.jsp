@@ -648,45 +648,32 @@
           <h1 class="modal-title text-center">Update Election</h1>
         </div>
         <div class="modal-body">
-          <form class="form-signin" action = "Election" method = "post">
-            <label for="newOfficeName">New Office Name: </label>
-            <input type="text" name="newOfficeName" class="form-control">
+          <form class="form-signin" action = "updateElection.jsp" method = "post">
+          	<label for="oldOfficeName">Office to Update: </label>
+          	<select name="oldOfficeName" onchange="matchCandidates()">
+          		<%
+          		i=0;
+          		List<Election> electionList = logicLayer.findAllElection();
+          		while(i<electionList.size()){
+          		%><option value="<%=electionList.get(i).getOffice() %>"> <%=electionList.get(i).getOffice()%> </option>
+          		<%     		
+          		i++;
+          		}
+          		%>
+          		
+          		<input type = "hidden" name = "selectedOffice" value = "">
+          	</select>
+          	
+          	<br>
+          	<br>
+            
             
             <br>
-            <label for="addCandidatesToElection">Add Candidate: </label> <br>
-			<%
-			List<Candidate> candidateList = logicLayer.findAllCandidate();
-			Election tempElection = null;
-			i=0;
-			while(i<candidateList.size()){
-				tempElection = logicLayer.getElectionFromCandidate(candidateList.get(i));
-				if(tempElection == null){
-					%><input type="checkbox" name="addCandidatesToElection" value = "<%=candidateList.get(i).getName()%>"> <%=candidateList.get(i).getName()%> <br>
-					<%
-				}
-				i++;
-			}
-			%>
-            
-            <br>
-            <label for="removeCandidatesToElection">Remove Candidate: </label> <br>
-			<%
-			i=0;
-			while(i<candidateList.size()){
-				tempElection = logicLayer.getElectionFromCandidate(candidateList.get(i));
-				if(tempElection != null){
-					%><input type="checkbox" name="removeCandidatesToElection" value = "<%=candidateList.get(i).getName()%>"> <%=candidateList.get(i).getName()%> <br>
-					<%
-				}
-				i++;
-			}
-			%>
-            
             
             <input type = "hidden" name = "todo" value = "update">
 
             <div class="modal-footer">
-              <button class="btn btn-lg btn-primary" type="submit">Update</button>
+              <input class="btn btn-lg btn-primary" type="submit" value="Submit" onclick="window.location.href='updateElection.jsp'" />
               <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
             </div>
           </form>

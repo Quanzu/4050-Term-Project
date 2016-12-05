@@ -13,9 +13,12 @@ import edu.uga.cs.evote.entity.ElectoralDistrict;
 import edu.uga.cs.evote.entity.Issue;
 import edu.uga.cs.evote.entity.PoliticalParty;
 import edu.uga.cs.evote.entity.Voter;
+import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.session.Session;
 
 public interface LogicLayer {
+	
+	public ObjectLayer getObjectLayer() throws EVException;
 	public String eoLogin(Session session, String userName, String password) throws EVException;
 	public String voterLogin(Session session, String userName, String password) throws EVException;
 	public void logout(String ssid) throws EVException;
@@ -78,7 +81,6 @@ public interface LogicLayer {
 	public void removeElectionFromBallot(Ballot ballot, Election election) throws EVException;
 	public void removeIssueFromBallot(Ballot ballot, Issue issue) throws EVException;
 
-	
 	public void addIssue(String id, String[] theIssues) throws EVException;
 	public void addElection(String id, String[] theElections) throws EVException;
 	
