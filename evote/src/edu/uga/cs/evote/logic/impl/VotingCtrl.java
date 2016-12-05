@@ -76,9 +76,49 @@ public long recordElection(String candidateName)
 	}
 
 	
-	public VoteRecord createVoteRecord(String ballot, String voter, Date date) throws EVException
+	public VoteRecord createVoteRecord(long ballotId, String voterUserName, Date date) throws EVException
 	{
-		return null;
+		Ballot ballot = null;
+		Ballot modelBallot = null;
+       		List<Ballot> ballots = null;
+        
+		Voter voter = null;
+		Voter modelVoter = null;
+		List<Voter> voters = null;
+		
+		VoteRecord voteRecord = null;
+		
+		
+		
+        
+        // check if the name already exists
+        modelBallot = objectLayer.createBallot();
+        modelBallot.setId(ballotId);
+        
+        ballots = objectLayer.findBallot( modelBallot );
+        if( ballots.size() > 0 )
+            ballot = ballots.get( 0 );
+		
+	modelVoter = objectLayer.createVoter();
+        modelVoter.setUserName(voterUserName);
+        
+        voters = objectLayer.findVoter( modelVoter );
+        if( voters.size() > 0 )
+            voter = voters.get( 0 );
+        
+        // check if the issue actually exists, and if so, throw an exception
+        if( ballot != null && voter != null)
+            throw new EVException( "A voteRecord with the same name already exists" );
+        
+        else
+        { 	
+           voteRecord = objectLayer.createVoteRecord(ballot, voter, date);  	
+           objectLayer.storeVoteRecord(voteRecord);
+            
+        }
+             
+		
+		return voteRecord.getId();
 		
 	}
 
