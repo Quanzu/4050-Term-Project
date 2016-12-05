@@ -106,11 +106,11 @@
        ElectoralDistrict ballotEDist = null;
        while(i < ballots.size()){
 
-//	edVoter = logicLayer.getElectoralDistrictFromVoter(currentVoter);
-//     	userED = edVoter.getName();
-//        ballotEDist = logicLayer.findED(ballots.get(i));
-//    	   ballotED = ballotEDist.getName();
- //   	   if(userED.equals(ballotED)){  
+	edVoter = logicLayer.getElectoralDistrictFromVoter(currentVoter);
+     	userED = edVoter.getName();
+        ballotEDist = logicLayer.findED(ballots.get(i));
+    	   ballotED = ballotEDist.getName();
+    	  	if(userED.equals(ballotED)){  
 
     		   %>
       <table class="table table-hover">
@@ -157,7 +157,7 @@
           		%>
       </tbody>
     </table>
-    <%	 //  }
+    <%	   }
        }
       %>
   </div>
