@@ -1123,28 +1123,21 @@
           <h1 class="modal-title text-center">Update Ballot</h1>
         </div>
         <div class="modal-body">
-          <form class="form-signin" method ="post" action ="Ballot">
+          <form class="form-signin" method ="post" action ="updateBallot.jsp">
             <label for="ballotId" class="sr-only">Ballot Id</label>
             
-            <%
+      <%
         i=0;
       %>
       
       <% while(i < ballots.size()) {%>
-          	<input type = "radio" name = "ballot" value = "<%= ballots.get(i).getId() %>"> <%= ballots.get(i++).getId()%> <br>
+          	<input type = "radio" name = "ballotId" value = "<%= ballots.get(i).getId() %>"> <%= ballots.get(i++).getId()%> <br>
           	
       <%} %>
             
-            <label for="openDate" class="sr-only">Ballot Dates</label>
-            New Ballot Dates
-            <input name ="newOpenDate" type="date" class="form-control" placeholder="year(xx)-day-month" required=true autofocus=true>
-			 <input name ="newCloseDate" type="date" class="form-control" placeholder="year(xx)-day-month" required=true autofocus=true>
-			
             
-			<input type = "hidden" name = "todo" value = "update">
-
             <div class="modal-footer">
-              <button class="btn btn-lg btn-primary" type="submit">Update</button>
+              <input class="btn btn-lg btn-primary" type="submit" value="Submit" onclick="window.location.href='updateBallot.jsp'" />
               <button class="btn btn-lg btn-primary" data-dismiss="modal">Close</button>
             </div>
           </form>

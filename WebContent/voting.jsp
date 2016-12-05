@@ -188,7 +188,7 @@ String voterName = voter.getUserName();
 			{
 				Election election = (Election)items.get(i);
 				out.println("Election Office " + i + ":" + election.getOffice());
-				List<Candidate> candidates = election.getCandidates();
+				List<Candidate> candidates = logicLayer.getObjectLayer().getPersistence().restoreCandidateIsCandidateInElection(election);
 				String electionVote = "electionVote"+i;
 				
 				if (candidates.size() == 0)
@@ -207,7 +207,7 @@ String voterName = voter.getUserName();
 					%>
 					
 					<br>
-					<input type = "radio" name = <%=electionVote %> value = "<%=candidates.get(i).getName() %>"> <%=candidates.get(i).getName() %><br>
+					<input type = "radio" name = <%=electionVote %> value = "<%=candidates.get(j).getName() %>"> <%=candidates.get(j++).getName() %>
 					<input type = "hidden" name = "todo" value = "election">
 				<% 
 					}

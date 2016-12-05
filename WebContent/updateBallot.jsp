@@ -29,7 +29,7 @@
  
 <div class="container-fluid"> 
   <div class="jumbotron"> 
-    <h2 class="text-center">Updating Election</h2> 
+    <h2 class="text-center">Updating Ballot</h2> 
   </div> 
 </div> 
  
@@ -60,22 +60,13 @@
 	List<Election> toShowAddElection = logicLayer.findAllElection();
 	List<BallotItem> electionList = logicLayer.getObjectLayer().getPersistence().restoreBallotIncludesBallotItem(currentBallot);
 	toShowAddElection.remove(electionList);
-	Election tempElection;
-	PoliticalParty tempParty;
+	Ballot tempBallot;
 	i=0;
 	while(i < toShowAddElection.size()){
-		tempParty = logicLayer.getPoliticalPartyFromCandidate(toShowAddCandidates.get(i));
-		tempElection = logicLayer.getElectionFromCandidate(toShowAddCandidates.get(i));
-		if(currentElection.getIsPartisan()){
-			if(tempParty != null && tempElection == null){
-				%><input type="checkbox" name="addElectionToBallot" value = "<%=toShowAddCandidates.get(i).getName()%>"> <%=toShowAddCandidates.get(i).getName()%> <br>
-				<%
-			}
-		}else{
-			if(tempParty == null & tempElection == null){
-				%><input type="checkbox" name="addElectionToBallot" value = "<%=candidateList.get(i).getName()%>"> <%=candidateList.get(i).getName()%> <br>
-				<%
-			}
+		tempBallot = logicLayer.getBallotFromElection(toShowAddElection.get(i));
+		if(tempBallot == null){
+			%><input type="checkbox" name="addElectionToBallot" value = "<%=toShowAddElection.get(i).getOffice()%>"> <%=toShowAddElection.get(i).getOffice()%> <br>
+			<%
 		}
 		i++;
 						
@@ -83,13 +74,52 @@
 	%>
 	
 	<br>
-	<label for="removeCandidatesToElection">Remove Candidate: </label> <br>
+	<label for="removeElectionToBallot">Remove Election: </label> <br>
    	<%
 	i=0;
-	while(i<candidateList.size()){
-		%><input type="checkbox" name="addCandidatesToElection" value = "<%=candidateList.get(i).getName()%>"> <%=candidateList.get(i).getName()%> <br>
-		<%
-		i++;			
+	while(i < electionList.size()){
+		if(electionList.get(i) instanceof Election){
+		   	BallotItem electionConvert = electionList.get(i);
+		   	Election tempElection = (Election)electionConvert;
+			%><input type="checkbox" name="removeElectionToBallot" value = "<%=tempElection.getOffice()%>"> <%=tempElection.getOffice()%> <br>
+			<%
+		}
+		i++;
+	}
+	%>
+	
+	<br>
+	<br>
+	
+	<label for="addIssueToBallot">Add Issue: </label> <br>
+	<%
+	List<Issue> toShowAddIssue = logicLayer.findAllIssue();
+	List<BallotItem> issueList = logicLayer.getObjectLayer().getPersistence().restoreBallotIncludesBallotItem(currentBallot);
+	toShowAddIssue.remove(issueList);
+	i=0;
+	while(i < toShowAddIssue.size()){
+		tempBallot = logicLayer.getBallotFromIssue(toShowAddIssue.get(i));
+		if(tempBallot == null){
+			%><input type="checkbox" name="addIssueToBallot" value = "<%=toShowAddIssue.get(i).getQuestion()%>"> <%=toShowAddIssue.get(i).getQuestion()%> <br>
+			<%
+		}
+		i++;
+						
+	}
+	%>
+	
+	<br>
+	<label for="removeIssueToBallot">Remove Election: </label> <br>
+   	<%
+	i=0;
+	while(i < issueList.size()){
+		if(electionList.get(i) instanceof Issue){
+		   	BallotItem issueConvert = issueList.get(i);
+		   	Issue tempIssue = (Issue)issueConvert;
+			%><input type="checkbox" name="removeIssueToBallot" value = "<%=tempIssue.getQuestion()%>"> <%=tempIssue.getQuestion()%> <br>
+			<%
+		}
+		i++;
 	}
 	%>
 	

@@ -83,7 +83,7 @@
    	<%
 	i=0;
 	while(i<candidateList.size()){
-		%><input type="checkbox" name="addCandidatesToElection" value = "<%=candidateList.get(i).getName()%>"> <%=candidateList.get(i).getName()%> <br>
+		%><input type="checkbox" name="removeCandidatesToElection" value = "<%=candidateList.get(i).getName()%>"> <%=candidateList.get(i).getName()%> <br>
 		<%
 		i++;			
 	}
