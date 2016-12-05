@@ -107,7 +107,7 @@
        while(i < ballots.size()){
 
 	edVoter = logicLayer.getElectoralDistrictFromVoter(currentVoter);
-     	userED = tempVoter.getName();
+     	userED = edVoter.getName();
         ballotEDist = logicLayer.findED(ballots.get(i));
     	   ballotED = ballotEDist.getName();
     	   if(userED.equals(ballotED)){  
