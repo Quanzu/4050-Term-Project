@@ -106,11 +106,11 @@
        ElectoralDistrict ballotEDist = null;
        while(i < ballots.size()){
 
-	//edVoter = logicLayer.getElectoralDistrictFromVoter(currentVoter);
-    // 	userED = edVoter.getName();
-    //    ballotEDist = logicLayer.findED(ballots.get(i));
-   // 	   ballotED = ballotEDist.getName();
-   // 	   if(userED.equals(ballotED)){  
+//	edVoter = logicLayer.getElectoralDistrictFromVoter(currentVoter);
+//     	userED = edVoter.getName();
+//        ballotEDist = logicLayer.findED(ballots.get(i));
+//    	   ballotED = ballotEDist.getName();
+ //   	   if(userED.equals(ballotED)){  
 
     		   %>
       <table class="table table-hover">
@@ -157,7 +157,7 @@
           		%>
       </tbody>
     </table>
-    <%	   //}
+    <%	 //  }
        }
       %>
   </div>
@@ -235,8 +235,8 @@
    // 	     ballotED2 = ballotEDist2.getName();
    // 	     if(userED2.equals(ballotED2)){
 
-    		 closeDate = ballotList.get(ii).getCloseDate();
-    		 if(closeDate.before(dateCurrent)){
+    		// closeDate = ballotList.get(ii).getCloseDate();
+    		// if(closeDate.before(dateCurrent)){
     		   %>
       <table class="table table-hover">
       <tbody>
@@ -284,7 +284,7 @@
       </tbody>
     </table>
     <%	// }  
-    		 }
+    		// }
        }
       %>
   </div>
@@ -304,7 +304,9 @@
         String passwordLength = "";
         for(int n=0; n<account.getPassword().length(); n++){
 			passwordLength = passwordLength + "*";
-        }        
+		
+        }
+       	System.out.println(account.getUserName());
         %>
         <script>
 			function editAccount() {
@@ -366,7 +368,7 @@
 			}
 		</script>
         <div class="modal-body">
-          <form id="account" class="form-signin" action="ElectionsOfficer" method = "post">
+          <form id="account" class="form-signin" action="VoterUpdate" method = "post">
             <label for="fname">First Name: </label>
             <p id="fnamedisplay"><%=account.getFirstName()%></p>
 			<input type="text" id="fname" name="fname" class="form-control" style="display:none;">
@@ -379,11 +381,15 @@
             <br>
             <label for="username">Username: </label>
             <p id="usernamedisplay"><%=account.getUserName()%></p>
+            <input type="text" id="username" name="username" class="form-control" style="display:none;"> 
             
+            
+            <br>
             <label for="password">Password: </label>
             <p id="passworddisplay"><%=passwordLength%></p>
             <input type="text" id="password" name="password" class="form-control" style="display:none;">
- 
+ 			
+ 			<br>
  			<label for="age">Age: </label>
             <p id="agedisplay"><%=account.getAge()%></p>
             <input type="text" id="age" name="age" class="form-control" style="display:none;">
@@ -394,7 +400,7 @@
             <p id="emaildisplay"><%=account.getEmailAddress()%></p>
             <input type="text" id="email" name="email" class="form-control" style="display:none;">
             
-            
+            <br>
             <label for="address">Address: </label>
             <p id="addressdisplay"><%=account.getAddress()%></p>
             <input type="text" id="address" name="address" class="form-control" style="display:none;">
