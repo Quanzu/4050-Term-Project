@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import edu.uga.cs.evote.logic.LogicLayer;
+import edu.uga.cs.evote.object.ObjectLayer;
 import edu.uga.cs.evote.session.Session;
 import edu.uga.cs.evote.session.SessionManager;
 
@@ -101,7 +102,12 @@ response.setContentType("text/html");
     	   
        }
        
-       
+       else if (option.equalsIgnoreCase("done"))
+       {
+    	   //ballot
+    	   //voterid
+    	   //date
+       }
         
         //httpSession = request.getSession(false); //use false to use the existing session
         

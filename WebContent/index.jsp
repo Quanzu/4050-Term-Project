@@ -147,11 +147,7 @@
 				%>
 
  				</fieldset>
- 				  
- 				  
- 				   
- 
- 
+
                 <div class="modal-footer"> 
                   <button class="btn btn-lg btn-primary" type="submit">Register</button> 
                   <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Close</button> 

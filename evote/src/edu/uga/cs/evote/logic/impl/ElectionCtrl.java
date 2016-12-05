@@ -59,13 +59,69 @@ private ObjectLayer objectLayer = null;
 
 	
 	
-	public long updateElection(String electionOffice)
-			throws EVException
+	public long updateElection(String electionName, String newElectionName, String[] removeCandidates, String[] addCandidates) throws EVException
 	{
+		//changes the name
+		Election election = null;
+        Election modelElection = null;
+        List<Election> elections = null;
 		
-		return 0;
+        modelElection = objectLayer.createElection();
+        modelElection.setOffice(electionName);
+        
+    	elections = objectLayer.findElection( modelElection );
+    	if( elections.size() > 0 )
+    		election = elections.get( 0 );
+    	
+        if (newElectionName != null)
+        {
+         
+        // check if the issue actually exists, and if so, throw an exception
+        	if( election != null )
+        		election.setOffice(newElectionName);
+        	objectLayer.storeElection( election );
+        }
+        
+        
+        //removes Candidates
+        Candidate candidate = null;
+        Candidate modelCandidate = null;
+        List<Candidate> candidates = null;
+        if (election != null)
+        {
+        	
+        	for (int i = 0; i < removeCandidates.length; i++)
+        	{
+        		 modelCandidate = objectLayer.createCandidate();
+                 modelCandidate.setName(removeCandidates[i]);
+                 candidates = objectLayer.findCandidate( modelCandidate );
+                 if( candidates.size() > 0 )
+                     candidate = candidates.get( 0 );
+                 if (candidate != null)
+                 {
+                	 objectLayer.getPersistence().deleteCandidateIsCandidateInElection(candidate, election);
+                 }
+        	}
+            //adds Candidates
+        	
+        	for (int i = 0; i < removeCandidates.length; i++)
+        	{
+        		 modelCandidate = objectLayer.createCandidate();
+                 modelCandidate.setName(removeCandidates[i]);
+                 candidates = objectLayer.findCandidate( modelCandidate );
+                 if( candidates.size() > 0 )
+                     candidate = candidates.get( 0 );
+                 if (candidate != null)
+                 {
+                	 objectLayer.getPersistence().storeCandidateIsCandidateInElection(candidate, election);
+                 }
+        	}
+        }
+        
+        
+        
+		return election.getId();
 	}
-	
 	public List<Election> findAllElection() throws EVException{
 		List<Election> elections = null;
 		

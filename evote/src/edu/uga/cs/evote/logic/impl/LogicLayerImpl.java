@@ -278,6 +278,26 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
+	public void storeVoterRecord(VoteRecord voteRecord) throws EVException {
+		objectLayer.getPersistence().storeVoteRecord(voteRecord);
+	}
+
+	@Override
+	public VoteRecord createVoteRecord(long ballotId, String voterUserName, Date date)
+			throws EVException {
+		VotingCtrl voteRecordCtrl = new VotingCtrl(objectLayer);
+		return voteRecordCtrl.createVoteRecord(ballotId, voterUserName,date);
+	}
+
+	@Override
+	public long updateElection(String electionName, String newElectionName,
+			String[] removeCandidates, String[] addCandidates)
+			throws EVException {
+		ElectionCtrl updateCtrl = new ElectionCtrl(objectLayer);
+		return updateCtrl.updateElection(electionName, newElectionName, removeCandidates, addCandidates);
+	}
+
+	@Override
 	public PoliticalParty getPoliticalPartyFromCandidate(Candidate candidate) throws EVException {
 		return objectLayer.getPersistence().restoreCandidateIsMemberOfPoliticalParty(candidate);
 	}

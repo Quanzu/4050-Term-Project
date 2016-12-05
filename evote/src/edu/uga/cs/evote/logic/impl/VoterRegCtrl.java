@@ -55,7 +55,7 @@ public class VoterRegCtrl {
 				String electoralDistrictSql ="SELECT * FROM electoraldistrict where districtName = '" + district + "'";
 				resultSet = statement.executeQuery(electoralDistrictSql);
 				if(resultSet.next()){
-					String insertVoterDistrictSql = "insert into VoterDistrict (voterId, districtId ) values ( ?, ?)";
+					String insertVoterDistrictSql = "insert into VoterDistrict (districtId, voterId ) values ( ?, ?)";
 					prep = (PreparedStatement) conn.prepareStatement(insertVoterDistrictSql);
 					int electoralDistrictId = resultSet.getInt(1);
 					prep.setInt(1, electoralDistrictId);
