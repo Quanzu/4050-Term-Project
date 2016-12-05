@@ -90,6 +90,7 @@
   </div>
 </nav>
 
+<button type = "button" data-toggle="modal" data-target= "#vote" >Vote</button>
   <!-- CURRENT -->
   <div id="Current" class="container">
      <h3>Current</h3>
@@ -103,10 +104,12 @@
        String ballotED = "";
        ElectoralDistrict ballotEDist = null;
        while(i < ballots.size()){
-     	   userED = currentVoter.getElectoralDistrict().getName();
-    	   ballotEDist = logicLayer.findED(ballots.get(i));
-    	   ballotED = ballotEDist.getName();
-    	   if(userED.equals(ballotED){  
+
+     	// userED = currentVoter.getElectoralDistrict().getName();
+    	 //  ballotEDist = logicLayer.findED(ballots.get(i));
+    	   //ballotED = ballotEDist.getName();
+    	 //  if(userED.equals(ballotED)){  
+
     		   %>
       <table class="table table-hover">
       <tbody>
@@ -152,12 +155,12 @@
           		%>
       </tbody>
     </table>
-    <%	   }
+    <%	  // }
        }
       %>
   </div>
 
-<button type = "button" data-toggle="modal" data-target= "#vote" >Vote</button>
+
 
 <div id="vote" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -172,7 +175,7 @@
             <label for="ballotId" class="sr-only">Ballot Id</label>
           <br>  Select Ballot<br>
             <%
-            List<Ballot> ballots = logicLayer.findAllBallot();
+           
         i=0;
       %>
       
@@ -211,10 +214,12 @@
        String ballotED2 = "";
        ElectoralDistrict ballotEDist2 = null;
        while(ii < ballotList.size()){
-       	   userED2 = currentVoter2.getElectoralDistrict().getName();
-    	   ballotEDist2 = logicLayer.findED(ballotList.get(ii));
-    	   ballotED2 = ballotEDist2.getName();
-    	   if(userED2.equals(ballotED2){
+
+       	//   userED2 = currentVoter2.getElectoralDistrict().getName();
+    	  // ballotEDist2 = logicLayer.findED(ballotList.get(ii));
+    	 //  ballotED2 = ballotEDist2.getName();
+    	 //  if(userED2.equals(ballotED2)){
+
     		 closeDate = ballotList.get(ii).getCloseDate();
     		 if(closeDate.before(dateCurrent)){
     		   %>
@@ -263,7 +268,8 @@
           		%>
       </tbody>
     </table>
-    <%	 }  }
+    <%	 }  
+    		 //}
        }
       %>
   </div>
@@ -326,19 +332,7 @@
     </div>
   </div>
 
-  <div id="tableElement" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h1 class="modal-title text-center">Table Element</h1>
-        </div>
-        <div class="modal-body">
-          Details Here
-        </div>
-      </div>
-    </div>
-  </div>
+ 
 
 </body>
 </html>
