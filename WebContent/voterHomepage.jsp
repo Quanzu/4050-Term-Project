@@ -97,6 +97,7 @@
     <%
         List<Ballot> ballots = logicLayer.findAllBallot();
         Voter currentVoter = (Voter)hpSession.getUser();
+	ElectoralDistrict edVoter = null;
        i = 0;
        String candName = "";
        String candParty = "";
@@ -105,10 +106,11 @@
        ElectoralDistrict ballotEDist = null;
        while(i < ballots.size()){
 
-     	// userED = currentVoter.getElectoralDistrict().getName();
-    	 //  ballotEDist = logicLayer.findED(ballots.get(i));
-    	   //ballotED = ballotEDist.getName();
-    	 //  if(userED.equals(ballotED)){  
+	edVoter = logicLayer.getElectoralDistrictFromVoter(currentVoter);
+     	userED = tempVoter.getName();
+        ballotEDist = logicLayer.findED(ballots.get(i));
+    	   ballotED = ballotEDist.getName();
+    	   if(userED.equals(ballotED)){  
 
     		   %>
       <table class="table table-hover">
@@ -155,7 +157,7 @@
           		%>
       </tbody>
     </table>
-    <%	  // }
+    <%	   }
        }
       %>
   </div>
@@ -213,12 +215,13 @@
        String userED2 = "";
        String ballotED2 = "";
        ElectoralDistrict ballotEDist2 = null;
+       ElectoralDistrict edVoter2 = null;
        while(ii < ballotList.size()){
-
-       	//   userED2 = currentVoter2.getElectoralDistrict().getName();
-    	  // ballotEDist2 = logicLayer.findED(ballotList.get(ii));
-    	 //  ballotED2 = ballotEDist2.getName();
-    	 //  if(userED2.equals(ballotED2)){
+	     edVoter2 = logicLayer.getElectoralDistrictFromVoter(currentVoter2);
+       	     userED2 = edVoter2.getName();
+    	     ballotEDist2 = logicLayer.findED(ballotList.get(ii));
+    	     ballotED2 = ballotEDist2.getName();
+    	     if(userED2.equals(ballotED2)){
 
     		 closeDate = ballotList.get(ii).getCloseDate();
     		 if(closeDate.before(dateCurrent)){
@@ -269,7 +272,7 @@
       </tbody>
     </table>
     <%	 }  
-    		 //}
+    		 }
        }
       %>
   </div>
