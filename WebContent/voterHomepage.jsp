@@ -99,8 +99,14 @@
        i = 0;
        String candName = "";
        String candParty = "";
+       String userED = "";
+       String ballotED = "";
+       ElectoralDistrict ballotEDist = null;
        while(i < ballots.size()){
-    	   if(ballots.get(i).getElectoralDistrict().getName().equals(currentVoter.getElectoralDistrict().getName())){  
+     	   userED = currentVoter.getElectoralDistrict().getName();
+    	   ballotEDist = logicLayer.findED(ballots.get(i));
+    	   ballotED = ballotEDist.getName();
+    	   if(userED.equals(ballotED){  
     		   %>
       <table class="table table-hover">
       <tbody>
@@ -109,7 +115,7 @@
           	<td><%= "Open Date: " + ballots.get(i).getOpenDate() %></td>
           	<td><%= "Close Date: " + ballots.get(i).getCloseDate() %></td>
         </tr>
-        <%List<BallotItem> items = ballots.get(i).getBallotItems();
+        <%List<BallotItem> items = logicLayer.findBallotItems(ballots.get(i));
           	  for (int j = 0; j < items.size();j++){
           		  String balItemName = "";
           		  if(items.get(j) instanceof Issue){
@@ -201,9 +207,14 @@
        Date dateCurrent = new Date();
        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
        df.format(dateCurrent);
-       
+       String userED2 = "";
+       String ballotED2 = "";
+       ElectoralDistrict ballotEDist2 = null;
        while(ii < ballotList.size()){
-    	   if(ballotList.get(ii).getElectoralDistrict().getName().equals(currentVoter2.getElectoralDistrict().getName())){
+       	   userED2 = currentVoter2.getElectoralDistrict().getName();
+    	   ballotEDist2 = logicLayer.findED(ballotList.get(ii));
+    	   ballotED2 = ballotEDist2.getName();
+    	   if(userED2.equals(ballotED2){
     		 closeDate = ballotList.get(ii).getCloseDate();
     		 if(closeDate.before(dateCurrent)){
     		   %>
@@ -214,7 +225,7 @@
           	<td><%= "Open Date: " + ballotList.get(ii).getOpenDate() %></td>
           	<td><%= "Close Date: " + ballotList.get(ii).getCloseDate() %></td>
         </tr>
-        <%List<BallotItem> items = ballotList.get(ii).getBallotItems();
+        <%List<BallotItem> items = logicLayer.findBallotItems(ballotList.get(ii));
           	  for (int j = 0; j < items.size();j++){
           		  String balItemName = "";
           		  if(items.get(j) instanceof Issue){

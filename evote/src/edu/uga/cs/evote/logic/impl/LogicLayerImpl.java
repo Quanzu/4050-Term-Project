@@ -283,6 +283,11 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
+	public ElectoralDistrict findED(Ballot ballot) throws EVException{
+		return objectLayer.getPersistence().restoreElectoralDistrictHasBallotBallot(ballot);
+	}
+	
+	@Override
 	public Ballot getBallotFromIssue(Issue issue) throws EVException {
 		return objectLayer.getPersistence().restoreBallotIncludesBallotItem(issue);
 	}
@@ -291,9 +296,6 @@ public class LogicLayerImpl implements LogicLayer{
 	public Ballot getBallotFromElection(Election election) throws EVException {
 		return objectLayer.getPersistence().restoreBallotIncludesBallotItem(election);
 	}
-
-
-
 
 	
 
