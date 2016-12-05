@@ -107,7 +107,6 @@ public class Election extends HttpServlet {
 
 			String [] toAdd;
 			toAdd = request.getParameterValues("addCandidatesToElection");
-			
 			try {          
 	            electionId = logicLayer.updateElection(oldOfficeName, newElectionOffice, toRemove, toAdd);
 	            response.sendRedirect("eoHomepage.jsp#Election");

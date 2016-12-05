@@ -89,32 +89,34 @@ private ObjectLayer objectLayer = null;
         List<Candidate> candidates = null;
         if (election != null)
         {
-        	
-        	for (int i = 0; i < removeCandidates.length; i++)
-        	{
-        		 modelCandidate = objectLayer.createCandidate();
-                 modelCandidate.setName(removeCandidates[i]);
-                 candidates = objectLayer.findCandidate( modelCandidate );
-                 if( candidates.size() > 0 )
-                     candidate = candidates.get( 0 );
-                 if (candidate != null)
-                 {
-                	 objectLayer.getPersistence().deleteCandidateIsCandidateInElection(candidate, election);
-                 }
+        	if(removeCandidates != null){
+	        	for (int i = 0; i < removeCandidates.length; i++)
+	        	{
+	        		 modelCandidate = objectLayer.createCandidate();
+	                 modelCandidate.setName(removeCandidates[i]);
+	                 candidates = objectLayer.findCandidate( modelCandidate );
+	                 if( candidates.size() > 0 )
+	                     candidate = candidates.get( 0 );
+	                 if (candidate != null)
+	                 {
+	                	 objectLayer.getPersistence().deleteCandidateIsCandidateInElection(candidate, election);
+	                 }
+	        	}
         	}
             //adds Candidates
-        	
-        	for (int i = 0; i < removeCandidates.length; i++)
-        	{
-        		 modelCandidate = objectLayer.createCandidate();
-                 modelCandidate.setName(removeCandidates[i]);
-                 candidates = objectLayer.findCandidate( modelCandidate );
-                 if( candidates.size() > 0 )
-                     candidate = candidates.get( 0 );
-                 if (candidate != null)
-                 {
-                	 objectLayer.getPersistence().storeCandidateIsCandidateInElection(candidate, election);
-                 }
+        	if(addCandidates != null){
+	        	for (int i = 0; i < addCandidates.length; i++)
+	        	{
+	        		 modelCandidate = objectLayer.createCandidate();
+	                 modelCandidate.setName(addCandidates[i]);
+	                 candidates = objectLayer.findCandidate( modelCandidate );
+	                 if( candidates.size() > 0 )
+	                     candidate = candidates.get( 0 );
+	                 if (candidate != null)
+	                 {
+	                	 objectLayer.getPersistence().storeCandidateIsCandidateInElection(candidate, election);
+	                 }
+	        	}
         	}
         }
         

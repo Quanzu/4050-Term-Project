@@ -68,8 +68,8 @@ public class CandidateElectionManager {
 
     	try {
     		stmt = (PreparedStatement) conn.prepareStatement( deleteCandidateElectionSql );
-    		stmt.setLong( 1, election.getId() );
-    		stmt.setLong( 2, candidate.getId());
+    		stmt.setLong( 1, candidate.getId() );
+    		stmt.setLong( 2, election.getId());
 
     		inscnt = stmt.executeUpdate();
 

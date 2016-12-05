@@ -263,7 +263,7 @@
           			  <tr data-toggle="modal" data-target="#tableElement">
           			  <td><%= "Election Office: " + election.getOffice() %></td>
           		      <% 
-          		      	List<Candidate> candidates = election.getCandidates();
+          		      	List<Candidate> candidates = logicLayer.getObjectLayer().getPersistence().restoreCandidateIsCandidateInElection(election);
           		      	for (int k = 0; k < candidates.size(); k++){
           		      		candName2 = candidates.get(k).getName();
           		      		candVoteCount = candidates.get(k).getVoteCount();

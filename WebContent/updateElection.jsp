@@ -69,7 +69,7 @@
 			}
 		}else{
 			if(tempParty == null & tempElection == null){
-				%><input type="checkbox" name="addCandidatesToElection" value = "<%=candidateList.get(i).getName()%>"> <%=candidateList.get(i).getName()%> <br>
+				%><input type="checkbox" name="addCandidatesToElection" value = "<%=toShowAddCandidates.get(i).getName()%>"> <%=toShowAddCandidates.get(i).getName()%> <br>
 				<%
 			}
 		}
