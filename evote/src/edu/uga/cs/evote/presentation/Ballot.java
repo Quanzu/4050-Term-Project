@@ -1,6 +1,8 @@
 package edu.uga.cs.evote.presentation;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -37,8 +39,8 @@ public class Ballot extends HttpServlet {
         String 			open = null;
         String			close = null;
         String			option = null;
-        Date			openDate;
-        Date			closeDate;
+        Date			openDate = null;
+        Date			closeDate = null;
         
         String			theId = null;
         
@@ -79,19 +81,25 @@ public class Ballot extends HttpServlet {
         {
         	district = request.getParameter("districtName");
         	open = request.getParameter("openDate");
-        	//System.out.println(districtName);
         	if(open == null){
         		System.out.println("Open Date is null");
         		return;
         	}
         	else
         	{
-        		int year, day, month;
-        		String[] openX = open.split("-");
-				year = Integer.parseInt(openX[0]);
-				month = Integer.parseInt(openX[1]);
-				day = Integer.parseInt(openX[2]);
-				openDate = new Date(year, month, day);
+        	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        	    try {
+            		int year, day, month;
+            		String[] openX = open.split("-");
+            		year = Integer.parseInt(openX[0]);
+            		month = Integer.parseInt(openX[1]);
+            		day = Integer.parseInt(openX[2]);
+            		open = Integer.toString(year)+"-"+Integer.toString(month)+"-"+Integer.toString(day);
+					openDate = format.parse(open);
+					System.out.println(open);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 			
         	}
 		
@@ -102,12 +110,18 @@ public class Ballot extends HttpServlet {
         	}
         	else
         	{
-        		int year, day, month;
-        		String[] openX = close.split("-");
-        		year = Integer.parseInt(openX[0]);
-        		month = Integer.parseInt(openX[1]);
-        		day = Integer.parseInt(openX[2]);
-        		closeDate = new Date(year, month, day);
+        	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        	    try {
+            		int year, day, month;
+            		String[] openX = close.split("-");
+            		year = Integer.parseInt(openX[0]);
+            		month = Integer.parseInt(openX[1]);
+            		day = Integer.parseInt(openX[2]);
+            		close = Integer.toString(year)+"-"+Integer.toString(month)+"-"+Integer.toString(day);
+					closeDate = format.parse(close);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 			
         	}
         	try {  
@@ -121,11 +135,10 @@ public class Ballot extends HttpServlet {
         	//adds in the issues
         	String[] theIssues;
 			theIssues = request.getParameterValues("issues");
-			theId = request.getParameter("ballot");
 			if (theIssues != null)
 			{
 				try {  
-					logicLayer.addIssue(theId, theIssues);
+					logicLayer.addIssue(ballotId, theIssues);
 	        		
 	        	} 
 	        	catch ( Exception e ) {
@@ -139,7 +152,7 @@ public class Ballot extends HttpServlet {
 			if (elections != null)
 			{
 				try {  
-					logicLayer.addIssue(theId, elections);
+					logicLayer.addElection(ballotId, elections);
 	        		
 	        	} 
 	        	catch ( Exception e ) {
@@ -178,13 +191,15 @@ public class Ballot extends HttpServlet {
 			{
 				//put error message;
 			}
+			/*
 			try {	
-				logicLayer.addIssue(theId, theIssues);
+				//logicLayer.addIssue(theId, theIssues);
 				response.sendRedirect("eoHomepage.jsp#Ballot");
 			} catch (EVException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
 		}
 		else if (option.equalsIgnoreCase("addElection"))
 		{
@@ -196,13 +211,15 @@ public class Ballot extends HttpServlet {
 			{
 				//put error message;
 			}
+			/*
 			try {	
-				logicLayer.addElection(theId, theElections);
+				//logicLayer.addElection(theId, theElections);
 				response.sendRedirect("eoHomepage.jsp#Ballot");
 			} catch (EVException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
 		}
 		else
 		{

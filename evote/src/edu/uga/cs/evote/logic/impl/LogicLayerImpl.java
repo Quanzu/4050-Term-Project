@@ -253,13 +253,13 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
-	public void addIssue(String id, String[] theIssues) throws EVException {
+	public void addIssue(long id, String[] theIssues) throws EVException {
 		BallotCtrl addIssueCtrl = new BallotCtrl(objectLayer);
 		addIssueCtrl.addIssue(id, theIssues);
 	}
 
 	@Override
-	public void addElection(String id, String[] theElections) throws EVException
+	public void addElection(long id, String[] theElections) throws EVException
 	{
 		BallotCtrl addElectionCtrl = new BallotCtrl(objectLayer);
 		addElectionCtrl.addElection(id, theElections);

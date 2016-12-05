@@ -1,6 +1,7 @@
 package edu.uga.cs.evote.presentation;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
@@ -46,13 +47,13 @@ response.setContentType("text/html");
         String         ssid = null;
         long		   ballotId = -1;
         String 			theId;
-        String 			option = null;
         long			issueId;
         long			electionId;
         String			issueVote;
         String			question = null;
-       long				x;
+        long				x;
         int			voteCount;
+        int count;
         
     	httpSession = request.getSession();
     	ssid = (String)httpSession.getAttribute("ssid");
@@ -76,15 +77,13 @@ response.setContentType("text/html");
             
         logicLayer = session.getLogicLayer();
         
-        option = request.getParameter("todo");
-        theId = request.getParameter("choseBallot");
-  /*      httpSession.setAttribute("choseBallot", theId);
-      httpSession = request.getSession(false);*/
+        theId = request.getParameter("ballotId");
+  /*    httpSession.setAttribute("choseBallot", theId);
+      	httpSession = request.getSession(false);*/
         
-       if (option.equalsIgnoreCase("issue"))
-       {
+ 
     	   String issueCount = request.getParameter("issueCount");
-    	   int count = Integer.parseInt(issueCount);
+    	   count = Integer.parseInt(issueCount);
     	  for (int i = 0; i < count; i++)
     	  {
     	   String str = request.getParameter("issueId"+ i);
@@ -102,33 +101,31 @@ response.setContentType("text/html");
 	        	e.printStackTrace();
 	        }
     	  }
-       }
-       else if (option.equalsIgnoreCase("election"))
-       {
+       
+
     	   String electionCount = request.getParameter("electionCount");
-    	   int count = Integer.parseInt(electionCount);
+    	   count = Integer.parseInt(electionCount);
     	   for (int i = 0; i < count; i++)
     	   {
     	   String candidateName = request.getParameter("electionVote" + i);
     	   try {  
-	            x = logicLayer.recordElection(candidateName);
-	            
-	            
+	            x = logicLayer.recordElection(candidateName);         
 	        } 
 	        catch ( Exception e ) {
 	        	e.printStackTrace();
 	        }
     	   }
-       }
+       
        
        try {  
            //do the voteRecord method
-    	/*   String username = request.getParameter("voterUsername");
+    	   String username = request.getParameter("voterUsername");
     	   
+   	       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     	   Date date = new Date();
+    	   date = format.parse(format.format(date));
     	   long id = Integer.parseInt(theId);
-    	   System.out.println(id);
-    	   VoteRecord vote = logicLayer.createVoteRecord(id, username, date);*/
+    	   VoteRecord vote = logicLayer.createVoteRecord(id, username, date);
     	   response.sendRedirect("voterHomepage.jsp");
            
            

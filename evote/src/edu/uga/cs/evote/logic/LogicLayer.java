@@ -85,7 +85,7 @@ public interface LogicLayer {
 	public VoteRecord createVoteRecord(long ballotId, String voterUserName, Date date) throws EVException;
 	
 	
-	public void addIssue(String id, String[] theIssues) throws EVException;
-	public void addElection(String id, String[] theElections) throws EVException;
+	public void addIssue(long id, String[] theIssues) throws EVException;
+	public void addElection(long id, String[] theElections) throws EVException;
 	public long updateElection(String electionName, String newElectionName, String[] removeCandidates, String[] addCandidates) throws EVException;
 }

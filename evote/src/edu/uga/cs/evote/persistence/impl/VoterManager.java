@@ -132,7 +132,7 @@ class VoterManager
     public List<Voter> restore( Voter modelVoter ) 
             throws EVException
     {
-        String       selectOfficerSql = "select User.userId, fname, lname, userName, password, email, address, age from User, Voter where User.userId = Voter.userId";
+        String       selectOfficerSql = "select User.userId, fname, lname, userName, password, email, address, age, Voter.voterId from User, Voter where User.userId = Voter.userId";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer( 100 );
         StringBuffer condition = new StringBuffer( 100 );
@@ -174,7 +174,6 @@ class VoterManager
                     condition.append( " address = '" + modelVoter.getAddress() + "'" );
                 }
 
-
                 if( condition.length() > 0 ) {
                     query.append( condition );
                 }
@@ -197,6 +196,7 @@ class VoterManager
                 String email;
                 String address;
                 int age;
+                long voterId;
                 
                 while( rs.next() ) {
 
@@ -208,9 +208,11 @@ class VoterManager
                     email = rs.getString( 6 );
                     address = rs.getString( 7 );
                     age = rs.getInt(8);
+                    voterId = rs.getLong(9);
 
                     Voter voter = objectLayer.createVoter( fname, lname, userName, password, email, address, age );
                     voter.setId( userId );
+                    voter.setVoterId(voterId);
                     voters.add( voter );
 
                 }

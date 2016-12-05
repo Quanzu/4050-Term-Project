@@ -142,6 +142,12 @@ String voterName = voter.getUserName();
 	%>
 	<form action = "SubmitVote" method = "post">
 	<input type = "hidden" name = "voterUsername" value = "<%= voterName%>">
+	<input type = "hidden" name = "issueCount" value = "<%=issueCount%>">
+	<input type = "hidden" name = "electionCount" value = "<%=electionCount%>">
+	<input type = "hidden" name = "ballotId" value = "<%=theBallot.getId()%>">
+	
+	
+	
 	<% 
 		for (int i = 0; i < items.size();i++)
 		{
@@ -164,21 +170,15 @@ String voterName = voter.getUserName();
 					
 					
 					<br>
-					<input type = "hidden" name = "issueCount" value = "<%=issueCount%>">
 					<input type = "hidden" name = <%=voteCount %> value = "<%=issue.getVoteCount() %>">
 					<input type = "hidden" name = <%=issueId %> value = "<%=issue.getId() %>">
 					<input type = "hidden" name = <%=question %> value = "<%=issue.getQuestion() %>">
-					<input type = "radio" name = <%=issueVote %> value = "yes">Yes<br>
-					<input type = "radio" name = <%=issueVote %> value = "no">No<br>
+					<input type = "radio" name = <%=issueVote %> value = "yes"> Yes<br>
+					<input type = "radio" name = <%=issueVote %> value = "no"> No<br>
 					<input type = "hidden" name = "todo" value = "issue">
-					
-				<!-- 	<iframe name='formresponse' width='300' height='200'></frame> -->
-					<% 
-					
-						
-	
-				
-				
+					<br>
+					<br>
+					<% 			
 				
 			}
 			%>
@@ -194,10 +194,7 @@ String voterName = voter.getUserName();
 				if (candidates.size() == 0)
 				{
 					%> <br>No Candidates Listed
-					
-					
-					<input type = "hidden" name = "electionCount" value = "<%=electionCount%>">
-					
+										
 					<br> <% 
 				}
 				else
@@ -208,10 +205,14 @@ String voterName = voter.getUserName();
 					
 					<br>
 					<input type = "radio" name = <%=electionVote %> value = "<%=candidates.get(j).getName() %>"> <%=candidates.get(j++).getName() %>
+					
 					<input type = "hidden" name = "todo" value = "election">
 				<% 
 					}
 					%>
+					<br>
+					<br>
+					<br>
 					<% 
 							
 				}

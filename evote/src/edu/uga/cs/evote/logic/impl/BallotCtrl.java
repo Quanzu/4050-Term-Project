@@ -75,12 +75,11 @@ private ObjectLayer objectLayer = null;
         return ballot.getId();
 	}
 	
-	public void addIssue(String id, String[] theIssues) throws EVException
+	public void addIssue(long id, String[] theIssues) throws EVException
 	{
 		Ballot ballot = null;
         Ballot modelBallot = null;
         List<Ballot> ballots = null;
-        int tempid = Integer.parseInt(id);
         Date openDate = null;
         Date closeDate = null;
         
@@ -91,7 +90,7 @@ private ObjectLayer objectLayer = null;
         
         // check if the name already exists
         modelBallot = objectLayer.createBallot();
-        modelBallot.setId(tempid);
+        modelBallot.setId(id);
         ballots = objectLayer.findBallot( modelBallot );
         if( ballots.size() > 0 )
             ballot = ballots.get( 0 );
@@ -117,12 +116,11 @@ private ObjectLayer objectLayer = null;
 	
 	}
 	
-	public void addElection(String id, String[] theElections) throws EVException
+	public void addElection(long id, String[] theElections) throws EVException
 	{
 		Ballot ballot = null;
         Ballot modelBallot = null;
         List<Ballot> ballots = null;
-        int tempid = Integer.parseInt(id);
        
         
         //Ballot Items
@@ -132,7 +130,7 @@ private ObjectLayer objectLayer = null;
         
         // check if the name already exists
         modelBallot = objectLayer.createBallot();
-        modelBallot.setId(tempid);
+        modelBallot.setId(id);
         ballots = objectLayer.findBallot( modelBallot );
         if( ballots.size() > 0 )
             ballot = ballots.get( 0 );

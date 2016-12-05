@@ -114,12 +114,12 @@ class CandidateManager
             else if( modelCandidate.getName() != null ) // Name is unique, so it is sufficient to get a person
                 query.append( " where name = '" + modelCandidate.getName() + "'" );
             else {
-            	condition.append(" where voteCount = '" + modelCandidate.getVoteCount() + "'");
+            	condition.append(" voteCount = " + modelCandidate.getVoteCount());
             	
             	if(modelCandidate.getIsAlternate())
-            		condition.append(" where isAlternate = 1");
+            		condition.append(" and isAlternate = 1");
             	else
-            		condition.append(" where isAlternate = 0");
+            		condition.append(" and isAlternate = 0");
                     
             	query.append(  " where " );
             	query.append( condition );              

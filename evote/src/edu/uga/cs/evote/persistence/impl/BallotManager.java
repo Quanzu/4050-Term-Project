@@ -48,10 +48,8 @@ public class BallotManager {
                 stmt = (PreparedStatement) conn.prepareStatement( updateBallotSql );
              
             if( ballot.getOpenDate() != null ){
-            	System.out.println("Got into pringln");
                 java.util.Date jDate = ballot.getOpenDate();
                 java.sql.Date sDate = new java.sql.Date( jDate.getTime() );
-                System.out.println("In DB" + sDate);
                 stmt.setDate( 1,  sDate );
             }
             else 
