@@ -326,15 +326,15 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
-	public void removeElectionFromBallot(Ballot ballot, Election election) throws EVException {
-		objectLayer.getPersistence().deleteBallotIncludesBallotItem(ballot, election);
-		
+	public void removeElectionFromBallot(long id, String[] theElections) throws EVException {
+		BallotCtrl removeElectionCtrl = new BallotCtrl(objectLayer);
+		removeElectionCtrl.removeElection(id, theElections);		
 	}
 
 	@Override
-	public void removeIssueFromBallot(Ballot ballot, Issue issue) throws EVException {
-		objectLayer.getPersistence().deleteBallotIncludesBallotItem(ballot, issue);
-		
+	public void removeIssueFromBallot(long id, String[] theIssues) throws EVException {
+		BallotCtrl removeIssueCtrl = new BallotCtrl(objectLayer);
+		removeIssueCtrl.removeIssue(id, theIssues);		
 	}
 
 	@Override

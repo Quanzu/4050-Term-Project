@@ -274,4 +274,86 @@ private ObjectLayer objectLayer = null;
         }
 		return ballot.getId();
 	}
+	
+	public void removeElection(long id, String[] theElections) throws EVException
+	{
+		Ballot ballot = null;
+        Ballot modelBallot = null;
+        List<Ballot> ballots = null;
+       
+        
+        //Ballot Items
+        BallotItem election = null;
+        Election modelElection = null;
+        List<Election> elections = null;
+        
+        // check if the name already exists
+        modelBallot = objectLayer.createBallot();
+        modelBallot.setId(id);
+        ballots = objectLayer.findBallot( modelBallot );
+        if( ballots.size() > 0 )
+            ballot = ballots.get( 0 );
+        
+        //If ballot exists, add issues to it
+        if (ballot != null)
+        {
+        	
+        	//check election exist. if so add
+        	
+        	for (int i = 0; i < theElections.length; i++)
+        	{
+        		modelElection = objectLayer.createElection();
+            	modelElection.setOffice(theElections[i]);
+            	elections = objectLayer.findElection(modelElection);
+            	if( elections.size() > 0 )
+                    election = elections.get( 0 );
+            	if (election != null)
+            		objectLayer.getPersistence().deleteBallotIncludesBallotItem(ballot, election);
+        	}
+        	
+        }
+	
+	}
+	
+	
+	public void removeIssue(long id, String[] theIssues) throws EVException
+	{
+		Ballot ballot = null;
+        Ballot modelBallot = null;
+        List<Ballot> ballots = null;
+        Date openDate = null;
+        Date closeDate = null;
+        
+        //Ballot Items
+        BallotItem issue = null;
+        Issue modelIssue = null;
+        List<Issue> issues = null;
+        
+        // check if the name already exists
+        modelBallot = objectLayer.createBallot();
+        modelBallot.setId(id);
+        ballots = objectLayer.findBallot( modelBallot );
+        if( ballots.size() > 0 )
+            ballot = ballots.get( 0 );
+        
+        //If ballot exists, add issues to it
+        if (ballot != null)
+        {
+        	
+        	//check issues exist. if so add
+        	
+        	for (int i = 0; i < theIssues.length; i++)
+        	{
+        		modelIssue = objectLayer.createIssue();
+            	modelIssue.setQuestion(theIssues[i]);
+            	issues = objectLayer.findIssue(modelIssue);
+            	if( issues.size() > 0 )
+                    issue = issues.get( 0 );
+            	if (issue != null)
+            		objectLayer.getPersistence().deleteBallotIncludesBallotItem(ballot, issue);
+        	}
+        	
+        }
+	
+	}
 }

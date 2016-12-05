@@ -509,8 +509,8 @@ public class BallotManager {
     			return;
     		try {
     			stmt = (PreparedStatement) conn.prepareStatement( deleteIssueBallotSql );
-    			stmt.setLong( 1, ballotItem.getId() );
-    			stmt.setLong( 2, ballot.getId());
+    			stmt.setLong( 1, ballot.getId() );
+    			stmt.setLong( 2, ballotItem.getId());
     			inscnt = stmt.executeUpdate();
     			if( inscnt == 0 ) {
     				throw new EVException( "BallotManager.delete: failed to delete this IssueBallot" );
@@ -522,7 +522,7 @@ public class BallotManager {
       }
       else if(ballotItem instanceof Election){
     	  String         deleteElectionBallotSql = "delete t1 from ElectionBallot as t1 "
-				   								 + "where electionId = ? and issueId = ?";              
+				   								 + "where ballotId = ? and electionId = ?";              
     	  PreparedStatement    stmt = null;
     	  int                  inscnt;
     	  // form the query based on the given Person object instance
@@ -532,8 +532,8 @@ public class BallotManager {
     		  return;
     	  try {
     		stmt = (PreparedStatement) conn.prepareStatement( deleteElectionBallotSql );
-    		stmt.setLong( 1, ballotItem.getId() );
-    		stmt.setLong( 2, ballot.getId());
+    		stmt.setLong( 1, ballot.getId() );
+    		stmt.setLong( 2, ballotItem.getId());
     		inscnt = stmt.executeUpdate();
     		if( inscnt == 0 ) {
     			throw new EVException( "BallotManager.delete: failed to delete this Electionallot" );

@@ -79,8 +79,8 @@ public interface LogicLayer {
 	public long updateBallot(Date openDate, Date closeDate, String id) throws EVException;
 	public Ballot findBallot(long id) throws EVException;
 	public List<Ballot> getCurrentBallot() throws EVException;
-	public void removeElectionFromBallot(Ballot ballot, Election election) throws EVException;
-	public void removeIssueFromBallot(Ballot ballot, Issue issue) throws EVException;
+	public void removeElectionFromBallot(long id, String[] theElections) throws EVException;
+	public void removeIssueFromBallot(long id, String[] theIssues) throws EVException;
 	
 	public VoteRecord createVoteRecord(long ballotId, String voterUserName, Date date) throws EVException;
 	

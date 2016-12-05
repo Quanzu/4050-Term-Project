@@ -232,13 +232,13 @@ public class Ballot extends HttpServlet {
         	
         	
         	//gets date!
-			newOpen = request.getParameter("newOpenDate");
-			//System.out.println(districtName);
 			open = request.getParameter("newOpenDate");
         	if(open == null){
         		System.out.println("Open Date is null");
         		return;
         	
+			}else if(open.length() == 0){
+				newOpenDate = null;
 			}
 			else
 			{
@@ -250,7 +250,7 @@ public class Ballot extends HttpServlet {
             		month = Integer.parseInt(openX[1]);
             		day = Integer.parseInt(openX[2]);
             		open = Integer.toString(year)+"-"+Integer.toString(month)+"-"+Integer.toString(day);
-					openDate = format.parse(open);
+					newOpenDate = format.parse(open);
 					//System.out.println(open);
 				} catch (ParseException e) {
 					e.printStackTrace();
@@ -262,6 +262,8 @@ public class Ballot extends HttpServlet {
         	if(close == null){
         		System.out.println("Open Date is null");
         		return;
+			}else if(close.length() == 0){
+				newCloseDate = null;
 			}
 			else
 			{
@@ -273,14 +275,12 @@ public class Ballot extends HttpServlet {
 	            		month = Integer.parseInt(openX[1]);
 	            		day = Integer.parseInt(openX[2]);
 	            		close = Integer.toString(year)+"-"+Integer.toString(month)+"-"+Integer.toString(day);
-						closeDate = format.parse(close);
+						newCloseDate = format.parse(close);
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
 			}
-        	//get Elections to add and remove
         	
-        	//get issues to add and remove
 			try {  
 	            ballotId = logicLayer.updateBallot(newOpenDate, newCloseDate, theId);
 	            response.sendRedirect("eoHomepage.jsp#Ballot");
@@ -288,6 +288,62 @@ public class Ballot extends HttpServlet {
 	        catch ( Exception e ) {
 	        	e.printStackTrace();
 	        }
+			
+        	//adding issues
+        	String[] theIssues;
+			theIssues = request.getParameterValues("addIssueToBallot");
+			if (theIssues != null)
+			{
+				try {  
+					logicLayer.addIssue(ballotId, theIssues);
+	        		
+	        	} 
+	        	catch ( Exception e ) {
+	        		e.printStackTrace();
+	        	}
+			}
+			
+			//adds in the elections
+			String[] elections;
+			elections = request.getParameterValues("addElectionToBallot");
+			if (elections != null)
+			{
+				try {  
+					logicLayer.addElection(ballotId, elections);
+	        		
+	        	} 
+	        	catch ( Exception e ) {
+	        		e.printStackTrace();
+	        	}
+			}
+        	
+			//removing issues
+        	String[] theIssuesToDelete;
+			theIssuesToDelete = request.getParameterValues("removeIssueToBallot");
+			if (theIssuesToDelete != null)
+			{
+				try {  
+					logicLayer.removeIssueFromBallot(ballotId, theIssuesToDelete);
+	        		
+	        	} 
+	        	catch ( Exception e ) {
+	        		e.printStackTrace();
+	        	}
+			}
+			
+			//removing elections
+			String[] electionsToDelete;
+			electionsToDelete = request.getParameterValues("removeElectionToBallot");
+			if (electionsToDelete != null)
+			{
+				try {  
+					logicLayer.removeElectionFromBallot(ballotId, electionsToDelete);
+	        		
+	        	} 
+	        	catch ( Exception e ) {
+	        		e.printStackTrace();
+	        	}
+			}
 		
 		
 		}
