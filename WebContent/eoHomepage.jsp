@@ -112,7 +112,7 @@
     <div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <li><a href="#Current">Current</a></li>
+         
           <li><a href="#Ballot">Ballot</a></li>
           <li><a href="#Election">Election</a></li>
           <li><a href="#Issue">Issue</a></li>
@@ -127,31 +127,7 @@
   </div>
 </nav>
 
-  <!-- CURRENT -->
-  <div id="Current" class="container">
-    <h3>Current</h3>
-      <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Election/Issue</th>
-          <th>Name</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr data-toggle="modal" data-target="#tableElement">
-          <td>Election</td>
-          <td>Trump VS Hillary</td>
-          <td>11-11-2016</td>
-        </tr>
-        <tr data-toggle="modal" data-target="#tableElement">
-          <td>Issue</td>
-          <td>Can we get a curve?</td>
-          <td>10-18-2016</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  
 
   <!-- BALLOT -->
   <div id="Ballot" class="container">
