@@ -282,7 +282,10 @@ public class LogicLayerImpl implements LogicLayer{
 		return objectLayer.getPersistence().restoreCandidateIsMemberOfPoliticalParty(candidate);
 	}
 
-
+	@Override
+	public ElectoralDistrict findED(Ballot ballot) throws EVException{
+		return objectLayer.getPersistence().restoreElectoralDistrictHasBallotBallot(ballot);
+	}
 
 
 	
