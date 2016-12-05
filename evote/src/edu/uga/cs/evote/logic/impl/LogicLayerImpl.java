@@ -297,6 +297,30 @@ public class LogicLayerImpl implements LogicLayer{
 		return objectLayer.getPersistence().restoreBallotIncludesBallotItem(election);
 	}
 
+	@Override
+	public void addCandidateToElection(String electionId, String candidateId) throws EVException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeCandidateToElection(String electionId, String candidateId) throws EVException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeElectionFromBallot(String ballotId, String electionId) throws EVException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeIssueFromBallot(String ballotId, String issueId) throws EVException {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }

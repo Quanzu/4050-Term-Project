@@ -24,7 +24,7 @@ public class Election extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-response.setContentType("text/html");
+		response.setContentType("text/html");
 		
         LogicLayer     logicLayer = null;
         HttpSession    httpSession = null;
