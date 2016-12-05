@@ -84,5 +84,5 @@ public interface LogicLayer {
 	
 	public void addIssue(String id, String[] theIssues) throws EVException;
 	public void addElection(String id, String[] theElections) throws EVException;
-	
+	public long updateElection(String electionName, String newElectionName, String[] removeCandidates, String[] addCandidates) throws EVException;
 }

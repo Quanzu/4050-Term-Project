@@ -290,6 +290,14 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
+	public long updateElection(String electionName, String newElectionName,
+			String[] removeCandidates, String[] addCandidates)
+			throws EVException {
+		ElectionCtrl updateCtrl = new ElectionCtrl(objectLayer);
+		return updateCtrl.updateElection(electionName, newElectionName, removeCandidates, addCandidates);
+	}
+
+	@Override
 	public PoliticalParty getPoliticalPartyFromCandidate(Candidate candidate) throws EVException {
 		return objectLayer.getPersistence().restoreCandidateIsMemberOfPoliticalParty(candidate);
 	}
