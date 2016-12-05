@@ -283,10 +283,10 @@ public class LogicLayerImpl implements LogicLayer{
 	}
 
 	@Override
-	public VoteRecord createVoteRecord(String ballot, String voter, Date date)
+	public VoteRecord createVoteRecord(long ballotId, String voterUserName, Date date)
 			throws EVException {
 		VotingCtrl voteRecordCtrl = new VotingCtrl(objectLayer);
-		return voteRecordCtrl.createVoteRecord(ballot, voter,date);
+		return voteRecordCtrl.createVoteRecord(ballotId, voterUserName,date);
 	}
 
 	@Override
